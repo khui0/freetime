@@ -4,16 +4,13 @@
   import { z } from "zod";
   import { onMount } from "svelte";
 
-  import LucideLogOut from "~icons/lucide/log-out";
-
-  // import Confirm from "$lib/components/Confirm.svelte";
-
+  import Confirm from "$lib/components/Confirm.svelte";
   interface FormState {
     error: string;
     loading: boolean;
   }
 
-  let confirm: any;
+  let confirm: Confirm;
 
   let newUsername: string;
   let newEmail: string;
@@ -98,16 +95,8 @@
 </script>
 
 <div class="flex flex-col gap-3">
-  <div class="flex items-center p-2 bg-base-200 rounded-box">
-    <p class="px-2">Signed in as <b>{$currentUser?.username}</b></p>
-    <div class="flex-1 flex items-center justify-end">
-      <button class="btn btn-ghost btn-sm rounded-full" on:click={signOut}>
-        <LucideLogOut></LucideLogOut> Sign out
-      </button>
-    </div>
-  </div>
   <!-- Username -->
-  <h2 class="text-lg font-light">Username</h2>
+  <h2 class="font-light">Username</h2>
   <form on:submit|preventDefault={updateUsername} class="flex gap-3">
     <input
       class="input input-bordered flex-1"
@@ -127,7 +116,7 @@
     <p class="text-sm text-error">{usernameState?.error}</p>
   {/if}
   <!-- Email -->
-  <h2 class="text-lg font-light">Email</h2>
+  <h2 class=" font-light">Email</h2>
   <form on:submit|preventDefault={updateEmail} class="flex gap-3">
     <input
       type="email"
@@ -150,14 +139,14 @@
     <p class="text-sm text-success">{emailSuccess}</p>
   {/if}
   <!-- Password -->
-  <h2 class="text-lg font-light">Password</h2>
+  <h2 class=" font-light">Password</h2>
   <button class="btn" on:click={resetPassword}>Request password reset</button>
   {#if passwordSuccess}
     <p class="text-sm text-success">{passwordSuccess}</p>
   {/if}
   <!-- Delete account -->
-  <h2 class="text-lg font-light">Delete account</h2>
+  <h2 class=" font-light">Delete account</h2>
   <button class="btn btn-error" on:click={deleteAccount}>Delete account</button>
 </div>
 
-<!-- <Confirm bind:this={confirm}></Confirm> -->
+<Confirm bind:this={confirm}></Confirm>
