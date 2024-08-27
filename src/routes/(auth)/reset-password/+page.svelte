@@ -1,28 +1,29 @@
 <script lang="ts">
-  import { currentUser, pb } from "$lib/pocketbase";
-  import { z } from "zod";
-
   import { title } from "$lib/store";
   $title = "Reset password";
 
-  let email: string;
+  import { pb } from "$lib/pocketbase";
+
+  import FormField from "$lib/components/FormField.svelte";
+  import FormErrors from "$lib/components/FormErrors.svelte";
+
+  interface Result {
+    error?: string;
+    success?: string;
+  }
+
+  let email: Result;
 
   let errors: String[] = [];
   let success: string = "";
 
   let loading: boolean = false;
 
-  const schema = z.object({
-    email: z.string().email("Enter a valid email address"),
-  });
-
-  async function resetPassword() {
-    loading = true;
-    try {
-      const data = validate();
-      if (!data) return;
-      await pb.collection("users").requestPasswordReset(data.email);
-    } finally {
+  async function submit() {
+    validate();
+    if (email.success) {
+      loading = true;
+      await pb.collection("users").requestPasswordReset(email.success);
       setTimeout(() => {
         loading = false;
         success = "Email sent if there an account exists with this email";
@@ -31,32 +32,16 @@
   }
 
   function validate() {
-    const result = schema.safeParse({
-      email,
-    });
-    if (result.success) {
-      errors = [];
-      return result.data;
-    } else {
-      errors = result.error?.errors
-        .map((error) => error.message)
-        .filter((message) => message !== "Required");
-      success = "";
-    }
     loading = false;
+    errors = [];
+    if (email.error) errors.push(email.error);
   }
 </script>
 
-<form on:submit|preventDefault={resetPassword} class="flex flex-col gap-3">
-  <input type="email" class="input input-bordered" placeholder="Email address" bind:value={email} />
-  {#if errors.length > 0}
-    <ul class="text-sm text-error">
-      {#each errors as error}
-        <li><p>{error}</p></li>
-      {/each}
-    </ul>
-  {/if}
-  <button class="btn" on:click={resetPassword}>
+<form on:submit|preventDefault={submit} class="flex flex-col gap-3">
+  <FormField type="email" bind:result={email}></FormField>
+  <FormErrors bind:errors></FormErrors>
+  <button class="btn" on:click={submit}>
     {#if !loading}
       Reset
     {:else}

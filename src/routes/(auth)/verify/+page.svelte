@@ -32,5 +32,5 @@
     An email was sent to {value}. Check your spam folder if you can't find it!
   </p>
   <button class="btn" on:click={sendVerificationEmail}>Resend email</button>
-  <a class="btn" href="{base}/sign-in">Sign in</a>
+  <a class="link text-sm" href="{base}/sign-in">Sign in</a>
 </div>
