@@ -1,40 +1,43 @@
 <script lang="ts">
-  import { base } from "$app/paths";
-  import { pb } from "$lib/pocketbase";
-  import { z } from "zod";
-
   import { title } from "$lib/store";
   $title = "Register";
 
-  let username: string;
-  let email: string;
-  let password: string;
-  let passwordConfirm: string;
+  import { pb } from "$lib/pocketbase";
+
+  import FormField from "$lib/components/FormField.svelte";
+  import FormErrors from "$lib/components/FormErrors.svelte";
+
+  interface Result {
+    error?: string;
+    success?: string;
+  }
+
+  let username: Result;
+  let email: Result;
+  let password: Result;
+  let passwordConfirm: Result;
 
   let errors: String[] = [];
 
   let loading: boolean = false;
 
-  const schema = z
-    .object({
-      username: z.string().min(3, "Username must be at least 3 characters"),
-      email: z.string().email("Enter a valid email address"),
-      password: z.string().min(8, "Password must contain at least 8 characters"),
-      passwordConfirm: z.string().min(8, ""),
-    })
-    .refine((data) => data.password === data.passwordConfirm, {
-      message: "Passwords don't match",
-      path: ["passwordConfirm"],
-    });
-
-  async function register() {
-    loading = true;
+  async function submit() {
+    validate();
     try {
-      const data = validate();
-      if (!data) return;
-      await pb.collection("users").create(data);
-      sendVerificationEmail();
-      window.location.href = `${window.location.origin}${base}/verify?email=${encodeURIComponent(email)}`;
+      if (username.success && email.success && password.success && passwordConfirm.success) {
+        loading = true;
+        await pb.collection("users").create({
+          username,
+          email,
+          password,
+          passwordConfirm,
+        });
+        // Send verification email
+        if (email.success) {
+          pb.collection("users").requestVerification(email.success);
+          window.location.href = `${window.location.origin}/verify?email=${encodeURIComponent(email.success)}`;
+        }
+      }
     } catch (err) {
       setTimeout(() => {
         errors = ["Unable to create account"];
@@ -44,51 +47,23 @@
   }
 
   function validate() {
-    const result = schema.safeParse({
-      username,
-      email,
-      password,
-      passwordConfirm,
-    });
-    if (result.success) {
-      errors = [];
-      return result.data;
-    } else {
-      errors = result.error?.errors
-        .map((error) => error.message)
-        .filter((message) => message !== "Required");
-    }
     loading = false;
-  }
-
-  function sendVerificationEmail() {
-    pb.collection("users").requestVerification(email);
+    errors = [];
+    if (username.error) errors.push(username.error);
+    if (email.error) errors.push(email.error);
+    if (password.error) errors.push(password.error);
+    if (passwordConfirm.error) errors.push(passwordConfirm.error);
   }
 </script>
 
-<form on:submit|preventDefault={register} class="flex flex-col gap-3">
-  <input class="input input-bordered" type="text" placeholder="Username" bind:value={username} />
-  <input type="email" class="input input-bordered" placeholder="Email address" bind:value={email} />
-  <input
-    class="input input-bordered"
-    type="password"
-    placeholder="Password"
-    bind:value={password}
-  />
-  <input
-    class="input input-bordered"
-    type="password"
-    placeholder="Confirm password"
-    bind:value={passwordConfirm}
-  />
-  {#if errors.length > 0}
-    <ul class="text-sm text-error">
-      {#each errors as error}
-        <li><p>{error}</p></li>
-      {/each}
-    </ul>
-  {/if}
-  <button class="btn btn-accent" on:click={register}>
+<form on:submit|preventDefault={submit} class="flex flex-col gap-3">
+  <FormField type="username" bind:result={username}></FormField>
+  <FormField type="email" bind:result={email}></FormField>
+  <FormField type="password" bind:result={password}></FormField>
+  <FormField type="password" placeholder="Confirm password" bind:result={passwordConfirm}
+  ></FormField>
+  <FormErrors bind:errors></FormErrors>
+  <button class="btn btn-accent" on:click={submit}>
     {#if !loading}
       Register
     {:else}

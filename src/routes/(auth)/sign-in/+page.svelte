@@ -5,6 +5,8 @@
   import { currentUser, pb } from "$lib/pocketbase";
 
   import FormField from "$lib/components/FormField.svelte";
+  import FormErrors from "$lib/components/FormErrors.svelte";
+
   interface Result {
     error?: string;
     success?: string;
@@ -25,9 +27,9 @@
 
   async function submit() {
     validate();
-    loading = true;
     try {
       if (email.success && password.success) {
+        loading = true;
         await pb.collection("users").authWithPassword(email.success, password.success);
       }
     } catch (err) {
@@ -49,13 +51,7 @@
 <form on:submit|preventDefault={submit} class="flex flex-col gap-3">
   <FormField type="email" bind:result={email}></FormField>
   <FormField type="password" bind:result={password}></FormField>
-  {#if errors.length > 0}
-    <ul class="text-sm text-error">
-      {#each errors as error}
-        <li><p>{error}</p></li>
-      {/each}
-    </ul>
-  {/if}
+  <FormErrors bind:errors></FormErrors>
   <button class="btn btn-accent" on:click={submit}>
     {#if !loading}
       Sign in
