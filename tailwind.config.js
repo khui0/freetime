@@ -20,7 +20,7 @@ export default {
     themes: [
       {
         light: {
-          accent: "#43bfde",
+          accent: "#bd3d3d",
           "accent-content": "#ffffff",
           neutral: "#dcdcdc",
           "neutral-content": "#525252",
@@ -31,9 +31,9 @@ export default {
           "base-300": "#cbcbcb",
           "base-content": "#141414",
 
-          "--rounded-box": "2rem",
-          "--rounded-btn": "1.5rem",
-          "--rounded-badge": "1rem",
+          "--rounded-box": "1.5rem",
+          "--rounded-btn": "1rem",
+          "--rounded-badge": "0.5rem",
           "--animation-btn": "0.25s",
           "--animation-input": "0.2s",
           "--btn-focus-scale": "0.9",
