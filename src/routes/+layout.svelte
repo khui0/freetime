@@ -19,7 +19,7 @@
 <div class="flex flex-col h-full">
   <header class="flex gap-2 items-center p-2 border-b">
     <div class="flex-1">
-      <h1 class="mx-1">Free Time</h1>
+      <h1 class="mx-1">SBU Free Time</h1>
     </div>
     <div class="flex gap-1 items-center">
       {#if $currentUser}
