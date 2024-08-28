@@ -1,6 +1,6 @@
 <script lang="ts">
   import { title } from "$lib/store";
-  $title = "Account"
+  $title = "Account";
 
   import { base } from "$app/paths";
   import { currentUser, pb, signOut } from "$lib/pocketbase";
@@ -97,8 +97,8 @@
   }
 </script>
 
-<div class="flex flex-col gap-3">
-  <button class="btn btn-sm" on:click={signOut}>Sign out</button>
+<div class="flex flex-col gap-3 mx-auto w-[min(100%,500px)]">
+  <button class="btn" on:click={signOut}>Sign out</button>
   <!-- Username -->
   <h2 class="font-light">Username</h2>
   <form on:submit|preventDefault={updateUsername} class="flex gap-3">
