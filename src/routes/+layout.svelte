@@ -1,11 +1,15 @@
 <script lang="ts">
   import { title } from "$lib/store";
+  import { page } from "$app/stores";
 
   import { currentUser } from "$lib/pocketbase";
 
-  import CarbonHome from "~icons/carbon/home";
-  import CarbonUserMultiple from "~icons/carbon/user-multiple";
-  import CarbonSettings from "~icons/carbon/settings";
+  import PhHouse from "~icons/ph/house";
+  import PhHouseFill from "~icons/ph/house-fill";
+  import PhUsers from "~icons/ph/users";
+  import PhUsersFill from "~icons/ph/users-fill";
+  import PhUserCircle from "~icons/ph/user-circle";
+  import PhUserCircleFill from "~icons/ph/user-circle-fill";
 </script>
 
 <svelte:head>
@@ -28,8 +32,26 @@
   </header>
   <main class="flex-1"><slot></slot></main>
   <nav class="flex justify-evenly border-t">
-    <a href="/" class="p-3"><CarbonHome></CarbonHome></a>
-    <a href="/" class="p-3"><CarbonUserMultiple></CarbonUserMultiple></a>
-    <a href="/account" class="p-3"><CarbonSettings></CarbonSettings></a>
+    <a href="/" class="p-3">
+      {#if $page.url.pathname === "/"}
+        <PhHouseFill></PhHouseFill>
+      {:else}
+        <PhHouse></PhHouse>
+      {/if}
+    </a>
+    <a href="/friends" class="p-3">
+      {#if $page.url.pathname === "/friends"}
+        <PhUsersFill></PhUsersFill>
+      {:else}
+        <PhUsers></PhUsers>
+      {/if}</a
+    >
+    <a href="/account" class="p-3">
+      {#if $page.url.pathname === "/account"}
+        <PhUserCircleFill></PhUserCircleFill>
+      {:else}
+        <PhUserCircle></PhUserCircle>
+      {/if}</a
+    >
   </nav>
 </div>

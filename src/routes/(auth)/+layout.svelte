@@ -1,7 +1,7 @@
 <script lang="ts">
   import { title } from "$lib/store";
 
-  import CarbonArrowLeft from "~icons/carbon/arrow-left";
+  import PhArrowLeft from "~icons/ph/arrow-left";
 </script>
 
 <div class="p-4 mx-auto w-[min(100%,400px)]">
@@ -12,7 +12,7 @@
         history.back();
       }}
     >
-      <CarbonArrowLeft></CarbonArrowLeft>
+      <PhArrowLeft></PhArrowLeft>
     </button>
     <div class="flex flex-col items-center">
       <h1 class="text-lg">{$title}</h1>
