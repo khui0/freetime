@@ -13,13 +13,13 @@
 </script>
 
 <svelte:head>
-  <title>{$title}{$title ? " - " : ""}Free Time</title>
+  <title>{$title}{$title ? " - " : ""}SBU</title>
 </svelte:head>
 
 <div class="flex flex-col h-full">
   <header class="flex gap-2 items-center p-2 border-b">
     <div class="flex-1">
-      <h1 class="mx-1">SBU Free Time</h1>
+      <h1 class="mx-1">SBU</h1>
     </div>
     <div class="flex gap-1 items-center">
       {#if $currentUser}
@@ -30,7 +30,7 @@
       {/if}
     </div>
   </header>
-  <main class="flex-1 p-4"><slot></slot></main>
+  <main class="flex-1 overflow-auto"><slot></slot></main>
   <nav class="flex justify-evenly border-t">
     <a href="/" class="p-3">
       {#if $page.url.pathname === "/"}

@@ -97,7 +97,7 @@
   }
 </script>
 
-<div class="flex flex-col gap-3 mx-auto w-[min(100%,500px)]">
+<div class="flex flex-col gap-3 w-[min(100%,500px)] mx-auto p-4">
   <button class="btn" on:click={signOut}>Sign out</button>
   <!-- Username -->
   <h2 class="font-light">Username</h2>
