@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { pb } from "$lib/pocketbase";
+  import { onMount } from "svelte";
+
   import PhClock from "~icons/ph/clock";
 
   let showWeekend: boolean = false;
@@ -13,7 +16,13 @@
     type: string;
   }
 
-  const sampleData: Item[][] = [];
+  let data: Item[][] = [];
+
+  onMount(() => {
+    pb.collection("schedules")
+      .getFullList()
+      .then((res) => (data = res[0].schedule));
+  });
 
   function timeToS(time: string) {
     const parts = time.split(":");
@@ -60,7 +69,7 @@
     >
       <p class="text-sm text-base-content/50 self-center">{i + 8}:00</p>
       {#each Array(showWeekend ? 7 : 5) as _, j}
-        {@const event = sampleData[j]?.find((item) => parseInt(item.from.split(":")[0]) === i + 8)}
+        {@const event = data[j]?.find((item) => parseInt(item.from.split(":")[0]) === i + 8)}
         {#if event}
           {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
           <div class="relative">
