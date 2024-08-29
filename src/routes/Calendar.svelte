@@ -49,15 +49,10 @@
       : 'grid-cols-[3rem_repeat(5,1fr)]'}"
   >
     <p class="flex justify-center"><PhClock></PhClock></p>
-    <p>M</p>
-    <p>T</p>
-    <p>W</p>
-    <p>T</p>
-    <p>F</p>
-    {#if showWeekend}
-      <p>S</p>
-      <p>S</p>
-    {/if}
+    {#each Array(showWeekend ? 7 : 5) as _, day}
+      {@const days = ["M", "T", "W", "T", "F", "S", "S"]}
+      <p class:font-bold={new Date().getDay() === (day + 1) % 7}>{days[day]}</p>
+    {/each}
   </div>
   {#each Array(13) as _, i}
     <!-- Row -->
