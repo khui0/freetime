@@ -33,7 +33,7 @@ export default {
 
           "--rounded-box": "1.5rem",
           "--rounded-btn": "1rem",
-          "--rounded-badge": "0.5rem",
+          "--rounded-badge": "1rem",
           "--animation-btn": "0.25s",
           "--animation-input": "0.2s",
           "--btn-focus-scale": "0.9",
