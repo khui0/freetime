@@ -1,8 +1,11 @@
 <script lang="ts">
   import { pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
+  import pluralize from "pluralize";
 
   import PhClock from "~icons/ph/clock";
+
+  import Modal from "$lib/components/Modal.svelte";
 
   function timeToS(time: string) {
     const parts = time.split(":");
@@ -11,10 +14,26 @@
     return hours + minutes;
   }
 
-  function timeTo12Hour(time: string) {
+  function timeTo12Hour(time: string, dayPeriod: boolean = false) {
+    if (!time) return;
     const parts = time.split(":");
     const hours = parseInt(parts[0]);
-    return (hours > 12 ? hours % 12 : hours).toString() + ":" + parts[1];
+    const period = parseInt(parts[0]) >= 12 ? " PM" : " AM";
+    return (
+      (hours > 12 ? hours % 12 : hours).toString() + ":" + parts[1] + (dayPeriod ? period : "")
+    );
+  }
+
+  function eventDuration(from: string, to: string) {
+    if (!from || !to) return;
+    const seconds = timeToS(to) - timeToS(from);
+    const minutes = seconds / 60;
+    const hours = minutes / 60;
+    return (
+      (Math.floor(hours) > 0 ? pluralize("hour", Math.floor(hours), true) : "") +
+      " " +
+      pluralize("minute", Math.floor(minutes % 60), true)
+    );
   }
 
   let showWeekend: boolean = false;
@@ -33,6 +52,9 @@
 
   let time: string;
   let progress: number = -1;
+
+  let modal: Modal;
+  let selected: Item;
 
   onMount(() => {
     pb.collection("schedules")
@@ -97,6 +119,10 @@
               ) /
                 60) *
                 4}rem);"
+              on:click={() => {
+                selected = event;
+                modal.show();
+              }}
             >
               <p>{event.class} {event.number}</p>
               <p>{event.type}</p>
@@ -119,3 +145,15 @@
     </div>
   {/each}
 </div>
+
+<Modal title="{selected?.class} {selected?.number}" bind:this={modal}>
+  <div class="flex gap-1 justify-between text-lg font-light">
+    <h2>{selected?.type}</h2>
+    <p>{timeTo12Hour(selected?.from, true)} - {timeTo12Hour(selected?.to, true)}</p>
+  </div>
+  <div class="flex gap-1 justify-between">
+    <p class="border border-base-content w-fit px-2 rounded-badge">{selected?.room}</p>
+    <p class="text-lg font-light">{eventDuration(selected?.from, selected?.to)}</p>
+  </div>
+  <p>{selected?.location}</p>
+</Modal>
