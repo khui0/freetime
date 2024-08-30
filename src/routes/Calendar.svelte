@@ -11,6 +11,12 @@
     return hours + minutes;
   }
 
+  function timeTo12Hour(time: string) {
+    const parts = time.split(":");
+    const hours = parseInt(parts[0]);
+    return (hours > 12 ? hours % 12 : hours).toString() + ":" + parts[1];
+  }
+
   let showWeekend: boolean = false;
 
   interface Item {
@@ -94,7 +100,7 @@
             >
               <p>{event.class} {event.number}</p>
               <p>{event.type}</p>
-              <p>{event.from} - {event.to}</p>
+              <p>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)}</p>
               <p>{event.location} {event.room}</p>
             </button>
           </div>
