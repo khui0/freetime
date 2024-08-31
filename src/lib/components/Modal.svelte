@@ -1,7 +1,7 @@
 <script lang="ts">
   let modal: HTMLDialogElement;
 
-  import LucideX from "~icons/lucide/x";
+  import PhX from "~icons/ph/x";
 
   export function show() {
     modal.showModal();
@@ -14,7 +14,7 @@
   <div class="modal-box rounded-box p-4">
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4" aria-label="Close">
-        <LucideX></LucideX>
+        <PhX></PhX>
       </button>
     </form>
     <div class="flex flex-col gap-2 pl-1">

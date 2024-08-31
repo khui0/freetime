@@ -77,14 +77,14 @@
 </script>
 
 <div class="flex flex-col">
-  <div class="px-4 flex gap-2 items-center">
+  <div class="px-4 pt-2 flex gap-2 items-center">
     <button class="btn btn-sm">Show today</button>
-    <label class="label cursor-pointer w-fit gap-2">
+    <label class="label py-0 cursor-pointer w-fit gap-2">
       <span class="label-text">Show weekend</span>
       <input type="checkbox" class="toggle" bind:checked={showWeekend} />
     </label>
     <div class="ml-auto">
-      <button class="btn btn-sm">Edit schedule</button>
+      <a class="btn btn-sm" href="/edit">Edit schedule</a>
     </div>
   </div>
   <div

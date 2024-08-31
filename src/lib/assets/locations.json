@@ -1,0 +1,286 @@
+{
+  "aertc": {
+    "name": "Advanced Energy Research and Technology Center",
+    "short": "AERTC"
+  },
+  "asc": {
+    "name": "Ambulatory Surgery Center"
+  },
+  "aipf": {
+    "name": "Athletic Indoor Practice Facility"
+  },
+  "bst": {
+    "name": "Basic Sciences Tower"
+  },
+  "bb": {
+    "name": "Bioengineering Building"
+  },
+  "cc": {
+    "name": "Cancer Center"
+  },
+  "cmbbcc": {
+    "name": "Carol M. Baldwin Breast Care Center"
+  },
+  "cmm": {
+    "name": "Centers for Molecular Medicine",
+    "short": "CMM"
+  },
+  "csr": {
+    "name": "Central Services"
+  },
+  "cst": {
+    "name": "Central Stores"
+  },
+  "cewit": {
+    "name": "Center of Excellence in Wireless and Information Technology",
+    "short": "CEWIT"
+  },
+  "ch": {
+    "name": "Challenger Hall"
+  },
+  "cbwc": {
+    "name": "Charles B. Wang Center"
+  },
+  "cb": {
+    "name": "Chemistry Building"
+  },
+  "ccc": {
+    "name": "Child Care Center"
+  },
+  "chpl": {
+    "name": "Children’s Hospital"
+  },
+  "cp": {
+    "name": "CoGen Plant"
+  },
+  "csb": {
+    "name": "Computer Science Building"
+  },
+  "cpc": {
+    "name": "Computing Center"
+  },
+  "crw": {
+    "name": "Campus Residences Warehouse",
+    "short": "CR Warehouse"
+  },
+  "dah": {
+    "name": "Dana Hall"
+  },
+  "ndec": {
+    "name": "NYS Dept. of Environmental Conservation",
+    "short": "DEC"
+  },
+  "dc": {
+    "name": "Dental Clinics"
+  },
+  "duh": {
+    "name": "Dutchess Hall"
+  },
+  "dfapc": {
+    "name": "Dubin Family Athletic Performance Center"
+  },
+  "essb": {
+    "name": "Earth and Space Sciences Building",
+    "short": "ESS"
+  },
+  "esd": {
+    "name": "East Side Dining"
+  },
+  "ecc": {
+    "name": "Educational Communications Center",
+    "short": "ECC"
+  },
+  "ere": {
+    "name": "Emergency Room Entrance"
+  },
+  "eh": {
+    "name": "Endeavour Hall"
+  },
+  "eb": {
+    "name": "Engineering Building"
+  },
+  "fmjml": {
+    "name": "Frank Melville Jr. Memorial Library"
+  },
+  "fh": {
+    "name": "Frey Hall"
+  },
+  "gfsdc": {
+    "name": "Goldstein Family Student-Athlete Development Center"
+  },
+  "hh": {
+    "name": "Harriman Hall"
+  },
+  "hsg": {
+    "name": "Health Sciences Garage"
+  },
+  "hst": {
+    "name": "Health Sciences Tower"
+  },
+  "heb": {
+    "name": "Heavy Engineering Building"
+  },
+  "hgi": {
+    "name": "Hilton Garden Inn"
+  },
+  "h": {
+    "name": "Hospital"
+  },
+  "hp": {
+    "name": "Hospital Pavilion"
+  },
+  "hb": {
+    "name": "Humanities Building"
+  },
+  "ic": {
+    "name": "Imaging Center"
+  },
+  "idc": {
+    "name": "Innovation and Discovery Center"
+  },
+  "iacs": {
+    "name": "Institute for Advanced Computational Science",
+    "short": "IACS"
+  },
+  "ifa": {
+    "name": "Island Federal Arena"
+  },
+  "jlc": {
+    "name": "Javits Lecture Center"
+  },
+  "kplas": {
+    "name": "Kenneth P. LaValle Athletic Stadium"
+  },
+  "lhti": {
+    "name": "L.I. High Technology Incubator"
+  },
+  "lrrs": {
+    "name": "L.I. Rail Road Station"
+  },
+  "lsvh": {
+    "name": "L.I. State Veterans Home"
+  },
+  "lc": {
+    "name": "Laufer Center"
+  },
+  "lsb": {
+    "name": "Life Sciences Building"
+  },
+  "leb": {
+    "name": "Light Engineering Building"
+  },
+  "lblcpqb": {
+    "name": "Louis and Beatrice Laufer Center for Physical and Quantitative Biology"
+  },
+  "mas": {
+    "name": "Marine and Atmospheric Sciences"
+  },
+  "mrtb": {
+    "name": "Medical and Research Translation Building",
+    "short": "MART"
+  },
+  "mt": {
+    "name": "Math Tower"
+  },
+  "nah": {
+    "name": "Nassau Hall"
+  },
+  "ncsb": {
+    "name": "New Computer Science Building"
+  },
+  "nh": {
+    "name": "Nobel Halls"
+  },
+  "pmc": {
+    "name": "Pain Management Center"
+  },
+  "pere": {
+    "name": "Pediatric Emergency Room Entrance"
+  },
+  "pb": {
+    "name": "Physics Building"
+  },
+  "pwb": {
+    "name": "Point of Woods Buildings"
+  },
+  "pg": {
+    "name": "Pritchard Gymnasium"
+  },
+  "pbab": {
+    "name": "Psychology Buildings A and B"
+  },
+  "ph": {
+    "name": "Putnam Hall"
+  },
+  "rss": {
+    "name": "Research & Support Services",
+    "short": "RSS"
+  },
+  "rh": {
+    "name": "Rockland Hall"
+  },
+  "rc": {
+    "name": "Roth Café"
+  },
+  "sbvc": {
+    "name": "Stony Brook Volunteer Corps",
+    "short": "SBVAC"
+  },
+  "scanc": {
+    "name": "Social, Cognitive and Affective Neuroscience Center",
+    "short": "SCAN"
+  },
+  "sg": {
+    "name": "Service Group"
+  },
+  "scgp": {
+    "name": "Simons Center for Geometry and Physics"
+  },
+  "sbsb": {
+    "name": "Social and Behavioral Sciences Building",
+    "short": "SBS"
+  },
+  "scx": {
+    "name": "Sports Complex"
+  },
+  "sct": {
+    "name": "Sports Courts"
+  },
+  "sca": {
+    "name": "Staller Center for the Arts"
+  },
+  "sbu": {
+    "name": "Stony Brook Union"
+  },
+  "sac": {
+    "name": "Student Activities Center",
+    "short": "SAC"
+  },
+  "shc": {
+    "name": "Student Health Center"
+  },
+  "sfh": {
+    "name": "Suffolk Hall"
+  },
+  "slh": {
+    "name": "Sullivan Hall"
+  },
+  "tc": {
+    "name": "Tabler Center"
+  },
+  "vdga": {
+    "name": "Van de Graaff Accelerator"
+  },
+  "wjhcrc": {
+    "name": "Walter J. Hawrys Campus Recreation Center"
+  },
+  "wc": {
+    "name": "Wang Center"
+  },
+  "wsd": {
+    "name": "West Side Dining"
+  },
+  "wh": {
+    "name": "Westchester Hall"
+  }
+}
