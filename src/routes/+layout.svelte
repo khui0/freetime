@@ -8,8 +8,8 @@
   import PhHouseFill from "~icons/ph/house-fill";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
-  import PhUserCircle from "~icons/ph/user-circle";
-  import PhUserCircleFill from "~icons/ph/user-circle-fill";
+  import PhGear from "~icons/ph/gear";
+  import PhGearFill from "~icons/ph/gear-fill";
 </script>
 
 <svelte:head>
@@ -46,11 +46,11 @@
         <PhUsers></PhUsers>
       {/if}</a
     >
-    <a href="/account" class="p-3">
-      {#if $page.url.pathname === "/account"}
-        <PhUserCircleFill></PhUserCircleFill>
+    <a href="/settings" class="p-3">
+      {#if $page.url.pathname === "/settings"}
+        <PhGearFill></PhGearFill>
       {:else}
-        <PhUserCircle></PhUserCircle>
+        <PhGear></PhGear>
       {/if}</a
     >
   </nav>

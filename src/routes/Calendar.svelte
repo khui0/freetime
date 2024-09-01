@@ -1,5 +1,6 @@
 <script lang="ts">
   import { currentUser, pb } from "$lib/pocketbase";
+  import { settings } from "$lib/settings";
   import { onMount } from "svelte";
   import pluralize from "pluralize";
 
@@ -49,7 +50,7 @@
     );
   }
 
-  let showWeekend: boolean = false;
+  let showWeekend: boolean = $settings.showWeekend === "true";
 
   let data: CalendarEvent[] = [];
 
@@ -86,10 +87,6 @@
 <div class="flex flex-col">
   <div class="px-4 pt-2 flex gap-2 items-center">
     <button class="btn btn-sm">Show today</button>
-    <label class="label py-0 cursor-pointer w-fit gap-2">
-      <span class="label-text">Weekend</span>
-      <input type="checkbox" class="toggle" bind:checked={showWeekend} />
-    </label>
     <div class="ml-auto">
       <a class="btn btn-sm" href="/edit">Edit schedule</a>
     </div>

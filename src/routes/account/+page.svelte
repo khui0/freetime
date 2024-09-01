@@ -3,7 +3,7 @@
   $title = "Account";
 
   import { base } from "$app/paths";
-  import { currentUser, pb, signOut } from "$lib/pocketbase";
+  import { currentUser, pb } from "$lib/pocketbase";
   import { z } from "zod";
   import { onMount } from "svelte";
 
@@ -97,8 +97,7 @@
   }
 </script>
 
-<div class="flex flex-col gap-3 w-[min(100%,500px)] mx-auto p-4">
-  <button class="btn" on:click={signOut}>Sign out</button>
+<div class="flex flex-col gap-3 w-[min(100%,800px)] mx-auto p-4">
   <!-- Username -->
   <h2 class="font-light">Username</h2>
   <form on:submit|preventDefault={updateUsername} class="flex gap-3">
@@ -151,11 +150,6 @@
   <!-- Delete account -->
   <h2 class=" font-light">Delete account</h2>
   <button class="btn btn-error" on:click={deleteAccount}>Delete account</button>
-  <div class="text-xs text-base-content/50">
-    <p>Not affiliated with Stony Brook University.</p>
-    <p>Found a bug, incorrect data, or have a feature request? feedback@kennyhui.dev</p>
-    <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
-  </div>
 </div>
 
 <Confirm bind:this={confirm}></Confirm>

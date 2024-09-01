@@ -1,20 +1,19 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import PhFloppyDisk from "~icons/ph/floppy-disk";
-
   interface Option {
     name: string;
     value: string;
   }
 
   export let title: string;
-  export let type: "checkbox" | "select" | "text" | "button";
+  export let type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
   export let value: string = "";
   export let options: Option[] = [];
   export let maxlength: number | undefined = undefined;
   export let placeholder: string = "";
   export let text: string = "";
+  export let href: string = "";
 
   let checkbox: HTMLInputElement;
 
@@ -32,10 +31,10 @@
   <div class="rounded-box pl-4 p-2 border">
     <label class="label cursor-pointer gap-2 items-center p-1">
       <span class="label-text text-base">{title}</span>
-      {#if type === "checkbox"}
+      {#if type === "checkbox" || type === "toggle"}
         <input
           type="checkbox"
-          class="checkbox rounded-md"
+          class={type === "checkbox" ? "checkbox rounded-md" : "toggle"}
           bind:this={checkbox}
           on:input={() => {
             value = checkbox.checked ? "true" : "false";
@@ -68,6 +67,8 @@
         </div>
       {:else if type === "button"}
         <button class="btn btn-sm" on:click>{text}</button>
+      {:else if type === "link"}
+        <a class="btn btn-sm" {href}>{text}</a>
       {/if}
     </label>
   </div>
