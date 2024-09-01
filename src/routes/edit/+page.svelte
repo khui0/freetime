@@ -20,19 +20,18 @@
     events = collection[0].schedule;
   });
 
-  const emptyEvent: CalendarEvent = {
-    title: "",
-    number: "",
-    days: [false, false, false, false, false, false, false],
-    from: "",
-    to: "",
-    location: "",
-    room: "",
-    type: "",
-  };
-
   function addEvent() {
-    events[events.length] = { ...emptyEvent };
+    // Create new empty event
+    events[events.length] = {
+      title: "",
+      number: "",
+      days: [false, false, false, false, false, false, false],
+      from: "",
+      to: "",
+      location: "",
+      room: "",
+      type: "",
+    };
     saved = false;
   }
 
