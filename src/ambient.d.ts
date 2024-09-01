@@ -8,3 +8,10 @@ interface CalendarEvent {
   location: string;
   room: string;
 }
+
+interface Locations {
+  [key: string]: {
+    name: string;
+    short?: string;
+  };
+}

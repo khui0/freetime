@@ -1,37 +1,16 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-
   import PhTrash from "~icons/ph/trash";
-
   import Confirm from "$lib/components/Confirm.svelte";
-
   import rawLocations from "$lib/assets/locations.json";
 
   const dispatch = createEventDispatcher();
-
-  interface Locations {
-    [key: string]: {
-      name: string;
-      short?: string;
-    };
-  }
 
   const locations: Locations = rawLocations;
 
   let confirm: Confirm;
 
-  interface EditableEvent {
-    title: string;
-    number: string;
-    days: boolean[];
-    from: string;
-    to: string;
-    location: string;
-    room: string;
-    type: string;
-  }
-
-  export let data: EditableEvent = {
+  export let data: CalendarEvent = {
     title: "",
     number: "",
     days: [false, false, false, false, false, false, false],

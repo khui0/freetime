@@ -3,9 +3,22 @@
   import { onMount } from "svelte";
   import pluralize from "pluralize";
 
+  import rawLocations from "$lib/assets/locations.json";
+
   import PhClock from "~icons/ph/clock";
 
   import Modal from "$lib/components/Modal.svelte";
+
+  const locations: Locations = rawLocations;
+  const types: { [key: string]: string } = {
+    lecture: "Lecture",
+    recitation: "Recitation",
+    independent: "Independent Study",
+    seminar: "Seminar",
+    online: "Online",
+    laboratory: "Laboratory",
+    studio: "Studio",
+  };
 
   function timeToS(time: string) {
     const parts = time.split(":");
@@ -38,7 +51,7 @@
 
   let showWeekend: boolean = false;
 
-  let data: CalendarEvent[][] = [];
+  let data: CalendarEvent[] = [];
 
   let time: string;
   let progress: number = -1;
@@ -98,7 +111,9 @@
     >
       <p class="text-sm text-base-content/50 self-center">{i !== 4 ? (i + 8) % 12 : 12}:00</p>
       {#each Array(showWeekend ? 7 : 5) as _, j}
-        {@const event = data[j]?.find((item) => parseInt(item.from.split(":")[0]) === i + 8)}
+        {@const event = data?.find(
+          (item) => parseInt(item.from.split(":")[0]) === i + 8 && item.days[j],
+        )}
         {#if event}
           {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
           <div class="relative">
@@ -115,9 +130,9 @@
               }}
             >
               <p>{event.title} {event.number}</p>
-              <p>{event.type}</p>
+              <p>{types[event.type]}</p>
               <p>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)}</p>
-              <p class="hidden @[8rem]:inline">{event.location} {event.room}</p>
+              <p class="hidden @[8rem]:inline">{locations[event.location].name} {event.room}</p>
             </button>
           </div>
         {:else}
@@ -137,13 +152,15 @@
 </div>
 
 <Modal title="{selected?.title} {selected?.number}" bind:this={modal}>
-  <div class="flex gap-1 justify-between text-lg font-light">
-    <h2>{selected?.type}</h2>
-    <p>{timeTo12Hour(selected?.from, true)} - {timeTo12Hour(selected?.to, true)}</p>
-  </div>
-  <div class="flex gap-1 justify-between">
-    <p class="border border-base-content w-fit px-2 rounded-badge">{selected?.room}</p>
-    <p class="text-lg font-light">{eventDuration(selected?.from, selected?.to)}</p>
-  </div>
-  <p>{selected?.location}</p>
+  {#if selected}
+    <div class="flex gap-1 justify-between text-lg font-light">
+      <h2>{types[selected?.type]}</h2>
+      <p>{timeTo12Hour(selected?.from, true)} - {timeTo12Hour(selected?.to, true)}</p>
+    </div>
+    <div class="flex gap-1 justify-between">
+      <p class="border border-base-content w-fit px-2 rounded-badge">{selected?.room}</p>
+      <p class="text-lg font-light">{eventDuration(selected?.from, selected?.to)}</p>
+    </div>
+    <p>{locations[selected?.location].name}</p>
+  {/if}
 </Modal>

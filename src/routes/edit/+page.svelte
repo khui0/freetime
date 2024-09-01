@@ -4,6 +4,9 @@
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Event from "./Event.svelte";
+  import Alert from "$lib/components/Alert.svelte";
+
+  let alert: Alert;
 
   let events: CalendarEvent[] = [];
 
@@ -26,12 +29,13 @@
   let saved: boolean = true;
 
   function save() {
-    saved = true;
-    console.log(
-      "invalid",
-      events.some((event) => !isValid(event)),
-    );
-    console.log(events);
+    const valid = !events.some((event) => !isValid(event));
+    if (valid) {
+      saved = true;
+      console.log(events);
+    } else {
+      alert.prompt("Invalid class", "One or more classes have missing fields!");
+    }
   }
 
   function isValid(event: CalendarEvent) {
@@ -80,3 +84,5 @@
     <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
   </div>
 </div>
+
+<Alert bind:this={alert}></Alert>
