@@ -3,6 +3,9 @@
     "name": "Advanced Energy Research and Technology Center",
     "short": "AERTC"
   },
+  "asd": {
+    "name": "Alan S. deVries Center"
+  },
   "asc": {
     "name": "Ambulatory Surgery Center"
   },
@@ -155,7 +158,8 @@
     "name": "L.I. High Technology Incubator"
   },
   "lrrs": {
-    "name": "L.I. Rail Road Station"
+    "name": "L.I. Rail Road Station",
+    "short": "LIRR"
   },
   "lsvh": {
     "name": "L.I. State Veterans Home"
