@@ -1,6 +1,7 @@
 import daisyui from "daisyui";
 import Typography from "@tailwindcss/typography";
 import Scrollbar from "tailwind-scrollbar";
+import ContainerQueries from "@tailwindcss/container-queries";
 
 /** @type {import("tailwindcss").Config} */
 export default {
@@ -12,6 +13,7 @@ export default {
       nocompatible: true,
       preferredStrategy: "pseudoelements",
     }),
+    ContainerQueries,
   ],
   future: {
     hoverOnlyWhenSupported: true,

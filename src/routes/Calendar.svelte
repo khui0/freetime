@@ -113,7 +113,7 @@
           {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
           <div class="relative">
             <button
-              class="absolute z-10 top-0 w-full bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center"
+              class="absolute z-10 top-0 w-full bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
               style="height: {length * 4}rem; transform: translateY({(parseInt(
                 event.from.split(':')[1],
               ) /
@@ -127,7 +127,7 @@
               <p>{event.class} {event.number}</p>
               <p>{event.type}</p>
               <p>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)}</p>
-              <p>{event.location} {event.room}</p>
+              <p class="hidden @[8rem]:inline">{event.location} {event.room}</p>
             </button>
           </div>
         {:else}
