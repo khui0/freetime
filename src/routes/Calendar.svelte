@@ -142,7 +142,9 @@
         {/if}
         {#if i === 0}
           <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">
-            <div class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"></div>
+            <div
+              class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"
+            ></div>
             <p
               class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm w-12 -translate-y-1/2"
             >
