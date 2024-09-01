@@ -163,12 +163,14 @@
       <p>{timeTo12Hour(selected?.from, true)} - {timeTo12Hour(selected?.to, true)}</p>
     </div>
     <div class="flex gap-1 justify-between">
-      <p class="border border-base-content w-fit px-2 rounded-badge">{selected?.room}</p>
+      <p class="border border-base-content w-fit h-fit px-2 rounded-badge">{selected?.room}</p>
       <p class="text-lg font-light">{eventDuration(selected?.from, selected?.to)}</p>
     </div>
     <p>{locations[selected?.location].name}</p>
     {#if locations[selected?.location].maps}
-      <a href={locations[selected?.location].maps} class="btn btn-sm self-start mb-1">Open in Google Maps</a>
+      <a href={locations[selected?.location].maps} class="btn btn-sm self-start mb-1"
+        >Open in Google Maps</a
+      >
     {/if}
   {/if}
 </Modal>

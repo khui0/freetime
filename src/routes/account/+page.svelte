@@ -151,6 +151,11 @@
   <!-- Delete account -->
   <h2 class=" font-light">Delete account</h2>
   <button class="btn btn-error" on:click={deleteAccount}>Delete account</button>
+  <div class="text-xs text-base-content/50">
+    <p>Not affiliated with Stony Brook University.</p>
+    <p>Found a bug, incorrect data, or have a feature request? feedback@kennyhui.dev</p>
+    <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
+  </div>
 </div>
 
 <Confirm bind:this={confirm}></Confirm>
