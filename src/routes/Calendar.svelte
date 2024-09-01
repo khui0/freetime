@@ -120,6 +120,7 @@
         )}
         {#if event}
           {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
+          {@const location = locations[event.location]}
           <div class="relative">
             <button
               class="absolute z-10 top-0 w-full bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
@@ -136,7 +137,7 @@
               <p>{event.title} {event.number}</p>
               <p>{types[event.type]}</p>
               <p>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)}</p>
-              <p class="hidden @[8rem]:inline">{locations[event.location].name} {event.room}</p>
+              <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
             </button>
           </div>
         {:else}
@@ -166,5 +167,8 @@
       <p class="text-lg font-light">{eventDuration(selected?.from, selected?.to)}</p>
     </div>
     <p>{locations[selected?.location].name}</p>
+    {#if locations[selected?.location].maps}
+      <a href={locations[selected?.location].maps} class="btn btn-sm self-start">Open in Google Maps</a>
+    {/if}
   {/if}
 </Modal>
