@@ -98,52 +98,52 @@
 </script>
 
 <div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
-  <div class="flex gap-2 border rounded-box p-4">
+  <div class="flex gap-2 border rounded-box p-4 flex-wrap">
     <!-- Username -->
-    <div class="flex-1">
-      <form on:submit|preventDefault={updateUsername} class="flex gap-1">
-        <label class="flex flex-col text-xs w-full">
-          <span class="px-2">Username</span>
+    <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">
+      <label class="flex flex-col text-xs w-full">
+        <span class="px-2">Username</span>
+        <div class="flex gap-1">
           <input
             class="input input-bordered input-sm w-full"
             type="text"
             bind:value={newUsername}
           />
-        </label>
-        <button class="btn btn-sm self-end" on:click={updateUsername}>
-          {#if !usernameState?.loading}
-            Update
-          {:else}
-            <span class="loading loading-spinner loading-sm"></span>
-          {/if}
-        </button>
-      </form>
-      {#if usernameState?.error}
-        <p class="text-xs text-error mx-2 my-1">{usernameState?.error}</p>
-      {/if}
-    </div>
+          <button class="btn btn-sm" on:click={updateUsername}>
+            {#if !usernameState?.loading}
+              Update
+            {:else}
+              <span class="loading loading-spinner loading-sm"></span>
+            {/if}
+          </button>
+        </div>
+        {#if usernameState?.error}
+          <p class="text-xs text-error mx-2 mt-1">{usernameState?.error}</p>
+        {/if}
+      </label>
+    </form>
     <!-- Email -->
-    <div class="flex-1">
-      <form on:submit|preventDefault={updateEmail} class="flex gap-1">
-        <label class="flex flex-col text-xs w-full">
-          <span class="px-2">Email address</span>
+    <form on:submit|preventDefault={updateEmail} class="flex-1 flex gap-1 min-w-[250px]">
+      <label class="flex flex-col text-xs w-full">
+        <span class="px-2">Email address</span>
+        <div class="flex gap-1">
           <input type="email" class="input input-bordered input-sm w-full" bind:value={newEmail} />
-        </label>
-        <button class="btn btn-sm self-end" on:click={updateEmail}>
-          {#if !emailState.loading}
-            Update
-          {:else}
-            <span class="loading loading-spinner loading-sm"></span>
-          {/if}
-        </button>
-      </form>
-      {#if emailState?.error}
-        <p class="text-xs text-error mx-2 my-1">{emailState?.error}</p>
-      {/if}
-      {#if emailSuccess}
-        <p class="text-xs text-success mx-2 my-1">{emailSuccess}</p>
-      {/if}
-    </div>
+          <button class="btn btn-sm" on:click={updateEmail}>
+            {#if !emailState.loading}
+              Update
+            {:else}
+              <span class="loading loading-spinner loading-sm"></span>
+            {/if}
+          </button>
+        </div>
+        {#if emailState?.error}
+          <p class="text-xs text-error mx-2 mt-1">{emailState?.error}</p>
+        {/if}
+        {#if emailSuccess}
+          <p class="text-xs text-success mx-2 mt-1">{emailSuccess}</p>
+        {/if}
+      </label>
+    </form>
   </div>
   <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
     <button class="btn btn-sm" on:click={resetPassword}>Request password reset</button>
