@@ -168,9 +168,9 @@
     </div>
     <p>{locations[selected?.location].name}</p>
     {#if locations[selected?.location].maps}
-      <a href={locations[selected?.location].maps} class="btn btn-sm self-start mb-1"
-        >Open in Google Maps</a
-      >
+      <a href={locations[selected?.location].maps} class="btn btn-sm self-start mb-1">
+        Open in Google Maps
+      </a>
     {/if}
   {/if}
 </Modal>
