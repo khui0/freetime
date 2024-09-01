@@ -13,6 +13,7 @@ interface Locations {
   [key: string]: {
     name: string;
     short?: string;
+    maps?: string;
   };
 }
 
