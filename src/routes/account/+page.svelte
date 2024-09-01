@@ -3,7 +3,7 @@
   $title = "Account";
 
   import { base } from "$app/paths";
-  import { currentUser, pb } from "$lib/pocketbase";
+  import { currentUser, pb, signOut } from "$lib/pocketbase";
   import { z } from "zod";
   import { onMount } from "svelte";
 
@@ -97,59 +97,62 @@
   }
 </script>
 
-<div class="flex flex-col gap-3 w-[min(100%,800px)] mx-auto p-4">
-  <!-- Username -->
-  <h2 class="font-light">Username</h2>
-  <form on:submit|preventDefault={updateUsername} class="flex gap-3">
-    <input
-      class="input input-bordered flex-1"
-      type="text"
-      placeholder="Username"
-      bind:value={newUsername}
-    />
-    <button class="btn" on:click={updateUsername}>
-      {#if !usernameState?.loading}
-        Update
-      {:else}
-        <span class="loading loading-spinner loading-sm"></span>
+<div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
+  <div class="flex gap-2 border rounded-box p-4">
+    <!-- Username -->
+    <div class="flex-1">
+      <form on:submit|preventDefault={updateUsername} class="flex gap-1">
+        <label class="flex flex-col text-xs w-full">
+          <span class="px-2">Username</span>
+          <input
+            class="input input-bordered input-sm w-full"
+            type="text"
+            bind:value={newUsername}
+          />
+        </label>
+        <button class="btn btn-sm self-end" on:click={updateUsername}>
+          {#if !usernameState?.loading}
+            Update
+          {:else}
+            <span class="loading loading-spinner loading-sm"></span>
+          {/if}
+        </button>
+      </form>
+      {#if usernameState?.error}
+        <p class="text-xs text-error mx-2 my-1">{usernameState?.error}</p>
       {/if}
-    </button>
-  </form>
-  {#if usernameState?.error}
-    <p class="text-sm text-error">{usernameState?.error}</p>
-  {/if}
-  <!-- Email -->
-  <h2 class=" font-light">Email</h2>
-  <form on:submit|preventDefault={updateEmail} class="flex gap-3">
-    <input
-      type="email"
-      class="input input-bordered flex-1"
-      placeholder="Email address"
-      bind:value={newEmail}
-    />
-    <button class="btn" on:click={updateEmail}>
-      {#if !emailState.loading}
-        Update
-      {:else}
-        <span class="loading loading-spinner loading-sm"></span>
+    </div>
+    <!-- Email -->
+    <div class="flex-1">
+      <form on:submit|preventDefault={updateEmail} class="flex gap-1">
+        <label class="flex flex-col text-xs w-full">
+          <span class="px-2">Email address</span>
+          <input type="email" class="input input-bordered input-sm w-full" bind:value={newEmail} />
+        </label>
+        <button class="btn btn-sm self-end" on:click={updateEmail}>
+          {#if !emailState.loading}
+            Update
+          {:else}
+            <span class="loading loading-spinner loading-sm"></span>
+          {/if}
+        </button>
+      </form>
+      {#if emailState?.error}
+        <p class="text-xs text-error mx-2 my-1">{emailState?.error}</p>
       {/if}
-    </button>
-  </form>
-  {#if emailState?.error}
-    <p class="text-sm text-error">{emailState?.error}</p>
-  {/if}
-  {#if emailSuccess}
-    <p class="text-sm text-success">{emailSuccess}</p>
-  {/if}
-  <!-- Password -->
-  <h2 class=" font-light">Password</h2>
-  <button class="btn" on:click={resetPassword}>Request password reset</button>
-  {#if passwordSuccess}
-    <p class="text-sm text-success">{passwordSuccess}</p>
-  {/if}
-  <!-- Delete account -->
-  <h2 class=" font-light">Delete account</h2>
-  <button class="btn btn-error" on:click={deleteAccount}>Delete account</button>
+      {#if emailSuccess}
+        <p class="text-xs text-success mx-2 my-1">{emailSuccess}</p>
+      {/if}
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
+    <button class="btn btn-sm" on:click={resetPassword}>Request password reset</button>
+    {#if passwordSuccess}
+      <p class="text-xs text-success mx-2 my-1">{passwordSuccess}</p>
+    {/if}
+    <button class="btn btn-sm" on:click={signOut}>Sign out</button>
+    <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account</button>
+  </div>
 </div>
 
 <Confirm bind:this={confirm}></Confirm>
