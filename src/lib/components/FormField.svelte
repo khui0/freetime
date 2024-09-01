@@ -1,9 +1,4 @@
 <script lang="ts">
-  interface Result {
-    error?: string;
-    success?: string;
-  }
-
   export let type: "username" | "password" | "email";
   export let placeholder: string | undefined = undefined;
 

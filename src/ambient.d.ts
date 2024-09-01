@@ -15,3 +15,8 @@ interface Locations {
     short?: string;
   };
 }
+
+interface Result {
+  error?: string;
+  success?: string;
+}

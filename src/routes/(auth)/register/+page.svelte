@@ -7,11 +7,6 @@
   import FormField from "$lib/components/FormField.svelte";
   import FormErrors from "$lib/components/FormErrors.svelte";
 
-  interface Result {
-    error?: string;
-    success?: string;
-  }
-
   let username: Result;
   let email: Result;
   let password: Result;
