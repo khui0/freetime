@@ -1,14 +1,24 @@
 <script lang="ts">
+  import { pb } from "$lib/pocketbase";
   import { fade } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Event from "./Event.svelte";
   import Alert from "$lib/components/Alert.svelte";
+  import { onMount } from "svelte";
 
   let alert: Alert;
 
+  let id: string;
   let events: CalendarEvent[] = [];
+
+  onMount(async () => {
+    // Load schedule from database
+    const collection = await pb.collection("schedules").getFullList();
+    id = collection[0].id;
+    events = collection[0].schedule;
+  });
 
   const emptyEvent: CalendarEvent = {
     title: "",
@@ -30,9 +40,17 @@
 
   function save() {
     const valid = !events.some((event) => !isValid(event));
+    if (events.length === 0) return;
     if (valid) {
-      saved = true;
-      console.log(events);
+      console.log(id);
+      pb.collection("schedules")
+        .update(id, { schedule: events })
+        .then(() => {
+          saved = true;
+        })
+        .catch(() => {
+          alert.prompt("Unable to save schedule", "An unforeseen error was encountered.");
+        });
     } else {
       alert.prompt("Invalid class", "One or more classes have missing fields!");
     }

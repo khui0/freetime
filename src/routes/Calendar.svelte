@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { pb } from "$lib/pocketbase";
+  import { currentUser, pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
   import pluralize from "pluralize";
 
@@ -62,7 +62,11 @@
   onMount(() => {
     pb.collection("schedules")
       .getFullList()
-      .then((res) => (data = res[0].schedule));
+      .then((res) => (data = res[0].schedule))
+      .catch(() => {
+        // Create new record if it doesn't exist.
+        pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
+      });
 
     setInterval(() => {
       const now = new Date();
