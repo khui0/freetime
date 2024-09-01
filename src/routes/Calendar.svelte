@@ -38,23 +38,13 @@
 
   let showWeekend: boolean = false;
 
-  interface Item {
-    class: string;
-    number: string;
-    from: string;
-    to: string;
-    location: string;
-    room: string;
-    type: string;
-  }
-
-  let data: Item[][] = [];
+  let data: CalendarEvent[][] = [];
 
   let time: string;
   let progress: number = -1;
 
   let modal: Modal;
-  let selected: Item;
+  let selected: CalendarEvent;
 
   onMount(() => {
     pb.collection("schedules")
@@ -124,7 +114,7 @@
                 modal.show();
               }}
             >
-              <p>{event.class} {event.number}</p>
+              <p>{event.title} {event.number}</p>
               <p>{event.type}</p>
               <p>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)}</p>
               <p class="hidden @[8rem]:inline">{event.location} {event.room}</p>
@@ -146,7 +136,7 @@
   {/each}
 </div>
 
-<Modal title="{selected?.class} {selected?.number}" bind:this={modal}>
+<Modal title="{selected?.title} {selected?.number}" bind:this={modal}>
   <div class="flex gap-1 justify-between text-lg font-light">
     <h2>{selected?.type}</h2>
     <p>{timeTo12Hour(selected?.from, true)} - {timeTo12Hour(selected?.to, true)}</p>

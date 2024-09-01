@@ -5,19 +5,9 @@
 
   import Event from "./Event.svelte";
 
-  interface Data {
-    title: string;
-    number: string;
-    days: boolean[];
-    from: string;
-    to: string;
-    location: string;
-    room: string;
-  }
+  let events: CalendarEvent[] = [];
 
-  let events: Data[] = [];
-
-  const emptyEvent: Data = {
+  const emptyEvent: CalendarEvent = {
     title: "",
     number: "",
     days: [false, false, false, false, false, false, false],
@@ -25,16 +15,28 @@
     to: "",
     location: "",
     room: "",
+    type: "",
   };
-
-  let saved: boolean = true;
 
   function addEvent() {
     events[events.length] = { ...emptyEvent };
     saved = false;
   }
 
-  function transformEvents() {}
+  let saved: boolean = true;
+
+  function save() {
+    saved = true;
+    console.log(
+      "invalid",
+      events.some((event) => !isValid(event)),
+    );
+    console.log(events);
+  }
+
+  function isValid(event: CalendarEvent) {
+    return Object.values(event).every((value) => value !== "");
+  }
 </script>
 
 <div class="flex flex-col px-4 h-full">
@@ -56,12 +58,14 @@
   >
     {#if events.length > 0}
       {#each events as event}
-        <Event
-          bind:data={event}
-          on:delete={() => {
-            events = events.filter((item) => item !== event);
-          }}
-        ></Event>
+        <div in:fade|global={{ duration: 100 }} out:fade|global={{ duration: 100 }}>
+          <Event
+            bind:data={event}
+            on:delete={() => {
+              events = events.filter((item) => item !== event);
+            }}
+          ></Event>
+        </div>
       {/each}
     {:else}
       <p class="text-base-content/50 text-xl place-self-center text-center">No classes added</p>
@@ -73,6 +77,6 @@
         <span class="font-bold">Warning</span>: you have unsaved changes
       </p>
     {/if}
-    <button class="btn btn-sm btn-accent">Save</button>
+    <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
   </div>
 </div>

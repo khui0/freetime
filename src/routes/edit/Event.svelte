@@ -20,7 +20,7 @@
 
   let confirm: Confirm;
 
-  interface Data {
+  interface EditableEvent {
     title: string;
     number: string;
     days: boolean[];
@@ -28,9 +28,10 @@
     to: string;
     location: string;
     room: string;
+    type: string;
   }
 
-  export let data: Data = {
+  export let data: EditableEvent = {
     title: "",
     number: "",
     days: [false, false, false, false, false, false, false],
@@ -38,6 +39,7 @@
     to: "",
     location: "",
     room: "",
+    type: "",
   };
 </script>
 
@@ -87,6 +89,20 @@
           data.number = data.number.replace(/[^0-9]/, "");
         }}
       />
+    </label>
+  </div>
+  <div class="flex gap-1 flex-wrap">
+    <label class="flex flex-col text-xs">
+      <span class="px-2">Type</span>
+      <select class="select select-bordered select-sm w-full" bind:value={data.type}>
+        <option value="lecture">Lecture</option>
+        <option value="recitation">Recitation</option>
+        <option value="independent">Independent Study</option>
+        <option value="seminar">Seminar</option>
+        <option value="online">Online</option>
+        <option value="laboratory">Laboratory</option>
+        <option value="studio">Studio</option>
+      </select>
     </label>
   </div>
   <div class="flex gap-1 flex-wrap">
