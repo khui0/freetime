@@ -52,6 +52,7 @@
         placeholder="e.g. CSE"
         bind:value={data.title}
         on:input={() => {
+          dispatch("input");
           data.title = data.title.toUpperCase();
         }}
       />
@@ -65,6 +66,7 @@
         inputmode="numeric"
         bind:value={data.number}
         on:input={() => {
+          dispatch("input");
           data.number = data.number.replace(/[^0-9]/, "");
         }}
       />
@@ -73,7 +75,13 @@
   <div class="flex gap-1 flex-wrap">
     <label class="flex flex-col text-xs">
       <span class="px-2">Type</span>
-      <select class="select select-bordered select-sm w-full" bind:value={data.type}>
+      <select
+        class="select select-bordered select-sm w-full"
+        bind:value={data.type}
+        on:input={() => {
+          dispatch("input");
+        }}
+      >
         <option value="lecture">Lecture</option>
         <option value="recitation">Recitation</option>
         <option value="independent">Independent Study</option>
@@ -91,6 +99,7 @@
           ? 'bg-base-300'
           : 'border-base-300 bg-transparent'}"
         on:click={() => {
+          dispatch("input");
           data.days[i] = !data.days[i];
         }}
       >
@@ -101,17 +110,37 @@
   <div class="flex gap-1 flex-wrap">
     <label class="flex flex-col text-xs">
       <span class="px-2">Start time</span>
-      <input type="time" class="input input-bordered input-sm w-full" bind:value={data.from} />
+      <input
+        type="time"
+        class="input input-bordered input-sm w-full"
+        bind:value={data.from}
+        on:input={() => {
+          dispatch("input");
+        }}
+      />
     </label>
     <label class="flex flex-col text-xs">
       <span class="px-2">End time</span>
-      <input type="time" class="input input-bordered input-sm w-full" bind:value={data.to} />
+      <input
+        type="time"
+        class="input input-bordered input-sm w-full"
+        bind:value={data.to}
+        on:input={() => {
+          dispatch("input");
+        }}
+      />
     </label>
   </div>
   <div class="flex gap-1 w-full">
     <label class="flex flex-col text-xs">
       <span class="px-2">Location</span>
-      <select class="select select-bordered select-sm w-full" bind:value={data.location}>
+      <select
+        class="select select-bordered select-sm w-full"
+        bind:value={data.location}
+        on:input={() => {
+          dispatch("input");
+        }}
+      >
         {#if locations}
           {#each Object.keys(locations) as key}
             {@const location = locations[key]}
@@ -127,6 +156,7 @@
         class="input input-bordered input-sm w-full"
         bind:value={data.room}
         on:input={() => {
+          dispatch("input");
           data.room = data.room.toUpperCase();
         }}
       />

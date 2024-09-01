@@ -85,6 +85,9 @@
             on:delete={() => {
               events = events.filter((item) => item !== event);
             }}
+            on:input={() => {
+              saved = false;
+            }}
           ></Event>
         </div>
       {/each}
