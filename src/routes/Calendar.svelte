@@ -80,7 +80,7 @@
   <div class="px-4 pt-2 flex gap-2 items-center">
     <button class="btn btn-sm">Show today</button>
     <label class="label py-0 cursor-pointer w-fit gap-2">
-      <span class="label-text">Show weekend</span>
+      <span class="label-text">Weekend</span>
       <input type="checkbox" class="toggle" bind:checked={showWeekend} />
     </label>
     <div class="ml-auto">

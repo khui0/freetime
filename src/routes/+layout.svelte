@@ -23,7 +23,7 @@
     </div>
     <div class="flex gap-1 items-center">
       {#if $currentUser}
-        <p>{$currentUser.username}</p>
+        <p class="mx-1">{$currentUser.username}</p>
       {:else}
         <a class="btn btn-sm" href="/sign-in">Sign in</a>
         <a class="btn btn-sm" href="/register">Register</a>

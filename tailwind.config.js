@@ -20,7 +20,7 @@ export default {
     themes: [
       {
         light: {
-          accent: "#bd3d3d",
+          accent: "#990000",
           "accent-content": "#ffffff",
           neutral: "#dcdcdc",
           "neutral-content": "#525252",
