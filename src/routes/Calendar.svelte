@@ -93,10 +93,10 @@
   </div>
   <div
     class="z-20 sticky top-0 mx-4 py-2 bg-base-100 text-sm border-b grid {showWeekend
-      ? 'grid-cols-[3rem_repeat(7,1fr)]'
-      : 'grid-cols-[3rem_repeat(5,1fr)]'}"
+      ? 'grid-cols-[3.5rem_repeat(7,1fr)]'
+      : 'grid-cols-[3.5rem_repeat(5,1fr)]'}"
   >
-    <p class="flex items-center justify-center"><PhClock></PhClock></p>
+    <p class="flex items-center justify-center mr-2"><PhClock></PhClock></p>
     {#each Array(showWeekend ? 7 : 5) as _, day}
       {@const days = ["M", "T", "W", "T", "F", "S", "S"]}
       {@const today = new Date().getDay() === (day + 1) % 7}
@@ -106,11 +106,11 @@
   {#each Array(13) as _, i}
     <div
       class="relative mx-4 text-center h-16 grid {showWeekend
-        ? 'grid-cols-[3rem_repeat(7,1fr)]'
-        : 'grid-cols-[3rem_repeat(5,1fr)]'}"
+        ? 'grid-cols-[3.5rem_repeat(7,1fr)]'
+        : 'grid-cols-[3.5rem_repeat(5,1fr)]'}"
       class:border-b={i !== 12}
     >
-      <p class="text-sm text-base-content/50 self-center">{i !== 4 ? (i + 8) % 12 : 12}:00</p>
+      <p class="text-sm text-base-content/50 self-center mr-2">{i !== 4 ? (i + 8) % 12 : 12}:00</p>
       {#each Array(showWeekend ? 7 : 5) as _, j}
         {@const event = data?.find(
           (item) => parseInt(item.from.split(":")[0]) === i + 8 && item.days[j],
@@ -142,8 +142,10 @@
         {/if}
         {#if i === 0}
           <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">
-            <div class="px-4 w-full h-0.5 bg-accent"></div>
-            <p class="bg-accent text-accent-content rounded-badge text-sm w-12 -translate-y-1/2">
+            <div class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"></div>
+            <p
+              class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm w-12 -translate-y-1/2"
+            >
               {time}
             </p>
           </div>
