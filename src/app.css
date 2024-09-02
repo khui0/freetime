@@ -26,7 +26,7 @@
 }
 
 * {
-  @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-primary scrollbar-track-transparent;
+  @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-accent scrollbar-track-transparent;
 }
 
 html,
