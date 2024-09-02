@@ -25,10 +25,6 @@
   }
 }
 
-* {
-  @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-primary scrollbar-track-transparent;
-}
-
 html,
 body,
 #app,
