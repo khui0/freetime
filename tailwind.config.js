@@ -42,7 +42,7 @@ export default {
           "error-content": "#ffffff",
           "base-100": "#111111",
           "base-200": "#202020",
-          "base-300": "#2c2c2c",
+          "base-300": "#252525",
           "base-content": "#ffffff",
         },
       },
