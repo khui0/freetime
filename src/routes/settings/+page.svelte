@@ -46,7 +46,11 @@
   <div class="text-xs leading-normal text-base-content/50 px-4">
     <p class="rounded-badge">Version {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
-    <p>Found a bug, incorrect data, or have a feature request? Email feedback@kennyhui.dev</p>
+    <p>
+      Found a bug, incorrect data, or have a feature request? Email <a
+        href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
+      >
+    </p>
     <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
   </div>
 </div>
