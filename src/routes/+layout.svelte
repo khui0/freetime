@@ -32,21 +32,21 @@
   </header>
   <main class="flex-1 overflow-auto"><slot></slot></main>
   <nav class="flex justify-evenly border-t">
-    <a href="/" class="p-3">
+    <a href="/" class="p-3 active:scale-90 transition-transform">
       {#if $page.url.pathname === "/"}
         <PhHouseFill></PhHouseFill>
       {:else}
         <PhHouse></PhHouse>
       {/if}
     </a>
-    <a href="/friends" class="p-3">
+    <a href="/friends" class="p-3 active:scale-90 transition-transform">
       {#if $page.url.pathname === "/friends"}
         <PhUsersFill></PhUsersFill>
       {:else}
         <PhUsers></PhUsers>
       {/if}</a
     >
-    <a href="/settings" class="p-3">
+    <a href="/settings" class="p-3 active:scale-90 transition-transform">
       {#if $page.url.pathname === "/settings"}
         <PhGearFill></PhGearFill>
       {:else}
