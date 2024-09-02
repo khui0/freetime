@@ -7,6 +7,10 @@
     modal.showModal();
   }
 
+  export function close() {
+    modal.close();
+  }
+
   export let title: string;
 
   export let additionalClasses: string = "";

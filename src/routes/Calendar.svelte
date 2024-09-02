@@ -86,7 +86,7 @@
 
 <div class="flex flex-col">
   <div class="px-4 pt-2 flex gap-2 items-center">
-    <button class="btn btn-sm">Show today</button>
+    <button class="btn btn-sm">Today</button>
     <div class="ml-auto">
       <a class="btn btn-sm" href="/edit">Edit schedule</a>
     </div>

@@ -76,7 +76,7 @@
 </script>
 
 <div class="flex flex-col px-4 h-full">
-  <div class="flex gap-1 justify-between border-b py-2">
+  <div class="flex gap-1 justify-between border-b py-2 items-center">
     <button
       class="btn btn-square btn-sm rounded-full"
       on:click={() => {
