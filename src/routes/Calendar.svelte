@@ -159,13 +159,13 @@
 
 <Modal title="{selected?.title} {selected?.number}" bind:this={modal}>
   {#if selected}
-    <div class="flex gap-1 justify-between text-lg font-light">
+    <div class="flex gap-1 justify-between text-lg">
       <h2>{types[selected?.type]}</h2>
       <p>{timeTo12Hour(selected?.from, true)} - {timeTo12Hour(selected?.to, true)}</p>
     </div>
     <div class="flex gap-1 justify-between">
       <p class="border border-base-content w-fit h-fit px-2 rounded-badge">{selected?.room}</p>
-      <p class="text-lg font-light">{eventDuration(selected?.from, selected?.to)}</p>
+      <p class="text-lg">{eventDuration(selected?.from, selected?.to)}</p>
     </div>
     <p>{locations[selected?.location].name}</p>
     {#if locations[selected?.location].maps}
