@@ -1,11 +1,20 @@
 import daisyui from "daisyui";
 import Typography from "@tailwindcss/typography";
+import Scrollbar from "tailwind-scrollbar";
 import ContainerQueries from "@tailwindcss/container-queries";
 
 /** @type {import("tailwindcss").Config} */
 export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
-  plugins: [daisyui, Typography(), ContainerQueries],
+  plugins: [
+    daisyui,
+    Typography(),
+    Scrollbar({
+      nocompatible: true,
+      preferredStrategy: "pseudoelements",
+    }),
+    ContainerQueries,
+  ],
   future: {
     hoverOnlyWhenSupported: true,
   },
@@ -25,7 +34,7 @@ export default {
           "base-content": "#141414",
         },
         dark: {
-          accent: "#990000",
+          accent: "#af2222",
           "accent-content": "#ffffff",
           neutral: "#525252",
           "neutral-content": "#dcdcdc",
