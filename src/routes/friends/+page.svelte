@@ -13,11 +13,20 @@
   import { currentUser, pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
   import type { RecordModel } from "pocketbase";
+  import pluralize from "pluralize";
 
   let self: RecordModel;
   let others: RecordModel[];
+  let friends: RecordModel[] = [];
 
-  onMount(async () => {
+  onMount(() => {
+    getFriends();
+    pb.collection("friends").subscribe("*", async (e) => {
+      if (e.action === "update") getFriends();
+    });
+  });
+
+  async function getFriends() {
     // Create friends record if it doesn't exist
     await pb
       .collection("friends")
@@ -38,8 +47,8 @@
       .filter((record) => record.user !== $currentUser?.id)
       .map((record) => record?.expand?.user);
 
-    console.log(self.friends, others);
-  });
+    friends = calculateIntersection();
+  }
 
   async function getUserId(username: string) {
     const result = await pb
@@ -70,14 +79,41 @@
         loading = false;
       });
   }
+
+  async function removeFriend(id: string) {
+    pb.collection("friends").update(self.id, {
+      friends: self.friends.filter((user: string) => user !== id),
+    });
+  }
+
+  function calculateIntersection(): RecordModel[] {
+    return (
+      self?.expand?.friends?.filter((record: RecordModel) =>
+        others.map((item) => item.id).includes(record.id),
+      ) || []
+    );
+  }
 </script>
 
 <div class="flex flex-col px-4 h-full">
   <div class="flex gap-1 justify-between border-b py-2 items-center">
-    <h2>4 friends</h2>
+    <h2>{self ? pluralize("friend", friends?.length, true) : ""}</h2>
     <div class="flex gap-1">
       <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
     </div>
+  </div>
+  <div class="flex flex-col">
+    {#each friends as friend}
+      <button class="flex gap-1 items-center justify-between px-2 py-4">
+        <p>{friend.username}</p>
+        <button
+          class="btn btn-sm"
+          on:click={() => {
+            removeFriend(friend.id);
+          }}>Remove</button
+        >
+      </button>
+    {/each}
   </div>
 </div>
 
