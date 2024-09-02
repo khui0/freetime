@@ -2,7 +2,13 @@
   import { title } from "$lib/store";
   $title = "Friends";
 
+  import Friend from "./Friend.svelte";
+
   import Modal from "$lib/components/Modal.svelte";
+  import Confirm from "$lib/components/Confirm.svelte";
+  import Collapse from "$lib/components/Collapse.svelte";
+
+  let confirm: Confirm;
 
   let addModal: Modal;
   let usernameField: string;
@@ -17,7 +23,10 @@
 
   let self: RecordModel;
   let others: RecordModel[];
+
   let friends: RecordModel[] = [];
+  let outgoing: RecordModel[] = [];
+  let requests: RecordModel[] = [];
 
   onMount(() => {
     getFriends();
@@ -47,7 +56,9 @@
       .filter((record) => record.user !== $currentUser?.id)
       .map((record) => record?.expand?.user);
 
-    friends = calculateIntersection();
+    friends = calculateFriends();
+    outgoing = calculateOutgoing();
+    requests = calculateRequests();
   }
 
   async function getUserId(username: string) {
@@ -86,12 +97,24 @@
     });
   }
 
-  function calculateIntersection(): RecordModel[] {
+  function calculateFriends(): RecordModel[] {
     return (
       self?.expand?.friends?.filter((record: RecordModel) =>
         others.map((item) => item.id).includes(record.id),
       ) || []
     );
+  }
+
+  function calculateOutgoing(): RecordModel[] {
+    return (
+      self?.expand?.friends?.filter(
+        (record: RecordModel) => !others.map((item) => item.id).includes(record.id),
+      ) || []
+    );
+  }
+
+  function calculateRequests(): RecordModel[] {
+    return others.filter((item) => !self?.friends?.includes(item.id));
   }
 </script>
 
@@ -102,19 +125,52 @@
       <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
     </div>
   </div>
-  <div class="flex flex-col">
-    {#each friends as friend}
-      <button class="flex gap-1 items-center justify-between px-2 py-4">
-        <p>{friend.username}</p>
-        <button
-          class="btn btn-sm"
-          on:click={() => {
+  {#if outgoing && outgoing.length > 0}
+    <Collapse title="Outgoing ({outgoing.length})"
+      >{#each outgoing as friend}
+        <Friend
+          username={friend.username}
+          action="Cancel"
+          on:action={() => {
             removeFriend(friend.id);
-          }}>Remove</button
-        >
-      </button>
-    {/each}
-  </div>
+          }}
+        ></Friend>
+      {/each}
+    </Collapse>
+  {/if}
+  {#if requests && requests.length > 0}
+    <Collapse title="Requests ({requests.length})"
+      >{#each requests as friend}
+        <Friend
+          username={friend.username}
+          action="Accept"
+          on:action={() => {
+            addFriend(friend.username);
+          }}
+        ></Friend>
+      {/each}
+    </Collapse>
+  {/if}
+  {#if friends}
+    <div class="flex flex-col">
+      {#each friends as friend}
+        <Friend
+          username={friend.username}
+          on:action={() => {
+            confirm
+              .prompt(
+                "Remove friend?",
+                `Are you sure you want to remove ${friend.username}?`,
+                "Remove",
+              )
+              .then(() => {
+                removeFriend(friend.id);
+              });
+          }}
+        ></Friend>
+      {/each}
+    </div>
+  {/if}
 </div>
 
 <Modal bind:this={addModal} title="Add friend">
@@ -138,3 +194,5 @@
     {/if}
   </button>
 </Modal>
+
+<Confirm bind:this={confirm}></Confirm>
