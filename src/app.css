@@ -17,6 +17,11 @@
     --tab-border: 1px;
     --tab-radius: 0.5rem;
   }
+
+  input,
+  textarea {
+    @apply placeholder-base-content placeholder-opacity-50;
+  }
 }
 
 @layer utilities {
