@@ -33,6 +33,7 @@
       type: "",
     };
     saved = false;
+    scrollEnabled = true;
   }
 
   let saved: boolean = true;
@@ -58,6 +59,20 @@
   function isValid(event: CalendarEvent) {
     return Object.values(event).every((value) => value !== "");
   }
+
+  let scrollEnabled: boolean = false;
+
+  const scrollToBottom = (node: HTMLElement, _: any) => {
+    return {
+      update() {
+        if (!scrollEnabled) return;
+        node.scroll({
+          top: node.scrollHeight,
+          behavior: "smooth",
+        });
+      },
+    };
+  };
 </script>
 
 <div class="flex flex-col px-4 h-full">
@@ -76,6 +91,7 @@
     class="grid grid-cols-1 {events.length > 0
       ? 'md:grid-cols-2'
       : ''} gap-2 overflow-auto py-2 flex-1"
+    use:scrollToBottom={events}
   >
     {#if events.length > 0}
       {#each events as event}
