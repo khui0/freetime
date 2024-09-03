@@ -164,6 +164,7 @@
       {#each friends as friend}
         <Friend
           username={friend.username}
+          href="/user/{friend.username}"
           on:action={() => {
             confirm
               .prompt(

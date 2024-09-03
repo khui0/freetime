@@ -5,9 +5,10 @@
 
   export let username: string;
   export let action: string = "Remove";
+  export let href: string = "";
 </script>
 
-<button class="flex gap-1 items-center justify-between py-2" on:click>
+<a class="flex gap-1 items-center justify-between py-2" {href}>
   <p class="pl-1">{username}</p>
   <button
     class="btn btn-sm"
@@ -15,4 +16,4 @@
       dispatch("action");
     }}>{action}</button
   >
-</button>
+</a>
