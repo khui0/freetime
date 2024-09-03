@@ -13,13 +13,17 @@
 </script>
 
 <svelte:head>
-  <title>{$title}{$title ? " - " : ""}SBU Freetime</title>
+  <title>{$title}{$title ? " - " : ""}SB Freetime</title>
+  <meta
+    name="description"
+    content="Social college schedule viewer for Stony Brook University. Share your class schedule with your friends! Find when everyone's free and easily plan meetups!"
+  />
 </svelte:head>
 
 <div class="flex flex-col h-full">
   <header class="flex gap-2 items-center p-2 border-b">
     <div class="flex-1">
-      <h1 class="mx-1">SBU Freetime</h1>
+      <h1 class="mx-1">SB Freetime</h1>
     </div>
     <div class="flex gap-1 items-center">
       {#if $currentUser}
