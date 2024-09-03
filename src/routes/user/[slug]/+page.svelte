@@ -5,6 +5,8 @@
   import { title } from "$lib/store";
   $title = data.username;
 
+  import PhArrowLeft from "~icons/ph/arrow-left";
+
   import { locations, types } from "$lib/sbu";
   import { timeTo12Hour, eventDuration } from "$lib/time";
 
@@ -16,7 +18,17 @@
 </script>
 
 {#if data?.schedule?.length > 0}
-  <h2 class="font-bold text-2xl px-4 pt-2">{data.username}</h2>
+  <div class="px-4 pt-2 flex gap-2 items-center">
+    <button
+      class="btn btn-square btn-sm rounded-full"
+      on:click={() => {
+        history.back();
+      }}
+    >
+      <PhArrowLeft></PhArrowLeft>
+    </button>
+    <h2 class="font-bold text-2xl">{data.username}</h2>
+  </div>
   <Calendar
     bind:data={data.schedule}
     on:expand={(e) => {
