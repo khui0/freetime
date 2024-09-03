@@ -21,9 +21,11 @@
 </svelte:head>
 
 <div class="flex flex-col h-full">
-  <header class="flex gap-2 items-center p-2 border-b">
-    <div class="flex-1">
-      <h1 class="mx-1">SB Freetime</h1>
+  <header class="flex gap-2 items-center justify-between p-2 border-b">
+    <div>
+      <h1 class="mx-1 font-bold active:scale-90 transition-transform">
+        <a href="/">SB Freetime</a>
+      </h1>
     </div>
     <div class="flex gap-1 items-center">
       {#if $currentUser}
