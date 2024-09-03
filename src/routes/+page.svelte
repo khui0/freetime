@@ -19,7 +19,10 @@
   onMount(() => {
     pb.collection("schedules")
       .getFullList()
-      .then((res) => (data = res[0].schedule))
+      .then((res) => {
+        console.log(res);
+        data = res[0].schedule;
+      })
       .catch(() => {
         // Create new record if it doesn't exist.
         pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
