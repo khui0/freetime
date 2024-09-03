@@ -60,7 +60,7 @@
       {#if event}
         {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
         {@const location = locations[event.location]}
-        <div class="relative">
+        <div class="relative mx-[1px]">
           <button
             class="absolute z-10 top-0 w-full bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
             style="height: {length * 4}rem; transform: translateY({(parseInt(
