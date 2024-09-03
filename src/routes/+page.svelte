@@ -20,8 +20,8 @@
     pb.collection("schedules")
       .getFullList()
       .then((res) => {
-        console.log(res);
-        data = res[0].schedule;
+        const schedule = res.find((record) => record.user === $currentUser?.id)?.schedule;
+        data = schedule;
       })
       .catch(() => {
         // Create new record if it doesn't exist.

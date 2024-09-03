@@ -29,13 +29,13 @@
   let requests: RecordModel[] = [];
 
   onMount(() => {
-    getFriends();
+    updateFriends();
     pb.collection("friends").subscribe("*", async (e) => {
-      if (e.action === "update") getFriends();
+      if (e.action === "update") updateFriends();
     });
   });
 
-  async function getFriends() {
+  async function updateFriends() {
     // Create friends record if it doesn't exist
     await pb
       .collection("friends")
@@ -59,6 +59,14 @@
     friends = calculateFriends();
     outgoing = calculateOutgoing();
     requests = calculateRequests();
+
+    // Set own schedule visibility
+    const scheduleId = (
+      await pb.collection("schedules").getFirstListItem(`user="${$currentUser?.id}"`)
+    ).id;
+    pb.collection("schedules").update(scheduleId, {
+      viewers: friends.map((record) => record.id),
+    });
   }
 
   async function getUserId(username: string) {
