@@ -2,11 +2,9 @@
   import { createEventDispatcher } from "svelte";
   import PhTrash from "~icons/ph/trash";
   import Confirm from "$lib/components/Confirm.svelte";
-  import rawLocations from "$lib/assets/locations.json";
+  import { locations } from "$lib/sbu";
 
   const dispatch = createEventDispatcher();
-
-  const locations: Locations = rawLocations;
 
   let confirm: Confirm;
 
