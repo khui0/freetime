@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { pb } from "$lib/pocketbase";
+  import { pb, currentUser } from "$lib/pocketbase";
   import { fade } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
@@ -14,10 +14,19 @@
   let events: CalendarEvent[] = [];
 
   onMount(async () => {
+    // Create record if it doesn't exist
+    await pb
+      .collection("schedules")
+      .getFirstListItem(`user="${$currentUser?.id}"`)
+      .catch(() => {
+        pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
+      });
+
     // Load schedule from database
-    const collection = await pb.collection("schedules").getFullList();
-    id = collection[0].id;
-    events = collection[0].schedule;
+    const list = await pb.collection("schedules").getFullList();
+    const schedule = list.find((record) => record.user === $currentUser?.id);
+    id = schedule?.id || "";
+    events = schedule?.schedule;
   });
 
   function addEvent() {

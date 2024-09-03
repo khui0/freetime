@@ -16,17 +16,18 @@
   let modal: Modal;
   let selected: CalendarEvent;
 
-  onMount(() => {
-    pb.collection("schedules")
-      .getFullList()
-      .then((res) => {
-        const schedule = res.find((record) => record.user === $currentUser?.id)?.schedule;
-        data = schedule;
-      })
+  onMount(async () => {
+    // Create record if it doesn't exist
+    await pb
+      .collection("schedules")
+      .getFirstListItem(`user="${$currentUser?.id}"`)
       .catch(() => {
-        // Create new record if it doesn't exist.
         pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
       });
+
+    const list = await pb.collection("schedules").getFullList();
+    const schedule = list.find((record) => record.user === $currentUser?.id);
+    data = schedule?.schedule;
   });
 </script>
 
