@@ -22,10 +22,10 @@
       if (username.success && email.success && password.success && passwordConfirm.success) {
         loading = true;
         await pb.collection("users").create({
-          username,
-          email,
-          password,
-          passwordConfirm,
+          username: username.success,
+          email: email.success,
+          password: password.success,
+          passwordConfirm: passwordConfirm.success,
         });
         // Send verification email
         if (email.success) {
