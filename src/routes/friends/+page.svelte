@@ -31,7 +31,7 @@
   let requests: RecordModel[] = [];
 
   onMount(() => {
-    if ($currentUser) return;
+    if (!$currentUser) return;
     updateFriends();
     pb.collection("friends").subscribe("*", async (e) => {
       if (e.action === "update") updateFriends();

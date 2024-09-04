@@ -14,7 +14,7 @@
   let events: CalendarEvent[] = [];
 
   onMount(async () => {
-    if ($currentUser) return;
+    if (!$currentUser) return;
     await ensureScheduleExists();
 
     // Create record if it doesn't exist
