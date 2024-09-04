@@ -54,13 +54,18 @@
   >
     <p class="text-sm text-base-content/50 self-center mr-2">{i !== 4 ? (i + 8) % 12 : 12}:00</p>
     {#each Array(showWeekend ? 7 : 5) as _, j}
+      {@const today = new Date().getDay() === (j + 1) % 7}
       {@const event = data?.find(
         (item) => parseInt(item.from.split(":")[0]) === i + 8 && item.days[j],
       )}
       {#if event}
         {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
         {@const location = locations[event.location]}
-        <div class="relative mx-[1px]">
+        <div
+          class="relative mx-[1px] {today && $settings.highlightToday === 'true'
+            ? 'bg-base-200/50'
+            : ''}"
+        >
           <button
             class="absolute z-10 top-0 w-full bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
             style="height: {length * 4}rem; transform: translateY({(parseInt(
@@ -81,7 +86,7 @@
           </button>
         </div>
       {:else}
-        <div></div>
+        <div class={today && $settings.highlightToday === "true" ? "bg-base-200/50" : ""}></div>
       {/if}
       {#if i === 0}
         <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">

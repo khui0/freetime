@@ -43,6 +43,14 @@
   >
     Show columns for Saturday and Sunday in the calendar view
   </SettingsField>
+  <SettingsField
+    type="toggle"
+    title="Highlight today"
+    options={themes}
+    bind:value={$settings.highlightToday}
+  >
+    Highlight the column of the current day
+  </SettingsField>
   <div class="text-xs leading-normal text-base-content/50 px-4">
     <p class="rounded-badge">Version {version}</p>
     <p>Not affiliated with Stony Brook University.</p>

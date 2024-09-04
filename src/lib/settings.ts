@@ -9,6 +9,7 @@ const storedSettings = browser && localStorage.getItem("settings");
 
 const defaultSettings: Settings = {
   theme: "auto",
+  highlightToday: "true",
 };
 
 // Initialize store with default settings
