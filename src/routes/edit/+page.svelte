@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { pb, currentUser } from "$lib/pocketbase";
+  import { pb, currentUser, ensureScheduleExists } from "$lib/pocketbase";
   import { fade } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
@@ -14,6 +14,8 @@
   let events: CalendarEvent[] = [];
 
   onMount(async () => {
+    await ensureScheduleExists();
+
     // Create record if it doesn't exist
     await pb
       .collection("schedules")

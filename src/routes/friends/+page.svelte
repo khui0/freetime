@@ -2,6 +2,8 @@
   import { title } from "$lib/store";
   $title = "Friends";
 
+  import { ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
+
   import Friend from "./Friend.svelte";
 
   import Modal from "$lib/components/Modal.svelte";
@@ -36,13 +38,8 @@
   });
 
   async function updateFriends() {
-    // Create friends record if it doesn't exist
-    await pb
-      .collection("friends")
-      .getFirstListItem(`user="${$currentUser?.id}"`)
-      .catch(() => {
-        pb.collection("friends").create({ user: $currentUser?.id, friends: [] });
-      });
+    await ensureScheduleExists();
+    await ensureFriendsExist();
 
     // List all friend lists that contain username
     const list = await pb.collection("friends").getFullList({

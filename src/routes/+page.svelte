@@ -2,7 +2,7 @@
   import { title } from "$lib/store";
   $title = "";
 
-  import { currentUser, pb } from "$lib/pocketbase";
+  import { currentUser, pb, ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
   import { locations, types } from "$lib/sbu";
@@ -17,13 +17,8 @@
   let selected: CalendarEvent;
 
   onMount(async () => {
-    // Create record if it doesn't exist
-    await pb
-      .collection("schedules")
-      .getFirstListItem(`user="${$currentUser?.id}"`)
-      .catch(() => {
-        pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
-      });
+    await ensureScheduleExists();
+    await ensureFriendsExist();
 
     const list = await pb.collection("schedules").getFullList();
     const schedule = list.find((record) => record.user === $currentUser?.id);
