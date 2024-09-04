@@ -46,7 +46,7 @@
       <p>{eventDuration(selected?.from, selected?.to)}</p>
     </div>
     <hr />
-    <div class="flex gap-2 items-center flex-wrap">
+    <div class="flex gap-2 items-center flex-wrap mt-2">
       <p class="border border-base-content w-fit h-fit px-2 rounded-badge">{selected?.room}</p>
       <p>{locations[selected?.location].name}</p>
     </div>
