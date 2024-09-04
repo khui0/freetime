@@ -7,6 +7,13 @@ export function timeToS(time: string) {
   return hours + minutes;
 }
 
+function timeToMs(time: string) {
+  const now = new Date();
+  const hours = parseInt(time.split(":")[0]);
+  const minutes = parseInt(time.split(":")[1]);
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes).getTime();
+}
+
 export function timeTo12Hour(time: string, dayPeriod: boolean = false) {
   if (!time) return;
   const parts = time.split(":");
@@ -25,4 +32,41 @@ export function eventDuration(from: string, to: string) {
     " " +
     pluralize("minute", Math.floor(minutes % 60), true)
   );
+}
+
+export function timeUntil(from: string, to: string) {
+  if (!from || !to) return;
+  const now = Date.now();
+  const start = timeToMs(from);
+  const end = timeToMs(to);
+  if (now < start) {
+    const diff = start - now;
+    return `Starts in ${msToString(diff)}`;
+  } else if (now < end) {
+    const diff = end - now;
+    return `Ends in ${msToString(diff)}`;
+  } else {
+    return "";
+  }
+}
+
+export function msToUnits(ms: number) {
+  const seconds = Math.floor(Math.abs(ms / 1000));
+  const minutes = Math.floor(Math.abs(seconds / 60));
+  const hours = Math.floor(Math.abs(minutes / 60));
+  return {
+    hours: hours,
+    minutes: minutes % 60,
+    seconds: seconds % 60,
+  };
+}
+
+export function msToString(ms: number) {
+  const time = msToUnits(ms);
+  const parts = [];
+  if (time.hours > 0) {
+    parts.push(pluralize("hour", time.hours, true));
+  }
+  parts.push(pluralize("minute", time.minutes + 1, true));
+  return parts.join(" ");
 }
