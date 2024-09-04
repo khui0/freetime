@@ -17,6 +17,7 @@
   let selected: CalendarEvent;
 
   onMount(async () => {
+    if ($currentUser) return;
     await ensureScheduleExists();
     await ensureFriendsExist();
 
