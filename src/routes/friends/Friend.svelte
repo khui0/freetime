@@ -8,12 +8,14 @@
   export let href: string = "";
 </script>
 
-<a class="flex gap-1 items-center justify-between py-2" {href}>
-  <p class="pl-1">{username}</p>
+<div class="flex py-2">
+  <a class="flex-1 flex items-center gap-2" {href}>
+    <p class="pl-1">{username}</p>
+  </a>
   <button
-    class="btn btn-sm"
+    class="btn btn-sm self-center"
     on:click={() => {
       dispatch("action");
     }}>{action}</button
   >
-</a>
+</div>
