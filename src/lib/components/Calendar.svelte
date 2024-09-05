@@ -1,14 +1,10 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
   import { onMount } from "svelte";
-  import { createEventDispatcher } from "svelte";
 
-  import { locations, types } from "$lib/sbu";
-  import { timeTo12Hour, timeToS } from "$lib/time";
+  import CalendarItem from "./CalendarItem.svelte";
 
   import PhClock from "~icons/ph/clock";
-
-  const dispatch = createEventDispatcher();
 
   let showWeekend: boolean = $settings.showWeekend === "true";
 
@@ -60,28 +56,7 @@
       )}
       <div class="relative {today && $settings.highlightToday === 'true' ? 'bg-base-200/50' : ''}">
         {#if event}
-          {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
-          {@const location = locations[event.location]}
-          <button
-            class="absolute z-10 top-0 left-[1px] right-[1px] bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
-            style="height: {length * 4}rem; transform: translateY({(parseInt(
-              event.from.split(':')[1],
-            ) /
-              60) *
-              4}rem);"
-            on:click={() => {
-              dispatch("expand", {
-                selected: event,
-              });
-            }}
-          >
-            <p>{event.title} {event.number}</p>
-            <p>
-              {types[event.type]}
-              <span>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)} </span>
-            </p>
-            <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
-          </button>
+          <CalendarItem {event} on:expand></CalendarItem>
         {/if}
       </div>
       <!-- Current time indicator -->
