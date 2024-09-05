@@ -30,11 +30,19 @@
   let outgoing: RecordModel[] = [];
   let requests: RecordModel[] = [];
 
+  let schedules: RecordModel[] = [];
+
   onMount(() => {
     if (!$currentUser) return;
+
     updateFriends();
     pb.collection("friends").subscribe("*", async (e) => {
       if (e.action === "update") updateFriends();
+    });
+
+    updateSchedules();
+    pb.collection("schedules").subscribe("*", async (e) => {
+      if (e.action === "update") updateSchedules();
     });
   });
 
@@ -65,6 +73,11 @@
     pb.collection("schedules").update(scheduleId, {
       viewers: friends.map((record) => record.id),
     });
+  }
+
+  async function updateSchedules() {
+    const list = await pb.collection("schedules").getFullList();
+    schedules = list;
   }
 
   async function getUserId(username: string) {
@@ -163,6 +176,7 @@
         <Friend
           username={friend.username}
           href="/user/{friend.username}"
+          schedule={schedules.find((record) => record.user === friend.id)?.schedule}
           on:action={() => {
             confirm
               .prompt(

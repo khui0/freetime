@@ -7,7 +7,7 @@ export function timeToS(time: string) {
   return hours + minutes;
 }
 
-function timeToMs(time: string) {
+export function timeToMs(time: string) {
   const now = new Date();
   const hours = parseInt(time.split(":")[0]);
   const minutes = parseInt(time.split(":")[1]);
@@ -34,17 +34,19 @@ export function eventDuration(from: string, to: string) {
   );
 }
 
-export function timeUntil(from: string, to: string) {
+export function timeUntil(from: string, to: string, timeOnly: boolean = false) {
   if (!from || !to) return;
   const now = Date.now();
   const start = timeToMs(from);
   const end = timeToMs(to);
   if (now < start) {
     const diff = start - now;
-    return `Starts in ${msToString(diff)}`;
+    const prefix = timeOnly ? "" : "Starts in ";
+    return prefix + msToString(diff);
   } else if (now < end) {
     const diff = end - now;
-    return `Ends in ${msToString(diff)}`;
+    const prefix = timeOnly ? "" : "Ends in ";
+    return prefix + msToString(diff);
   } else {
     return "";
   }
