@@ -8,9 +8,9 @@
   export let href: string = "";
 </script>
 
-<div class="flex py-2">
+<div class="flex rounded-box border p-4 mb-4 first:mt-4">
   <a class="flex-1 flex items-center gap-2" {href}>
-    <p class="pl-1">{username}</p>
+    <p class="pl-1 py-2">{username}</p>
   </a>
   <button
     class="btn btn-sm self-center"
