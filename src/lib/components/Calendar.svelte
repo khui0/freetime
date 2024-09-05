@@ -82,9 +82,7 @@
             <p>{event.title} {event.number}</p>
             <p>
               {types[event.type]}
-              <span class="whitespace-nowrap"
-                >{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)}
-              </span>
+              <span>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)} </span>
             </p>
             <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
           </button>
