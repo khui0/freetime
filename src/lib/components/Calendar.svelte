@@ -58,16 +58,12 @@
       {@const event = data?.find(
         (item) => parseInt(item.from.split(":")[0]) === i + 8 && item.days[j],
       )}
-      {#if event}
-        {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
-        {@const location = locations[event.location]}
-        <div
-          class="relative mx-[1px] {today && $settings.highlightToday === 'true'
-            ? 'bg-base-200/50'
-            : ''}"
-        >
+      <div class="relative {today && $settings.highlightToday === 'true' ? 'bg-base-200/50' : ''}">
+        {#if event}
+          {@const length = (timeToS(event.to) - timeToS(event.from)) / 3600}
+          {@const location = locations[event.location]}
           <button
-            class="absolute z-10 top-0 w-full bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
+            class="absolute z-10 top-0 left-[1px] right-[1px] bg-accent text-accent-content rounded-md text-xs h-4 flex flex-col items-center justify-center @container"
             style="height: {length * 4}rem; transform: translateY({(parseInt(
               event.from.split(':')[1],
             ) /
@@ -86,10 +82,9 @@
             </p>
             <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
           </button>
-        </div>
-      {:else}
-        <div class={today && $settings.highlightToday === "true" ? "bg-base-200/50" : ""}></div>
-      {/if}
+        {/if}
+      </div>
+      <!-- Current time indicator -->
       {#if i === 0}
         <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">
           <div
