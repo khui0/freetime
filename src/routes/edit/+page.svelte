@@ -102,12 +102,12 @@
   <div
     class="grid grid-cols-1 {events.length > 0
       ? 'md:grid-cols-2'
-      : ''} gap-2 overflow-auto py-2 flex-1"
+      : ''} gap-4 overflow-auto py-2 flex-1"
     use:scrollToBottom={events}
   >
     {#if events.length > 0}
-      {#each events as event}
-        <div in:fade|global={{ duration: 100 }} out:fade|global={{ duration: 100 }}>
+      {#each events as event, i}
+        <div in:fade|global={{ duration: 100, delay: 50 * i }} out:fade|global={{ duration: 100 }}>
           <Event
             bind:data={event}
             on:delete={() => {
