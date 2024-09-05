@@ -42,13 +42,13 @@
 
     if (inClass) {
       message = `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`;
-      message += `\n${pluralize("class", rest.length + 1, true)} left today`;
+      message += `\n${pluralize("class", rest.length, true)} left today`;
     } else {
       if (rest.length === 0) {
         message = "Done for the day";
       } else {
         message = `Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
-        message += `\n${pluralize("class", rest.length + 1, true)} left today`;
+        message += `\n${pluralize("class", rest.length, true)} left today`;
       }
     }
 
