@@ -61,13 +61,17 @@
 
 <div class="flex rounded-box border pr-4 mb-4 first:mt-4">
   <a class="flex-1 flex items-center gap-2 pl-4 py-4 rounded-box" {href}>
-    <div
-      class="w-3 h-3 rounded-full bg-base-300 flex-none {status.inClass
-        ? 'bg-warning'
-        : 'bg-success'}"
-    ></div>
+    {#if schedule.length > 0}
+      <div
+        class="w-3 h-3 rounded-full bg-base-300 flex-none {status.inClass
+          ? 'bg-warning'
+          : 'bg-success'}"
+      ></div>
+    {/if}
     <p class="pl-1 py-2">{username}</p>
-    <p class="px-2 text-sm text-base-content/50 whitespace-pre-wrap">{status.message}</p>
+    {#if schedule.length > 0}
+      <p class="px-2 text-sm text-base-content/50 whitespace-pre-wrap">{status.message}</p>
+    {/if}
   </a>
   <button
     class="btn btn-sm self-center"
