@@ -210,7 +210,12 @@
   >
     <label class="flex flex-col text-xs">
       <span class="px-2">Username</span>
-      <input type="text" class="input input-bordered input-sm w-full" bind:value={usernameField} />
+      <input
+        type="text"
+        class="input input-bordered input-sm w-full"
+        bind:value={usernameField}
+        autocomplete="off"
+      />
       {#if error}
         <p class="text-xs text-error mx-2 mt-1">{error}</p>
       {/if}
