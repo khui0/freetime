@@ -1,14 +1,20 @@
 <script lang="ts">
   let modal: HTMLDialogElement;
 
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
   import PhX from "~icons/ph/x";
 
   export function show() {
     modal.showModal();
+    dispatch("show");
   }
 
   export function close() {
     modal.close();
+    dispatch("close");
   }
 
   export let title: string;

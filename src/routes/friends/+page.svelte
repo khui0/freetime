@@ -194,26 +194,39 @@
   {/if}
 </div>
 
-<Modal bind:this={addModal} title="Add friend">
-  <label class="flex flex-col text-xs">
-    <span class="px-2">Username</span>
-    <input type="text" class="input input-bordered input-sm w-full" bind:value={usernameField} />
-    {#if error}
-      <p class="text-xs text-error mx-2 mt-1">{error}</p>
-    {/if}
-  </label>
-  <p class="text-sm">Your username is <b>{$currentUser?.username}</b></p>
-  <button
-    class="btn btn-sm"
-    on:click={() => {
+<Modal
+  bind:this={addModal}
+  title="Add friend"
+  on:show={() => {
+    error = "";
+  }}
+>
+  <form
+    class="flex flex-col gap-2"
+    on:submit|preventDefault={() => {
       addFriend(usernameField);
     }}
-    >{#if !loading}
-      Send friend request
-    {:else}
-      <span class="loading loading-spinner loading-sm"></span>
-    {/if}
-  </button>
+  >
+    <label class="flex flex-col text-xs">
+      <span class="px-2">Username</span>
+      <input type="text" class="input input-bordered input-sm w-full" bind:value={usernameField} />
+      {#if error}
+        <p class="text-xs text-error mx-2 mt-1">{error}</p>
+      {/if}
+    </label>
+    <p class="text-sm">Your username is <b>{$currentUser?.username}</b></p>
+    <button
+      class="btn btn-sm"
+      on:click={() => {
+        addFriend(usernameField);
+      }}
+      >{#if !loading}
+        Send friend request
+      {:else}
+        <span class="loading loading-spinner loading-sm"></span>
+      {/if}
+    </button>
+  </form>
 </Modal>
 
 <Confirm bind:this={confirm}></Confirm>
