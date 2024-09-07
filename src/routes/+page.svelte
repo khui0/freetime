@@ -27,7 +27,13 @@
   <div class="px-4 pt-2 flex gap-2 items-center">
     <button class="btn btn-sm">Today</button>
     <div class="ml-auto">
-      <a class="btn btn-sm" href="/edit">Edit schedule</a>
+      <a class="btn btn-sm" href="/edit">
+        {#if data.length > 0}
+          Edit schedule
+        {:else}
+          Add schedule
+        {/if}
+      </a>
     </div>
   </div>
   <Calendar

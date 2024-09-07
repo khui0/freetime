@@ -26,6 +26,9 @@
 </script>
 
 <div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
+  <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
+    Add or change your classes
+  </SettingsField>
   <SettingsField type="link" title="Account" text="Open account settings" href="/account">
     Manage your account
   </SettingsField>
@@ -37,25 +40,26 @@
   </SettingsField>
   <SettingsField
     type="toggle"
-    title="Show weekend"
-    options={themes}
-    bind:value={$settings.showWeekend}
-  >
-    Show columns for Saturday and Sunday in the calendar view
-  </SettingsField>
-  <SettingsField
-    type="toggle"
     title="Highlight today"
     options={themes}
     bind:value={$settings.highlightToday}
   >
     Highlight the column of the current day
   </SettingsField>
+  <SettingsField
+    type="toggle"
+    title="Show weekend"
+    options={themes}
+    bind:value={$settings.showWeekend}
+  >
+    Show columns for Saturday and Sunday in the calendar view
+  </SettingsField>
   <div class="text-xs leading-normal text-base-content/50 px-4">
     <p class="rounded-badge">Version {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
     <p>
       Found a bug, incorrect data, or have a feature request? Email <a
+        class="font-bold"
         href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
       >
     </p>

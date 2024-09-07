@@ -29,7 +29,7 @@
 
 <div class="flex flex-col gap-2">
   <div class="rounded-box pl-4 p-2 border">
-    <label class="label cursor-pointer gap-2 items-center p-1">
+    <div class="flex gap-2 items-center justify-between p-1">
       <span class="label-text text-base">{title}</span>
       {#if type === "checkbox" || type === "toggle"}
         <input
@@ -70,7 +70,7 @@
       {:else if type === "link"}
         <a class="btn btn-sm" {href}>{text}</a>
       {/if}
-    </label>
+    </div>
   </div>
   <p class="mx-4 text-sm mb-4 text-base-content/50"><slot></slot></p>
 </div>

@@ -4,6 +4,8 @@
 
   import { currentUser } from "$lib/pocketbase";
 
+  import PhUser from "~icons/ph/user";
+
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
   import PhUsers from "~icons/ph/users";
@@ -23,13 +25,13 @@
 <div class="flex flex-col h-full">
   <header class="flex gap-2 items-center justify-between p-2 border-b">
     <div>
-      <h1 class="mx-1 font-bold active:scale-90 transition-transform">
+      <h1 class="ml-2 font-bold active:scale-90 transition-transform">
         <a href="/">SB Freetime</a>
       </h1>
     </div>
     <div class="flex gap-1 items-center">
       {#if $currentUser}
-        <p class="mx-1">{$currentUser.username}</p>
+        <a class="btn btn-sm btn-square rounded-full" href="/account"><PhUser></PhUser></a>
       {:else}
         <a class="btn btn-sm" href="/sign-in">Sign in</a>
         <a class="btn btn-sm" href="/register">Register</a>

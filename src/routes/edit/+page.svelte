@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { title } from "$lib/store";
+  $title = "Edit schedule";
+
   import { pb, currentUser, ensureScheduleExists } from "$lib/pocketbase";
   import { fade } from "svelte/transition";
 

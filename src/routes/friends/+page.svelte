@@ -201,6 +201,7 @@
     error = "";
   }}
 >
+  <p><span class="font-bold">freetime</span>.kennyhui.dev</p>
   <form
     class="flex flex-col gap-2"
     on:submit|preventDefault={() => {
@@ -214,7 +215,7 @@
         <p class="text-xs text-error mx-2 mt-1">{error}</p>
       {/if}
     </label>
-    <p class="text-sm">Your username is <b>{$currentUser?.username}</b></p>
+    <p>Your username is <b>{$currentUser?.username}</b></p>
     <button
       class="btn btn-sm"
       on:click={() => {
