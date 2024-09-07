@@ -40,7 +40,9 @@
 
     let message: string = "";
 
-    if (inClass) {
+    if (today.length === 0) {
+      message = "No classes today";
+    } else if (inClass) {
       message = `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`;
       message += `\n${pluralize("class", rest.length, true)} left today`;
     } else {

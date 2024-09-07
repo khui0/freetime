@@ -22,6 +22,6 @@
   </span>
   <input type="checkbox" class="hidden" bind:checked />
 </label>
-<div class="flex flex-col overflow-hidden {checked ? 'h-fit' : 'h-0'} border-b">
+<div class="flex flex-col {checked ? 'h-fit' : 'h-0 overflow-hidden'} border-b">
   <slot></slot>
 </div>
