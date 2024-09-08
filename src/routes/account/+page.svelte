@@ -146,11 +146,11 @@
     </form>
   </div>
   <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
+    <button class="btn btn-sm" on:click={signOut}>Sign out</button>
     <button class="btn btn-sm" on:click={resetPassword}>Request password reset</button>
     {#if passwordSuccess}
       <p class="text-xs text-success mx-2 my-1">{passwordSuccess}</p>
     {/if}
-    <button class="btn btn-sm" on:click={signOut}>Sign out</button>
     <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account</button>
   </div>
 </div>

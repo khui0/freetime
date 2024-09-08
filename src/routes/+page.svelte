@@ -5,6 +5,8 @@
   import { currentUser, pb, ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
+  import Welcome from "$lib/components/Welcome.svelte";
+
   import Calendar from "$lib/components/Calendar.svelte";
   import EventDetails from "$lib/components/EventDetails.svelte";
 
@@ -45,3 +47,7 @@
 </div>
 
 <EventDetails bind:this={details}></EventDetails>
+
+{#if !$currentUser}
+  <Welcome></Welcome>
+{/if}
