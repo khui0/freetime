@@ -62,7 +62,11 @@
 </script>
 
 <div class="flex rounded-box border pr-4 mb-4 first:mt-4">
-  <a class="flex-1 flex items-center gap-2 pl-4 py-4 rounded-box" {href}>
+  <a
+    class="flex-1 flex items-center gap-2 pl-4 py-4 rounded-l-box"
+    {href}
+    class:hover:cursor-default={schedule.length === 0}
+  >
     {#if schedule.length > 0}
       <div
         class="w-3 h-3 rounded-full bg-base-300 flex-none {status.inClass
