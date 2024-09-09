@@ -38,7 +38,7 @@
   {#each Array(showWeekend ? 7 : 5) as _, day}
     {@const days = ["M", "T", "W", "T", "F", "S", "S"]}
     {@const today = new Date().getDay() === (day + 1) % 7}
-    <button class="btn font-normal min-h-0 h-6 mx-[1px] text-base-content/50" class:btn-ghost={!today}>{days[day]}</button>
+    <button class="btn font-normal p-0 min-h-0 h-6 mx-[1px] text-base-content/50" class:btn-ghost={!today}>{days[day]}</button>
   {/each}
 </div>
 {#each Array(13) as _, i}
