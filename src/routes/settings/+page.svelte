@@ -45,21 +45,14 @@
   <SettingsField type="select" title="Theme" options={themes} bind:value={$settings.theme}>
     Select a theme
   </SettingsField>
-  <SettingsField
-    type="toggle"
-    title="Highlight today"
-    options={themes}
-    bind:value={$settings.highlightToday}
-  >
+  <SettingsField type="toggle" title="Highlight today" bind:value={$settings.highlightToday}>
     Highlight the column of the current day
   </SettingsField>
-  <SettingsField
-    type="toggle"
-    title="Show weekend"
-    options={themes}
-    bind:value={$settings.showWeekend}
-  >
+  <SettingsField type="toggle" title="Show weekend" bind:value={$settings.showWeekend}>
     Show columns for Saturday and Sunday in the calendar view
+  </SettingsField>
+  <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
+    Add extra padding to the bottom of the navigation bar. May help if using as PWA.
   </SettingsField>
   <div class="text-xs leading-normal text-base-content/50 px-4">
     <p>Not affiliated with Stony Brook University.</p>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { title } from "$lib/store";
   import { page } from "$app/stores";
+  import { settings } from "$lib/settings";
 
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
@@ -23,6 +24,7 @@
 <slot></slot>
 <nav
   class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-evenly border-t"
+  class:pb-8={$settings.tallNavigation === "true"}
 >
   <a href="/" class="p-3 active:scale-90 transition-transform">
     {#if $page.url.pathname === "/"}
