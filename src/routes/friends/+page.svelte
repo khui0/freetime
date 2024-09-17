@@ -139,7 +139,7 @@
 </script>
 
 <TopBar>
-  <h2 class="px-2 font-bold">{self ? pluralize("friend", friends?.length, true) : ""}</h2>
+  <h2 class="text-2xl font-bold">Friends</h2>
   <div class="flex gap-1">
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>

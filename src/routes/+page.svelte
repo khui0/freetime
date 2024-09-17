@@ -2,6 +2,7 @@
   import { title } from "$lib/store";
   $title = "";
 
+  import { settings } from "$lib/settings";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { timeToMs, timeUntil, eventDuration, timeTo12Hour } from "$lib/time";
@@ -97,7 +98,10 @@
 </script>
 
 <div
-  class="h-[calc(100vh-49px)] flex flex-col px-4 py-8 gap-6 w-[min(100%,800px)] justify-center mx-auto"
+  class="flex flex-col px-4 py-8 gap-6 w-[min(100%,800px)] justify-center mx-auto {$settings.tallNavigation ===
+  'true'
+    ? 'h-[calc(100vh-49px-2rem)]'
+    : 'h-[calc(100vh-49px)]'}"
 >
   {#if status}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>

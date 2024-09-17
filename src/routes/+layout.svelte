@@ -21,7 +21,7 @@
   />
 </svelte:head>
 
-<main class="pb-[49px]">
+<main class={$settings.tallNavigation === "true" ? "pb-[calc(49px+2rem)]" : "pb-[49px]"}>
   <slot></slot>
 </main>
 <nav
