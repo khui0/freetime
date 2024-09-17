@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
 
   import { timeToMs, timeUntil } from "$lib/time";
   import pluralize from "pluralize";
@@ -11,6 +12,8 @@
   export let href: string = "";
 
   export let schedule: CalendarEvent[] = [];
+
+  export let index: number = 0;
 
   interface Status {
     inClass: boolean;
@@ -61,7 +64,10 @@
   }
 </script>
 
-<div class="flex rounded-box border pr-4 mb-4 first:mt-4">
+<div
+  in:fade={{ duration: 250, delay: 50 * index }}
+  class="flex rounded-box border pr-4 mb-4 first:mt-4"
+>
   <a
     class="flex-1 flex items-center gap-2 pl-4 py-4 rounded-l-box"
     {href}

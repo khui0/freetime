@@ -173,8 +173,9 @@
   {/if}
   {#if friends}
     <div class="flex flex-col">
-      {#each friends as friend}
+      {#each friends as friend, i}
         <Friend
+          index={i}
           username={friend.username}
           href="/user/{friend.username}"
           schedule={schedules.find((record) => record.user === friend.id)?.schedule}

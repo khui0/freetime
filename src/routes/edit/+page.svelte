@@ -110,7 +110,7 @@
 >
   {#if events.length > 0}
     {#each events as event, i}
-      <div in:fade|global={{ duration: 100, delay: 50 * i }} out:fade|global={{ duration: 100 }}>
+      <div in:fade|global={{ duration: 250, delay: 50 * i }} out:fade|global={{ duration: 250 }}>
         <Event
           bind:data={event}
           on:delete={() => {
@@ -129,7 +129,7 @@
 <div class="fixed bottom-11 right-0 flex gap-1 justify-end m-4 items-center">
   {#if !saved}
     <p
-      in:fade={{ duration: 100 }}
+      in:fade={{ duration: 250 }}
       class="px-3 min-h-8 bg-base-200 rounded-btn text-sm flex items-center"
     >
       <span class="font-bold">Warning</span>: you have unsaved changes
