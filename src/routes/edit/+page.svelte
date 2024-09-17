@@ -7,6 +7,7 @@
   import { fade } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
+  import PhWarning from "~icons/ph/warning";
 
   import TopBar from "$lib/components/TopBar.svelte";
   import Event from "./Event.svelte";
@@ -128,7 +129,7 @@
   {/if}
 </div>
 <div
-  class="fixed bottom-0 right-0 flex gap-1 justify-end m-4 items-center {$settings.tallNavigation ===
+  class="fixed bottom-0 right-0 flex gap-2 justify-end m-4 items-center {$settings.tallNavigation ===
   'true'
     ? 'pb-[calc(49px+2rem)]'
     : 'pb-[49px]'}"
@@ -136,9 +137,9 @@
   {#if !saved}
     <p
       in:fade={{ duration: 250 }}
-      class="px-3 min-h-8 bg-base-200 rounded-btn text-sm flex items-center"
+      class="px-3 min-h-8 bg-base-200 rounded-btn text-sm flex items-center gap-2"
     >
-      <span class="font-bold">Warning</span>: you have unsaved changes
+      <span><PhWarning></PhWarning></span>You have unsaved changes
     </p>
   {/if}
   <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
