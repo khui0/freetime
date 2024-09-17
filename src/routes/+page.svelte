@@ -11,6 +11,7 @@
   import PhArrowRight from "~icons/ph/arrow-right";
 
   import Welcome from "$lib/components/Welcome.svelte";
+  import Onboarding from "$lib/components/Onboarding.svelte";
 
   let data: CalendarEvent[] = [];
 
@@ -149,6 +150,8 @@
 
 {#if !$currentUser}
   <Welcome></Welcome>
+{:else if data.length === 0}
+  <Onboarding></Onboarding>
 {/if}
 
 <style>

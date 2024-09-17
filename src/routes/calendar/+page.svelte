@@ -8,6 +8,8 @@
   import Calendar from "$lib/components/Calendar.svelte";
   import EventDetails from "$lib/components/EventDetails.svelte";
 
+  import Onboarding from "$lib/components/Onboarding.svelte";
+
   let data: CalendarEvent[] = [];
 
   let details: EventDetails;
@@ -36,12 +38,24 @@
       </a>
     </div>
   </div>
-  <Calendar
-    bind:data
-    on:expand={(e) => {
-      details.show(e.detail.selected);
-    }}
-  ></Calendar>
+  {#if data.length > 0}
+    <Calendar
+      bind:data
+      on:expand={(e) => {
+        details.show(e.detail.selected);
+      }}
+    ></Calendar>
+  {:else}
+    <div class="flex flex-col items-center justify-center gap-4">
+      <h1 class="text-2xl font-bold">Welcome to Freetime</h1>
+      <p>Add your schedule to get started</p>
+      <a href="/edit" class="btn btn-sm btn-accent">Add schedule</a>
+    </div>
+  {/if}
 </div>
+
+{#if data.length === 0}
+  <Onboarding></Onboarding>
+{/if}
 
 <EventDetails bind:this={details}></EventDetails>
