@@ -116,7 +116,7 @@
           <p>
             {until}
           </p>
-          <p>{eventDuration(status.event.from, status.event.to)}</p>
+          <p class="text-end">{eventDuration(status.event.from, status.event.to)}</p>
         </div>
         <hr />
         <div class="flex gap-2 items-center flex-wrap mt-2">

@@ -43,7 +43,7 @@
           {until}
         {/if}
       </p>
-      <p>{eventDuration(selected?.from, selected?.to)}</p>
+      <p class="text-end">{eventDuration(selected?.from, selected?.to)}</p>
     </div>
     <hr />
     <div class="flex gap-2 items-center flex-wrap mt-2">
