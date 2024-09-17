@@ -8,6 +8,8 @@
 
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
+  import PhCalendarDots from "~icons/ph/calendar-dots";
+  import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
   import PhGear from "~icons/ph/gear";
@@ -45,6 +47,13 @@
         <PhHouseFill></PhHouseFill>
       {:else}
         <PhHouse></PhHouse>
+      {/if}
+    </a>
+    <a href="/calendar" class="p-3 active:scale-90 transition-transform">
+      {#if $page.url.pathname === "/calendar"}
+        <PhCalendarDotsFill></PhCalendarDotsFill>
+      {:else}
+        <PhCalendarDots></PhCalendarDots>
       {/if}
     </a>
     <a href="/friends" class="p-3 active:scale-90 transition-transform">
