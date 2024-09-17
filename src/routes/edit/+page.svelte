@@ -123,7 +123,7 @@
       </div>
     {/each}
   {:else}
-    <p class="text-base-content/50 text-xl place-self-center text-center">No classes added</p>
+    <p class="text-base-content/50 text-xl text-center">Add your first class!</p>
   {/if}
 </div>
 <div class="fixed bottom-11 right-0 flex gap-1 justify-end m-4 items-center">

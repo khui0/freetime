@@ -150,3 +150,9 @@
 {#if !$currentUser}
   <Welcome></Welcome>
 {/if}
+
+<style>
+  :global(html, body) {
+    @apply h-full;
+  }
+</style>

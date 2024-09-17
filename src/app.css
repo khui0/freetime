@@ -3,9 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  html,
-  body {
-    @apply h-full;
+  * {
+    @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-accent scrollbar-track-transparent;
   }
 
   *,
@@ -23,6 +22,11 @@
     --tab-radius: 0.5rem;
   }
 
+  html {
+    font-family: "Inter Variable", sans-serif;
+    scrollbar-gutter: auto !important;
+  }
+
   input,
   textarea {
     @apply placeholder-base-content placeholder-opacity-50;
@@ -33,13 +37,4 @@
   .btn {
     @apply shadow-none;
   }
-}
-
-* {
-  @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-accent scrollbar-track-transparent;
-}
-
-html {
-  font-family: "Inter Variable", sans-serif;
-  scrollbar-gutter: auto !important;
 }
