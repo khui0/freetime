@@ -41,7 +41,7 @@
           }}
         />
       {:else if type === "select"}
-        <select class="select select-bordered select-sm w-full max-w-xs" bind:value>
+        <select class="select select-bordered select-sm w-fit" bind:value>
           {#each options as option}
             <option value={option.value}>{option.name}</option>
           {/each}
