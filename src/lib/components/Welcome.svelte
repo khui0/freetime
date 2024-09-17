@@ -2,7 +2,7 @@
   const version = import.meta.env.PACKAGE_VERSION;
 </script>
 
-<div class="absolute inset-0 z-50 bg-base-100">
+<div class="fixed inset-0 z-50 bg-base-100">
   <div class="flex flex-col gap-4 items-center justify-center p-10 h-full">
     <enhanced:img src="$lib/assets/freetime.svg" class="w-32" alt="Freetime logo" />
     <div class="text-center">

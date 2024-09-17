@@ -9,7 +9,7 @@
   });
 </script>
 
-<div class="absolute inset-0 z-50 bg-base-100">
+<div class="fixed inset-0 z-50 bg-base-100">
   <div class="flex flex-col gap-4 items-center justify-center p-10 h-full">
     {#if ready}
       <div in:fade={{ duration: 1000 }} class="text-center">
