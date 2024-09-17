@@ -26,6 +26,13 @@
 </script>
 
 <div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
+  <div class="flex flex-col gap-4 items-center p-4">
+    <enhanced:img src="$lib/assets/freetime.svg" class="w-24" alt="Freetime logo" />
+    <div class="text-center">
+      <h1 class="text-2xl font-bold">SB Freetime</h1>
+      <p class="text-xs">{version}</p>
+    </div>
+  </div>
   <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
     Add or change your classes
   </SettingsField>
@@ -55,7 +62,6 @@
     Show columns for Saturday and Sunday in the calendar view
   </SettingsField>
   <div class="text-xs leading-normal text-base-content/50 px-4">
-    <p class="rounded-badge">Version {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
     <p>
       Found a bug, incorrect data, or have a feature request? Email <a
