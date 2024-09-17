@@ -7,6 +7,7 @@
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
+  import TopBar from "$lib/components/TopBar.svelte";
   import Calendar from "$lib/components/Calendar.svelte";
   import EventDetails from "$lib/components/EventDetails.svelte";
 
@@ -14,7 +15,7 @@
 </script>
 
 {#if data?.schedule?.length > 0}
-  <div class="px-4 pt-2 flex gap-2 items-center">
+  <div class="px-4 pt-4 flex gap-2 items-center justify-between">
     <button
       class="btn btn-square btn-sm rounded-full"
       on:click={() => {
@@ -25,14 +26,16 @@
     </button>
     <h2 class="font-bold text-2xl">{data.username}</h2>
   </div>
-  <Calendar
-    bind:data={data.schedule}
-    on:expand={(e) => {
-      details.show(e.detail.selected);
-    }}
-  ></Calendar>
+  <div class="mb-11">
+    <Calendar
+      bind:data={data.schedule}
+      on:expand={(e) => {
+        details.show(e.detail.selected);
+      }}
+    ></Calendar>
+  </div>
 {:else}
-  <div class="grid h-full">
+  <div class="grid h-screen">
     <p class="text-base-content/50 text-xl place-self-center text-center">No schedule found</p>
   </div>
 {/if}

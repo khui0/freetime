@@ -203,9 +203,8 @@
     error = "";
   }}
 >
-  <p><span class="font-bold">freetime</span>.kennyhui.dev</p>
   <form
-    class="flex flex-col gap-2"
+    class="flex flex-col gap-4"
     on:submit|preventDefault={() => {
       addFriend(usernameField);
     }}
@@ -222,9 +221,14 @@
         <p class="text-xs text-error mx-2 mt-1">{error}</p>
       {/if}
     </label>
-    <p>Your username is <b>{$currentUser?.username}</b></p>
+    <div class="flex justify-between items-center flex-wrap">
+      <p>Your username is <b>{$currentUser?.username}</b></p>
+      <p class="bg-base-200 px-2 py-1 rounded-lg w-fit">
+        <span class="font-bold">freetime</span>.kennyhui.dev
+      </p>
+    </div>
     <button
-      class="btn btn-sm"
+      class="btn btn-sm hover:btn-accent"
       on:click={() => {
         addFriend(usernameField);
       }}
