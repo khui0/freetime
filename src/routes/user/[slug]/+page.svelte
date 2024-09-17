@@ -7,7 +7,6 @@
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
-  import TopBar from "$lib/components/TopBar.svelte";
   import Calendar from "$lib/components/Calendar.svelte";
   import EventDetails from "$lib/components/EventDetails.svelte";
 

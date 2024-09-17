@@ -8,6 +8,10 @@
   import { onMount } from "svelte";
 
   import Confirm from "$lib/components/Confirm.svelte";
+  import TopBar from "$lib/components/TopBar.svelte";
+
+  import PhArrowLeft from "~icons/ph/arrow-left";
+
   interface FormState {
     error: string;
     loading: boolean;
@@ -97,6 +101,16 @@
   }
 </script>
 
+<TopBar>
+  <button
+    class="btn btn-square btn-sm rounded-full"
+    on:click={() => {
+      history.back();
+    }}
+  >
+    <PhArrowLeft></PhArrowLeft>
+  </button>
+</TopBar>
 <div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4 mb-11">
   <div class="flex gap-2 border rounded-box p-4 flex-wrap">
     <!-- Username -->
