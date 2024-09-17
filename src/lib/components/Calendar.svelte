@@ -58,7 +58,8 @@
       )}
       <div class="relative {today && $settings.highlightToday === 'true' ? 'bg-base-200/50' : ''}">
         {#if event}
-          <CalendarItem {event} on:expand></CalendarItem>
+          <CalendarItem {event} dim={!today && $settings.dimOtherDays === "true"} on:expand
+          ></CalendarItem>
         {/if}
       </div>
       <!-- Current time indicator -->
