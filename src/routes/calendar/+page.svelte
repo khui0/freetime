@@ -23,7 +23,7 @@
   });
 </script>
 
-<div class="flex flex-col">
+<div class="flex flex-col mt-2 mb-11">
   <div class="px-4 pt-2 flex gap-2 items-center">
     <button class="btn btn-sm">Today</button>
     <div class="ml-auto">

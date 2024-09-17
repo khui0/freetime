@@ -2,10 +2,6 @@
   import { title } from "$lib/store";
   import { page } from "$app/stores";
 
-  import { currentUser } from "$lib/pocketbase";
-
-  import PhUser from "~icons/ph/user";
-
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
   import PhCalendarDots from "~icons/ph/calendar-dots";
@@ -24,51 +20,36 @@
   />
 </svelte:head>
 
-<div class="flex flex-col h-full">
-  <header class="flex gap-2 items-center justify-between p-2 border-b">
-    <div>
-      <h1 class="ml-2 font-bold active:scale-90 transition-transform">
-        <a href="/">SB Freetime</a>
-      </h1>
-    </div>
-    <div class="flex gap-1 items-center">
-      {#if $currentUser}
-        <a class="btn btn-sm btn-square rounded-full" href="/account"><PhUser></PhUser></a>
-      {:else}
-        <a class="btn btn-sm" href="/sign-in">Sign in</a>
-        <a class="btn btn-sm" href="/register">Register</a>
-      {/if}
-    </div>
-  </header>
-  <main class="flex-1 overflow-auto"><slot></slot></main>
-  <nav class="flex justify-evenly border-t">
-    <a href="/" class="p-3 active:scale-90 transition-transform">
-      {#if $page.url.pathname === "/"}
-        <PhHouseFill></PhHouseFill>
-      {:else}
-        <PhHouse></PhHouse>
-      {/if}
-    </a>
-    <a href="/calendar" class="p-3 active:scale-90 transition-transform">
-      {#if $page.url.pathname === "/calendar"}
-        <PhCalendarDotsFill></PhCalendarDotsFill>
-      {:else}
-        <PhCalendarDots></PhCalendarDots>
-      {/if}
-    </a>
-    <a href="/friends" class="p-3 active:scale-90 transition-transform">
-      {#if $page.url.pathname === "/friends"}
-        <PhUsersFill></PhUsersFill>
-      {:else}
-        <PhUsers></PhUsers>
-      {/if}</a
-    >
-    <a href="/settings" class="p-3 active:scale-90 transition-transform">
-      {#if $page.url.pathname === "/settings"}
-        <PhGearFill></PhGearFill>
-      {:else}
-        <PhGear></PhGear>
-      {/if}</a
-    >
-  </nav>
-</div>
+<slot></slot>
+<nav
+  class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-evenly border-t"
+>
+  <a href="/" class="p-3 active:scale-90 transition-transform">
+    {#if $page.url.pathname === "/"}
+      <PhHouseFill></PhHouseFill>
+    {:else}
+      <PhHouse></PhHouse>
+    {/if}
+  </a>
+  <a href="/calendar" class="p-3 active:scale-90 transition-transform">
+    {#if $page.url.pathname === "/calendar"}
+      <PhCalendarDotsFill></PhCalendarDotsFill>
+    {:else}
+      <PhCalendarDots></PhCalendarDots>
+    {/if}
+  </a>
+  <a href="/friends" class="p-3 active:scale-90 transition-transform">
+    {#if $page.url.pathname === "/friends"}
+      <PhUsersFill></PhUsersFill>
+    {:else}
+      <PhUsers></PhUsers>
+    {/if}</a
+  >
+  <a href="/settings" class="p-3 active:scale-90 transition-transform">
+    {#if $page.url.pathname === "/settings"}
+      <PhGearFill></PhGearFill>
+    {:else}
+      <PhGear></PhGear>
+    {/if}</a
+  >
+</nav>

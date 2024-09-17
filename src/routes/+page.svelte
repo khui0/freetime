@@ -95,7 +95,7 @@
   }
 </script>
 
-<div class="flex flex-col px-4 py-8 h-full gap-6 w-[min(100%,800px)] justify-center mx-auto">
+<div class="h-full flex flex-col px-4 py-8 gap-6 w-[min(100%,800px)] justify-center mx-auto">
   {#if status}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 100 }}>
       <h1 class="font-bold text-2xl">{status.greeting}, {$currentUser?.username}!</h1>

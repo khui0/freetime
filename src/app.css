@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body {
+    @apply h-full;
+  }
+  
   *,
   ::before,
   ::after {
@@ -32,13 +37,6 @@
 
 * {
   @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-accent scrollbar-track-transparent;
-}
-
-html,
-body,
-#app,
-main {
-  @apply h-full;
 }
 
 html {

@@ -9,6 +9,7 @@
   import Modal from "$lib/components/Modal.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
   import Collapse from "$lib/components/Collapse.svelte";
+  import TopBar from "$lib/components/TopBar.svelte";
 
   let confirm: Confirm;
 
@@ -137,13 +138,13 @@
   }
 </script>
 
-<div class="flex flex-col px-4 h-full">
-  <div class="flex gap-1 justify-between border-b py-2 items-center">
-    <h2>{self ? pluralize("friend", friends?.length, true) : ""}</h2>
-    <div class="flex gap-1">
-      <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
-    </div>
+<TopBar>
+  <h2 class="px-2 font-bold">{self ? pluralize("friend", friends?.length, true) : ""}</h2>
+  <div class="flex gap-1">
+    <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>
+</TopBar>
+<div class="flex flex-col px-4 mb-11">
   {#if outgoing && outgoing.length > 0}
     <Collapse title="Outgoing ({outgoing.length})"
       >{#each outgoing as friend}

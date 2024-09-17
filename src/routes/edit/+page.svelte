@@ -7,6 +7,7 @@
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
+  import TopBar from "$lib/components/TopBar.svelte";
   import Event from "./Event.svelte";
   import Alert from "$lib/components/Alert.svelte";
   import { onMount } from "svelte";
@@ -77,12 +78,12 @@
 
   let scrollEnabled: boolean = false;
 
-  const scrollToBottom = (node: HTMLElement, _: any) => {
+  const scrollToBottom = (_node: HTMLElement, _: any) => {
     return {
       update() {
         if (!scrollEnabled) return;
-        node.scroll({
-          top: node.scrollHeight,
+        window.scroll({
+          top: document.body.scrollHeight,
           behavior: "smooth",
         });
       },
@@ -90,50 +91,51 @@
   };
 </script>
 
-<div class="flex flex-col px-4 h-full">
-  <div class="flex gap-1 justify-between border-b py-2 items-center">
-    <button
-      class="btn btn-square btn-sm rounded-full"
-      on:click={() => {
-        history.back();
-      }}
-    >
-      <PhArrowLeft></PhArrowLeft>
-    </button>
-    <button class="btn btn-sm" on:click={addEvent}>Add class</button>
-  </div>
-  <div
-    class="grid grid-cols-1 {events.length > 0
-      ? 'md:grid-cols-2'
-      : ''} gap-4 overflow-auto py-4 flex-1"
-    use:scrollToBottom={events}
+<TopBar>
+  <button
+    class="btn btn-square btn-sm rounded-full"
+    on:click={() => {
+      history.back();
+    }}
   >
-    {#if events.length > 0}
-      {#each events as event, i}
-        <div in:fade|global={{ duration: 100, delay: 50 * i }} out:fade|global={{ duration: 100 }}>
-          <Event
-            bind:data={event}
-            on:delete={() => {
-              events = events.filter((item) => item !== event);
-            }}
-            on:input={() => {
-              saved = false;
-            }}
-          ></Event>
-        </div>
-      {/each}
-    {:else}
-      <p class="text-base-content/50 text-xl place-self-center text-center">No classes added</p>
-    {/if}
-  </div>
-  <div class="flex gap-1 justify-end border-t py-2 items-center">
-    {#if !saved}
-      <p in:fade={{ duration: 100 }} class="px-2">
-        <span class="font-bold">Warning</span>: you have unsaved changes
-      </p>
-    {/if}
-    <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
-  </div>
+    <PhArrowLeft></PhArrowLeft>
+  </button>
+  <button class="btn btn-sm" on:click={addEvent}>Add class</button>
+</TopBar>
+<div
+  class="grid grid-cols-1 {events.length > 0
+    ? 'md:grid-cols-2'
+    : ''} gap-4 overflow-auto p-4 flex-1 mb-24"
+  use:scrollToBottom={events}
+>
+  {#if events.length > 0}
+    {#each events as event, i}
+      <div in:fade|global={{ duration: 100, delay: 50 * i }} out:fade|global={{ duration: 100 }}>
+        <Event
+          bind:data={event}
+          on:delete={() => {
+            events = events.filter((item) => item !== event);
+          }}
+          on:input={() => {
+            saved = false;
+          }}
+        ></Event>
+      </div>
+    {/each}
+  {:else}
+    <p class="text-base-content/50 text-xl place-self-center text-center">No classes added</p>
+  {/if}
+</div>
+<div class="fixed bottom-11 right-0 flex gap-1 justify-end m-4 items-center">
+  {#if !saved}
+    <p
+      in:fade={{ duration: 100 }}
+      class="px-3 min-h-8 bg-base-200 rounded-btn text-sm flex items-center"
+    >
+      <span class="font-bold">Warning</span>: you have unsaved changes
+    </p>
+  {/if}
+  <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
 </div>
 
 <Alert bind:this={alert}></Alert>
