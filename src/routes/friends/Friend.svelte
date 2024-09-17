@@ -66,7 +66,7 @@
 
 <div
   in:fade={{ duration: 250, delay: 50 * index }}
-  class="flex rounded-box border pr-4 mb-4 first:mt-4"
+  class="flex rounded-box border pr-4 mb-4 first:mt-4 active:scale-95 transition-transform"
 >
   <a
     class="flex-1 flex items-center gap-2 pl-4 py-4 rounded-l-box"
