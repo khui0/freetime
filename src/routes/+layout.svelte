@@ -26,28 +26,28 @@
   class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-around border-t text-xl"
   class:pb-8={$settings.tallNavigation === "true"}
 >
-  <a href="/" class="p-3 active:scale-90 transition-transform">
+  <a href="/" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
     {#if $page.url.pathname === "/"}
       <PhHouseFill></PhHouseFill>
     {:else}
       <PhHouse></PhHouse>
     {/if}
   </a>
-  <a href="/calendar" class="p-3 active:scale-90 transition-transform">
+  <a href="/calendar" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
     {#if $page.url.pathname === "/calendar"}
       <PhCalendarDotsFill></PhCalendarDotsFill>
     {:else}
       <PhCalendarDots></PhCalendarDots>
     {/if}
   </a>
-  <a href="/friends" class="p-3 active:scale-90 transition-transform">
+  <a href="/friends" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
     {#if $page.url.pathname === "/friends"}
       <PhUsersFill></PhUsersFill>
     {:else}
       <PhUsers></PhUsers>
     {/if}</a
   >
-  <a href="/settings" class="p-3 active:scale-90 transition-transform">
+  <a href="/settings" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
     {#if $page.url.pathname === "/settings"}
       <PhGearFill></PhGearFill>
     {:else}

@@ -5,10 +5,12 @@
   import { timeToMs, timeUntil } from "$lib/time";
   import pluralize from "pluralize";
 
+  import PhX from "~icons/ph/x";
+
   const dispatch = createEventDispatcher();
 
   export let username: string;
-  export let action: string = "Remove";
+  export let action: string = "";
   export let href: string = "";
 
   export let schedule: CalendarEvent[] = [];
@@ -87,9 +89,15 @@
   </a>
   <button
     class="btn btn-sm self-center"
+    class:btn-square={!action}
     on:click={() => {
       dispatch("action");
     }}
-    >{action}
+  >
+    {#if action}
+      {action}
+    {:else}
+      <PhX></PhX>
+    {/if}
   </button>
 </div>
