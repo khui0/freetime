@@ -19,7 +19,7 @@
 
   interface Status {
     inClass: boolean;
-    message: string;
+    details: string[];
   }
 
   let status: Status = getStatus();
@@ -43,35 +43,39 @@
 
     const inClass = current !== undefined;
 
-    let message: string = "";
+    let details: string[] = [];
 
     if (today.length === 0) {
-      message = "No classes today";
+      details.push("No classes today");
     } else if (inClass) {
-      message = `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`;
-      message += `\n${pluralize("class", rest.length, true)} left today`;
+      details.push(
+        `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`,
+      );
+      details.push(`\n${pluralize("class", rest.length, true)} left today`);
     } else {
       if (rest.length === 0) {
-        message = "Done for the day";
+        details.push("Done for the day");
       } else {
-        message = `Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
-        message += `\n${pluralize("class", rest.length, true)} left today`;
+        details.push(`Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`);
+        details.push(`\n${pluralize("class", rest.length, true)} left today`);
       }
     }
 
     return {
       inClass,
-      message,
+      details,
     };
   }
 </script>
 
 <div
   in:fade={{ duration: 250, delay: 50 * index }}
-  class="flex rounded-box border pr-4 mb-4 first:mt-4 active:scale-95 transition-transform"
+  class="flex rounded-box border pr-4 mb-4 first:mt-4 {schedule.length > 0
+    ? 'active:scale-95 transition-transform'
+    : ''}"
 >
   <a
-    class="flex-1 flex items-center gap-2 pl-4 py-4 rounded-l-box"
+    class="flex-1 flex items-center gap-2 py-4 px-4 rounded-l-box"
     {href}
     class:hover:cursor-default={schedule.length === 0}
   >
@@ -84,7 +88,11 @@
     {/if}
     <p class="pl-1 py-2">{username}</p>
     {#if schedule.length > 0}
-      <p class="px-2 text-sm text-base-content/50 whitespace-pre-wrap">{status.message}</p>
+      <div class="px-2 text-sm text-base-content/50 flex justify-between w-full flex-wrap gap-x-4">
+        {#each status.details as detail}
+          <p>{detail}</p>
+        {/each}
+      </div>
     {/if}
   </a>
   <button
