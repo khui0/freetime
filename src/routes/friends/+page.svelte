@@ -144,7 +144,7 @@
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>
 </TopBar>
-<div class="flex flex-col px-4 mb-11">
+<div class="flex flex-col px-4 pb-[49px]">
   {#if outgoing && outgoing.length > 0}
     <Collapse title="Outgoing ({outgoing.length})"
       >{#each outgoing as friend}

@@ -25,7 +25,7 @@
   const version = import.meta.env.PACKAGE_VERSION;
 </script>
 
-<div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto mb-11">
+<div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto pb-[49px]">
   <div class="flex flex-col gap-4 items-center p-4">
     <enhanced:img src="$lib/assets/freetime.svg" class="w-24" alt="Freetime logo" />
     <div class="text-center">

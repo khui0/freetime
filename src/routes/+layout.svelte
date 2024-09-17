@@ -23,7 +23,7 @@
 
 <slot></slot>
 <nav
-  class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-evenly border-t"
+  class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-around border-t text-xl"
   class:pb-8={$settings.tallNavigation === "true"}
 >
   <a href="/" class="p-3 active:scale-90 transition-transform">

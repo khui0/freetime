@@ -25,7 +25,7 @@
     </button>
     <h2 class="font-bold text-2xl">{data.username}</h2>
   </div>
-  <div class="mb-11">
+  <div class="pb-[49px]">
     <Calendar
       bind:data={data.schedule}
       on:expand={(e) => {
