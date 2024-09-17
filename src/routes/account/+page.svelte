@@ -111,7 +111,7 @@
     <PhArrowLeft></PhArrowLeft>
   </button>
 </TopBar>
-<div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4 pb-[49px]">
+<div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
   <div class="flex gap-2 border rounded-box p-4 flex-wrap">
     <!-- Username -->
     <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">

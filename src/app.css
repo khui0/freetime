@@ -22,6 +22,11 @@
     --tab-radius: 0.5rem;
   }
 
+  html,
+  body {
+    @apply h-full;
+  }
+
   html {
     font-family: "Inter Variable", sans-serif;
   }

@@ -38,7 +38,7 @@
   });
 </script>
 
-<div class="flex flex-col mt-2 pb-[49px]">
+<div class="flex flex-col mt-2">
   <div class="px-4 pt-2 flex gap-2 items-center">
     <h1 class="text-2xl font-bold">{date}</h1>
     <!-- <button class="btn btn-sm">Today</button> -->

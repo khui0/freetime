@@ -21,7 +21,9 @@
   />
 </svelte:head>
 
-<slot></slot>
+<main class="pb-[49px]">
+  <slot></slot>
+</main>
 <nav
   class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-around border-t text-xl"
   class:pb-8={$settings.tallNavigation === "true"}
