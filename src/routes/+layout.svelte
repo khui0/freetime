@@ -34,6 +34,7 @@
 <main class={$settings.tallNavigation === "true" ? "pb-[calc(49px+2rem)]" : "pb-[49px]"}>
   <slot></slot>
 </main>
+<div class="fixed z-50 left-0 right-0 -top-20 h-20 bg-base-100"></div>
 <nav
   class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-around border-t text-xl"
   class:pb-8={$settings.tallNavigation === "true"}
