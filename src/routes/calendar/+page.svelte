@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { title } from "$lib/store";
+  import { title, ready } from "$lib/store";
   $title = "Calendar";
 
-  import { currentUser, pb, ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
+  import { currentUser, pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
   import Calendar from "$lib/components/Calendar.svelte";
@@ -17,24 +17,24 @@
 
   let date: string = "";
 
-  onMount(async () => {
-    if (!$currentUser) return;
-    await ensureScheduleExists();
-    await ensureFriendsExist();
+  onMount(() => {
+    ready.subscribe(async (ready) => {
+      if (!$currentUser || !ready) return;
 
-    const list = await pb.collection("schedules").getFullList();
-    const schedule = list.find((record) => record.user === $currentUser?.id);
-    data = schedule?.schedule;
+      const list = await pb.collection("schedules").getFullList();
+      const schedule = list.find((record) => record.user === $currentUser?.id);
+      data = schedule?.schedule;
 
-    update();
-    setInterval(update, 1000);
-    function update() {
-      date = new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        day: "numeric",
-        month: "short",
-      });
-    }
+      update();
+      setInterval(update, 1000);
+      function update() {
+        date = new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          day: "numeric",
+          month: "short",
+        });
+      }
+    });
   });
 </script>
 
@@ -53,16 +53,10 @@
         details.show(e.detail.selected);
       }}
     ></Calendar>
-  {:else}
-    <div class="flex flex-col items-center justify-center gap-4">
-      <h1 class="text-2xl font-bold">Welcome to Freetime</h1>
-      <p>Add your schedule to get started</p>
-      <a href="/edit" class="btn btn-sm btn-accent">Add schedule</a>
-    </div>
   {/if}
 </div>
 
-{#if data.length === 0}
+{#if data.length === 0 && ready}
   <Onboarding></Onboarding>
 {/if}
 

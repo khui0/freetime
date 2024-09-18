@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { title } from "$lib/store";
+  import { title, ready } from "$lib/store";
   $title = "";
 
   import { settings } from "$lib/settings";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { timeToMs, timeUntil, eventDuration, timeTo12Hour } from "$lib/time";
-  import { currentUser, pb, ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
+  import { currentUser, pb } from "$lib/pocketbase";
   import { types, locations } from "$lib/sbu";
 
   import PhArrowRight from "~icons/ph/arrow-right";
@@ -27,22 +27,22 @@
 
   let until: string;
 
-  onMount(async () => {
-    if (!$currentUser) return;
-    await ensureScheduleExists();
-    await ensureFriendsExist();
+  onMount(() => {
+    ready.subscribe(async (ready) => {
+      if (!$currentUser || !ready) return;
 
-    const list = await pb.collection("schedules").getFullList();
-    const schedule = list.find((record) => record.user === $currentUser?.id);
-    data = schedule?.schedule;
+      const list = await pb.collection("schedules").getFullList();
+      const schedule = list.find((record) => record.user === $currentUser?.id);
+      data = schedule?.schedule;
 
-    update();
-    setInterval(update, 1000);
+      update();
+      setInterval(update, 1000);
 
-    function update() {
-      status = getStatus();
-      until = timeUntil(status.event?.from, status.event?.to) || "";
-    }
+      function update() {
+        status = getStatus();
+        until = timeUntil(status.event?.from, status.event?.to) || "";
+      }
+    });
   });
 
   function getStatus() {
@@ -154,8 +154,8 @@
   {/if}
 </div>
 
-{#if !$currentUser}
+{#if !$currentUser && $ready}
   <Welcome></Welcome>
-{:else if data.length === 0}
+{:else if data.length === 0 && $ready}
   <Onboarding></Onboarding>
 {/if}

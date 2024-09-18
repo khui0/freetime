@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { title } from "$lib/store";
+  import { title, ready } from "$lib/store";
   $title = "Friends";
-
-  import { ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
 
   import Friend from "./Friend.svelte";
 
@@ -34,23 +32,22 @@
   let schedules: RecordModel[] = [];
 
   onMount(() => {
-    if (!$currentUser) return;
+    ready.subscribe((ready) => {
+      if (!$currentUser || !ready) return;
 
-    updateFriends();
-    pb.collection("friends").subscribe("*", async (e) => {
-      if (e.action === "update") updateFriends();
-    });
+      updateFriends();
+      pb.collection("friends").subscribe("*", async (e) => {
+        if (e.action === "update") updateFriends();
+      });
 
-    updateSchedules();
-    pb.collection("schedules").subscribe("*", async (e) => {
-      if (e.action === "update") updateSchedules();
+      updateSchedules();
+      pb.collection("schedules").subscribe("*", async (e) => {
+        if (e.action === "update") updateSchedules();
+      });
     });
   });
 
   async function updateFriends() {
-    await ensureScheduleExists();
-    await ensureFriendsExist();
-
     // List all friend lists that contain username
     const list = await pb.collection("friends").getFullList({
       expand: "friends,user",

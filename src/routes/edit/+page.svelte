@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { title } from "$lib/store";
+  import { title, ready } from "$lib/store";
   $title = "Edit schedule";
 
   import { settings } from "$lib/settings";
-  import { pb, currentUser, ensureScheduleExists } from "$lib/pocketbase";
+  import { pb, currentUser } from "$lib/pocketbase";
   import { fade } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
@@ -26,22 +26,23 @@
   let events: CalendarEvent[] = [];
 
   onMount(async () => {
-    if (!$currentUser) return;
-    await ensureScheduleExists();
+    ready.subscribe(async (ready) => {
+      if (!$currentUser || !ready) return;
 
-    // Create record if it doesn't exist
-    await pb
-      .collection("schedules")
-      .getFirstListItem(`user="${$currentUser?.id}"`)
-      .catch(() => {
-        pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
-      });
+      // Create record if it doesn't exist
+      await pb
+        .collection("schedules")
+        .getFirstListItem(`user="${$currentUser?.id}"`)
+        .catch(() => {
+          pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
+        });
 
-    // Load schedule from database
-    const list = await pb.collection("schedules").getFullList();
-    const schedule = list.find((record) => record.user === $currentUser?.id);
-    id = schedule?.id || "";
-    events = schedule?.schedule;
+      // Load schedule from database
+      const list = await pb.collection("schedules").getFullList();
+      const schedule = list.find((record) => record.user === $currentUser?.id);
+      id = schedule?.id || "";
+      events = schedule?.schedule;
+    });
   });
 
   function addEvent() {
@@ -121,11 +122,12 @@
 >
   {#if events.length > 0}
     {#each events as event, i}
-      <div in:fade|global={{ duration: 250, delay: 50 * i }} out:fade|global={{ duration: 250 }}>
+      <div in:fade|global={{ duration: 250, delay: 50 * i }}>
         <Event
           bind:data={event}
           on:delete={() => {
             events = events.filter((item) => item !== event);
+            saved = false;
           }}
           on:input={() => {
             saved = false;
@@ -170,7 +172,7 @@
     on:click={() => {
       events = parse(importText) || [];
       importText = "";
-      console.log(events)
+      console.log(events);
       saved = false;
       modal.close();
       alert.prompt(
