@@ -160,7 +160,7 @@
   {/if}
 </div>
 
-{#if !$currentUser && $ready}
+{#if !$currentUser}
   <Welcome></Welcome>
 {:else if data.length === 0 && $ready}
   <Onboarding></Onboarding>
