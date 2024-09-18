@@ -117,7 +117,7 @@
 <div
   class="grid grid-cols-1 {events.length > 0
     ? 'md:grid-cols-2'
-    : ''} gap-4 overflow-auto p-4 flex-1 mb-24"
+    : ''} gap-4 overflow-auto p-4 flex-1 pb-16"
   use:scrollToBottom={events}
 >
   {#if events.length > 0}

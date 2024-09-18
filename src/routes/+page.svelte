@@ -109,7 +109,10 @@
       <p class="text-xl font-bold">{status.message}</p>
     </div>
     {#if status.event}
-      <div class="rounded-box border p-4 flex flex-col gap-2 h-fit">
+      <div
+        class="rounded-box border p-4 flex flex-col gap-2 h-fit"
+        in:fade|global={{ duration: 250, delay: 50 }}
+      >
         <h2 class="font-bold text-2xl pl-1">{status.event.title} {status.event.number}</h2>
         <div class="flex gap-1 justify-between px-1">
           <h2>{types[status.event.type]}</h2>
@@ -139,7 +142,10 @@
         {/if}
       </div>
     {/if}
-    <div class="px-4 flex flex-col gap-4" in:fade={{ duration: 250, delay: 50 }}>
+    <div
+      class="px-4 flex flex-col gap-4"
+      in:fade={{ duration: 250, delay: 50 + (status.event ? 50 : 0) }}
+    >
       <p class="text-xl font-bold">
         <span class="bg-base-300 py-1 px-2 rounded-lg">
           {status.classesToday - status.classesRemaining}/{status.classesToday}
