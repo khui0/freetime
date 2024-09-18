@@ -28,10 +28,11 @@
           passwordConfirm: passwordConfirm.success,
         });
         // Send verification email
-        if (email.success) {
-          pb.collection("users").requestVerification(email.success);
-          window.location.href = `${window.location.origin}/verify?email=${encodeURIComponent(email.success)}`;
-        }
+        pb.collection("users")
+          .requestVerification(email.success)
+          .then(() => {
+            window.location.href = `${window.location.origin}/verify?email=${encodeURIComponent(email.success || "")}`;
+          });
       }
     } catch (err) {
       setTimeout(() => {

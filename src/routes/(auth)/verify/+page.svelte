@@ -29,7 +29,13 @@
 
 <div class="text-center flex flex-col gap-3">
   <p>
-    An email was sent to {value}. Check your spam folder if you can't find it!
+    An email was sent to {value}. Check your spam folder if you can't find it! (This may take a few
+    minutes)
+  </p>
+  <p>
+    Need help? Email <a class="font-bold" href="mailto:support@kennyhui.dev">
+      support@kennyhui.dev
+    </a>
   </p>
   <button class="btn" on:click={sendVerificationEmail}>Resend email</button>
   <a class="link text-sm" href="{base}/sign-in">Sign in</a>
