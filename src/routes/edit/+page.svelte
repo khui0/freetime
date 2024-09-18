@@ -12,7 +12,13 @@
   import TopBar from "$lib/components/TopBar.svelte";
   import Event from "./Event.svelte";
   import Alert from "$lib/components/Alert.svelte";
+  import Modal from "$lib/components/Modal.svelte";
   import { onMount } from "svelte";
+
+  import { parse } from "$lib/utilities";
+
+  let modal: Modal;
+  let importText: string;
 
   let alert: Alert;
 
@@ -102,7 +108,10 @@
   >
     <PhArrowLeft></PhArrowLeft>
   </button>
-  <button class="btn btn-sm" on:click={addEvent}>Add class</button>
+  <div class="flex gap-2">
+    <button class="btn btn-sm" on:click={modal.show}>Import from SOLAR</button>
+    <button class="btn btn-sm" on:click={addEvent}>Add class</button>
+  </div>
 </TopBar>
 <div
   class="grid grid-cols-1 {events.length > 0
@@ -146,3 +155,28 @@
 </div>
 
 <Alert bind:this={alert}></Alert>
+<Modal title="Import schedule" bind:this={modal}>
+  <p>
+    1. In SOLAR, go to <code>Student Records & Registration > Enrollment > My Class Schedule</code>
+  </p>
+  <p>2. Select all the text on the page and copy</p>
+  <label class="flex flex-col text-xs my-2">
+    <span class="px-2">Paste text from SOLAR</span>
+    <textarea class="textarea textarea-bordered resize-none" rows="5" bind:value={importText}
+    ></textarea>
+  </label>
+  <button
+    class="btn btn-sm"
+    on:click={() => {
+      events = parse(importText) || [];
+      importText = "";
+      console.log(events)
+      saved = false;
+      modal.close();
+      alert.prompt(
+        "Attempted to import schedule",
+        "Information may not be accurate, you may need to manually edit some fields. Changes are not applied until you click save.",
+      );
+    }}>Import</button
+  >
+</Modal>
