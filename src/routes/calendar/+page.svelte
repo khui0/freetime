@@ -29,9 +29,9 @@
       setInterval(update, 1000);
       function update() {
         date = new Date().toLocaleDateString("en-US", {
-          weekday: "long",
+          weekday: "short",
+          month: "long",
           day: "numeric",
-          month: "short",
         });
       }
     });
