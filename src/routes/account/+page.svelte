@@ -2,7 +2,6 @@
   import { title } from "$lib/store";
   $title = "Account";
 
-  import { base } from "$app/paths";
   import { currentUser, pb, signOut } from "$lib/pocketbase";
   import { z } from "zod";
   import { onMount } from "svelte";
@@ -49,7 +48,7 @@
       )
       .then(async () => {
         await pb.collection("users").delete($currentUser?.id);
-        window.location.replace(`${base}/goodbye`);
+        window.location.replace("/");
       });
   }
 
