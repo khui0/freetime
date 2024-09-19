@@ -22,15 +22,17 @@
     details: string[];
   }
 
-  let status: Status = getStatus();
+  let status: Status | undefined;
 
   setInterval(() => {
     status = getStatus();
   }, 1000);
 
-  function getStatus(): Status {
+  function getStatus(): Status | undefined {
     const day = (new Date().getDay() + 13) % 7;
     const today = schedule.filter((event) => event.days[day]);
+
+    if (today.length === 0) return;
 
     const current = today.find((event) => {
       const now = Date.now();
@@ -81,17 +83,23 @@
   >
     {#if schedule.length > 0}
       <div
-        class="w-3 h-3 rounded-full bg-base-300 flex-none {status.inClass
-          ? 'bg-warning'
-          : 'bg-success'}"
+        class="w-3 h-3 rounded-full flex-none {status
+          ? status.inClass
+            ? 'bg-warning'
+            : 'bg-success'
+          : 'bg-base-300'} transition-colors"
       ></div>
     {/if}
     <p class="pl-1 py-2">{username}</p>
-    {#if schedule.length > 0}
+    {#if schedule.length}
       <div class="px-2 text-sm text-base-content/50 flex justify-between w-full flex-wrap gap-x-4">
-        {#each status.details as detail}
-          <p>{detail}</p>
-        {/each}
+        {#if status}
+          {#each status.details as detail}
+            <p>{detail}</p>
+          {/each}
+        {:else}
+          <span class="loading loading-spinner loading-sm"></span>
+        {/if}
       </div>
     {/if}
   </a>
