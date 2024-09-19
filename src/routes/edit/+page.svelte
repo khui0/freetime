@@ -109,7 +109,7 @@
   >
     <PhArrowLeft></PhArrowLeft>
   </button>
-  <div class="flex gap-2">
+  <div class="flex gap-2 flex-wrap justify-end">
     <button class="btn btn-sm" on:click={modal.show}>Import from SOLAR</button>
     <button class="btn btn-sm" on:click={addEvent}>Add class</button>
   </div>
