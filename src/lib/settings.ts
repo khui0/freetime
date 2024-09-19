@@ -10,6 +10,7 @@ const storedSettings = browser && localStorage.getItem("settings");
 const defaultSettings: Settings = {
   theme: "auto",
   highlightToday: "true",
+  dimOtherDays: "true",
 };
 
 // Initialize store with default settings
