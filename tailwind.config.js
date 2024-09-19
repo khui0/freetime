@@ -34,7 +34,7 @@ export default {
           "base-content": "#141414",
         },
         dark: {
-          accent: "#af2222",
+          accent: "#990000",
           "accent-content": "#ffffff",
           neutral: "#525252",
           "neutral-content": "#dcdcdc",

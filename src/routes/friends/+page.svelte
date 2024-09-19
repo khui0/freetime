@@ -142,7 +142,7 @@
 
 <TopBar>
   <h2 class="text-2xl font-bold">Friends</h2>
-  <div class="flex gap-1 flex-wrap justify-end">
+  <div class="flex gap-2 flex-wrap justify-end">
     <div class="indicator">
       <span class="indicator-item badge">{outgoing.length}</span>
       <button class="btn btn-sm" on:click={outgoingModal.show}>
