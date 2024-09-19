@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { base } from "$app/paths";
   import { onMount } from "svelte";
 
   import { pb } from "$lib/pocketbase";
@@ -38,5 +37,5 @@
     </a>
   </p>
   <button class="btn" on:click={sendVerificationEmail}>Resend email</button>
-  <a class="link text-sm" href="{base}/sign-in">Sign in</a>
+  <a class="link text-sm" href="/sign-in">Sign in</a>
 </div>

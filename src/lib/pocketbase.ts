@@ -1,4 +1,3 @@
-import { base } from "$app/paths";
 import PocketBase, { type AuthModel } from "pocketbase";
 
 import { writable } from "svelte/store";
@@ -19,7 +18,7 @@ currentUser.subscribe((res) => {
 
 export async function signOut() {
   try {
-    window.location.replace(`${base}/sign-in`);
+    window.location.replace("/");
   } finally {
     pb.authStore.clear();
   }
