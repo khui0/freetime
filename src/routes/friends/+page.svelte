@@ -6,8 +6,10 @@
 
   import Modal from "$lib/components/Modal.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
-  import Collapse from "$lib/components/Collapse.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
+
+  import PhArrowDown from "~icons/ph/arrow-down";
+  import PhArrowUp from "~icons/ph/arrow-up";
 
   let confirm: Confirm;
 
@@ -15,12 +17,15 @@
   let usernameField: string;
   let error: string;
 
+  let outgoingModal: Modal;
+
+  let requestsModal: Modal;
+
   let loading: boolean = false;
 
   import { currentUser, pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
   import type { RecordModel } from "pocketbase";
-  import pluralize from "pluralize";
 
   let self: RecordModel;
   let others: RecordModel[];
@@ -137,37 +142,23 @@
 
 <TopBar>
   <h2 class="text-2xl font-bold">Friends</h2>
-  <div class="flex gap-1">
+  <div class="flex gap-1 flex-wrap justify-end">
+    <div class="indicator">
+      <span class="indicator-item badge">{outgoing.length}</span>
+      <button class="btn btn-sm" on:click={outgoingModal.show}>
+        <PhArrowUp></PhArrowUp>
+      </button>
+    </div>
+    <div class="indicator">
+      <span class="indicator-item badge">{requests.length}</span>
+      <button class="btn btn-sm" on:click={requestsModal.show}>
+        <PhArrowDown></PhArrowDown>
+      </button>
+    </div>
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>
 </TopBar>
 <div class="flex flex-col px-4">
-  {#if outgoing && outgoing.length > 0}
-    <Collapse title="Outgoing ({outgoing.length})"
-      >{#each outgoing as friend}
-        <Friend
-          username={friend.username}
-          action="Cancel"
-          on:action={() => {
-            removeFriend(friend.id);
-          }}
-        ></Friend>
-      {/each}
-    </Collapse>
-  {/if}
-  {#if requests && requests.length > 0}
-    <Collapse title="Requests ({requests.length})"
-      >{#each requests as friend}
-        <Friend
-          username={friend.username}
-          action="Accept"
-          on:action={() => {
-            addFriend(friend.username);
-          }}
-        ></Friend>
-      {/each}
-    </Collapse>
-  {/if}
   {#if friends}
     <div class="flex flex-col">
       {#each friends as friend, i}
@@ -236,6 +227,38 @@
       {/if}
     </button>
   </form>
+</Modal>
+
+<Modal title="Outgoing" bind:this={outgoingModal} additionalClasses="h-full">
+  {#if outgoing && outgoing.length > 0}
+    <div class="overflow-auto">
+      {#each outgoing as friend}
+        <Friend
+          username={friend.username}
+          action="Cancel"
+          on:action={() => {
+            removeFriend(friend.id);
+          }}
+        ></Friend>
+      {/each}
+    </div>
+  {/if}
+</Modal>
+
+<Modal title="Requests" bind:this={requestsModal} additionalClasses="h-full">
+  {#if requests && requests.length > 0}
+    <div class="overflow-auto">
+      {#each requests as friend}
+        <Friend
+          username={friend.username}
+          action="Accept"
+          on:action={() => {
+            addFriend(friend.username);
+          }}
+        ></Friend>
+      {/each}
+    </div>
+  {/if}
 </Modal>
 
 <Confirm bind:this={confirm}></Confirm>

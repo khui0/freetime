@@ -24,13 +24,13 @@
 </script>
 
 <dialog class="modal backdrop:bg-black/10" bind:this={modal} on:close>
-  <div class="modal-box rounded-box p-4 {additionalClasses}">
+  <div class="modal-box rounded-box p-4 border {additionalClasses}">
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4" aria-label="Close">
         <PhX></PhX>
       </button>
     </form>
-    <div class="flex flex-col gap-2 pl-1" class:items-center={centered}>
+    <div class="flex flex-col gap-2 pl-1 h-full" class:items-center={centered}>
       <slot name="icon"></slot>
       <h2 class="font-bold text-2xl {centered ? '' : 'self-start pr-8'}">{title}</h2>
       <slot></slot>
