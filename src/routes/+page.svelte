@@ -114,7 +114,7 @@
         in:fade|global={{ duration: 250, delay: 50 }}
       >
         <h2 class="font-bold text-2xl pl-1">{status.event.title} {status.event.number}</h2>
-        <div class="flex gap-1 justify-between px-1">
+        <div class="flex gap-1 justify-between px-1 text-base-content/50">
           <h2>{types[status.event.type]}</h2>
           <p class="flex items-center gap-2">
             {timeTo12Hour(status.event.from, true)}
@@ -122,7 +122,7 @@
             {timeTo12Hour(status.event.to, true)}
           </p>
         </div>
-        <div class="flex gap-1 justify-between px-1">
+        <div class="flex gap-1 justify-between px-1 text-base-content/50">
           <p>
             {until}
           </p>
