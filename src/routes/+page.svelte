@@ -10,6 +10,7 @@
   import { types, locations } from "$lib/sbu";
 
   import PhArrowRight from "~icons/ph/arrow-right";
+  import PhMapPin from "~icons/ph/map-pin";
 
   import Welcome from "$lib/components/Welcome.svelte";
   import Onboarding from "$lib/components/Onboarding.svelte";
@@ -100,8 +101,8 @@
 <div
   class="flex flex-col px-4 py-8 gap-6 w-[min(100%,800px)] justify-center mx-auto {$settings.tallNavigation ===
   'true'
-    ? 'h-[calc(100vh-49px-2rem)]'
-    : 'h-[calc(100vh-49px)]'}"
+    ? 'h-[calc(100svh-49px-2rem)]'
+    : 'h-[calc(100svh-49px)]'}"
 >
   {#if status}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>
@@ -114,15 +115,15 @@
         in:fade|global={{ duration: 250, delay: 50 }}
       >
         <h2 class="font-bold text-2xl pl-1">{status.event.title} {status.event.number}</h2>
-        <div class="flex gap-1 justify-between px-1 text-base-content/50">
+        <div class="flex gap-1 justify-between px-1 text-base-content/75">
           <h2>{types[status.event.type]}</h2>
           <p class="flex items-center gap-2">
             {timeTo12Hour(status.event.from, true)}
-            <span><PhArrowRight></PhArrowRight></span>
+            <span class:animate-pulse={status.inClass}><PhArrowRight></PhArrowRight></span>
             {timeTo12Hour(status.event.to, true)}
           </p>
         </div>
-        <div class="flex gap-1 justify-between px-1 text-base-content/50">
+        <div class="flex gap-1 justify-between px-1 text-base-content/75">
           <p>
             {until}
           </p>
@@ -134,12 +135,12 @@
             {status.event.room}
           </p>
           <p>{locations[status.event.location].name}</p>
+          {#if locations[status.event.location].maps}
+            <a href={locations[status.event.location].maps} class="btn btn-sm btn-square">
+              <PhMapPin></PhMapPin>
+            </a>
+          {/if}
         </div>
-        {#if locations[status.event.location].maps}
-          <a href={locations[status.event.location].maps} class="btn btn-sm self-start mt-2">
-            Open in Google Maps
-          </a>
-        {/if}
       </div>
     {/if}
     <div

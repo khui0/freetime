@@ -2,6 +2,7 @@
   import Modal from "./Modal.svelte";
 
   import PhArrowRight from "~icons/ph/arrow-right";
+  import PhMapPin from "~icons/ph/map-pin";
 
   import { locations, types } from "$lib/sbu";
   import { timeTo12Hour, eventDuration, timeUntil } from "$lib/time";
@@ -29,7 +30,7 @@
 <Modal title="{selected?.title} {selected?.number}" bind:this={modal}>
   {@const today = selected?.days[(new Date().getDay() + 13) % 7]}
   {#if selected}
-    <div class="flex gap-1 justify-between">
+    <div class="flex gap-1 justify-between text-base-content/75">
       <h2>{types[selected?.type]}</h2>
       <p class="flex items-center gap-2">
         {timeTo12Hour(selected?.from, true)}
@@ -37,7 +38,7 @@
         {timeTo12Hour(selected?.to, true)}
       </p>
     </div>
-    <div class="flex gap-1 justify-between">
+    <div class="flex gap-1 justify-between text-base-content/75">
       <p>
         {#if today}
           {until}
@@ -49,11 +50,11 @@
     <div class="flex gap-2 items-center flex-wrap mt-2">
       <p class="border border-base-content w-fit h-fit px-2 rounded-badge">{selected?.room}</p>
       <p>{locations[selected?.location].name}</p>
+      {#if locations[selected?.location].maps}
+        <a href={locations[selected?.location].maps} class="btn btn-sm btn-square">
+          <PhMapPin></PhMapPin>
+        </a>
+      {/if}
     </div>
-    {#if locations[selected?.location].maps}
-      <a href={locations[selected?.location].maps} class="btn btn-sm self-start mb-1 mt-2">
-        Open in Google Maps
-      </a>
-    {/if}
   {/if}
 </Modal>
