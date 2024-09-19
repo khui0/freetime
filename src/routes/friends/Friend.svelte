@@ -53,13 +53,13 @@
       details.push(
         `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`,
       );
-      details.push(`\n${pluralize("class", rest.length, true)} left today`);
+      details.push(`\n${pluralize("class", rest.length, true)} left`);
     } else {
       if (rest.length === 0) {
         details.push("Done for the day");
       } else {
-        details.push(`Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`);
-        details.push(`\n${pluralize("class", rest.length, true)} left today`);
+        details.push(`${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`);
+        details.push(`\n${pluralize("class", rest.length, true)} left`);
       }
     }
 
