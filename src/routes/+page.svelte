@@ -134,6 +134,12 @@
           max={status.classesToday}
         ></progress>
       </div>
+    {:else}
+      <enhanced:img
+        in:fade|global={{ duration: 250, delay: 50 + (status.event ? 50 : 0) }}
+        src="$lib/assets/wolfie.png"
+        alt="Wolfie"
+      />
     {/if}
   {/if}
 </div>
