@@ -52,6 +52,20 @@ export function timeUntil(from: string, to: string, timeOnly: boolean = false) {
   }
 }
 
+export function timeUntilShort(from: string, to: string) {
+  if (!from || !to) return;
+  const now = Date.now();
+  const start = timeToMs(from);
+  const end = timeToMs(to);
+  let time;
+  if (now < start) {
+    time = msToUnits(start - now);
+  } else if (now < end) {
+    time = msToUnits(end - now);
+  }
+  if (time) return time.hours + ":" + (time.minutes + 1).toString().padStart(2, "0");
+}
+
 export function msToUnits(ms: number) {
   const seconds = Math.floor(Math.abs(ms / 1000));
   const minutes = Math.floor(Math.abs(seconds / 60));

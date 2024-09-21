@@ -6,14 +6,14 @@
   import { onMount } from "svelte";
 
   import Calendar from "$lib/components/Calendar.svelte";
-  import EventDetails from "$lib/components/EventDetails.svelte";
+  import CalendarModal from "$lib/components/CalendarModal.svelte";
   import Onboarding from "$lib/components/Onboarding.svelte";
 
   import PhPencilSimple from "~icons/ph/pencil-simple";
 
   let data: CalendarEvent[] = [];
 
-  let details: EventDetails;
+  let details: CalendarModal;
 
   let date: string = "";
 
@@ -60,4 +60,4 @@
   <Onboarding></Onboarding>
 {/if}
 
-<EventDetails bind:this={details}></EventDetails>
+<CalendarModal bind:this={details}></CalendarModal>

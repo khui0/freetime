@@ -8,9 +8,9 @@
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Calendar from "$lib/components/Calendar.svelte";
-  import EventDetails from "$lib/components/EventDetails.svelte";
+  import CalendarModal from "$lib/components/CalendarModal.svelte";
 
-  let details: EventDetails;
+  let details: CalendarModal;
 </script>
 
 {#if data?.schedule?.length > 0}
@@ -39,4 +39,4 @@
   </div>
 {/if}
 
-<EventDetails bind:this={details}></EventDetails>
+<CalendarModal bind:this={details}></CalendarModal>
