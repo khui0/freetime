@@ -23,7 +23,7 @@
   }
 
   let status: Status | undefined;
-
+  
   setInterval(() => {
     status = getStatus();
   }, 1000);
@@ -31,8 +31,6 @@
   function getStatus(): Status | undefined {
     const day = (new Date().getDay() + 13) % 7;
     const today = schedule.filter((event) => event.days[day]);
-
-    if (today.length === 0) return;
 
     const current = today.find((event) => {
       const now = Date.now();
@@ -58,7 +56,9 @@
       if (rest.length === 0) {
         details.push("Done for the day");
       } else {
-        details.push(`${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`);
+        details.push(
+          `${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`,
+        );
         details.push(`\n${pluralize("class", rest.length, true)} left`);
       }
     }
