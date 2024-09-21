@@ -1,16 +1,21 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { timeToMs, timeUntil, timeUntilShort, eventDuration, timeTo12Hour } from "$lib/time";
+  import { timeToMs, timeUntil, msToUnits, eventDuration, timeTo12Hour } from "$lib/time";
   import { types, locations } from "$lib/sbu";
   import PhArrowRight from "~icons/ph/arrow-right";
   import PhMapPin from "~icons/ph/map-pin";
 
   export let event: CalendarEvent;
 
-  let until: string;
-  let untilShort: string;
+  const days = ["M", "T", "W", "T", "F", "S", "S"];
 
+  let until: string;
   let inClass: boolean;
+  let progress: number = 0;
+  let remaining: {
+    hours: string;
+    minutes: string;
+  };
 
   onMount(() => {
     update();
@@ -25,29 +30,70 @@
 
       inClass = start <= now && now < end;
 
+      if (inClass) {
+        progress = ((now - start) / (end - start)) * 100;
+
+        let time;
+        if (now < start) {
+          time = msToUnits(start - now);
+        } else if (now < end) {
+          time = msToUnits(end - now);
+        }
+
+        if (time) {
+          remaining = {
+            hours: time?.hours.toString() || "",
+            minutes: (time?.minutes + 1).toString().padStart(2, "0"),
+          };
+        }
+      }
+
       if (today) {
         until = timeUntil(event?.from, event?.to) || "";
-        untilShort = timeUntilShort(event?.from, event?.to) || "";
       }
     }
   });
 </script>
 
-<div class="flex items-start justify-between text-base-content/75">
-  <div class="flex flex-col gap-2">
-    <p>{types[event.type]}</p>
-    {#if until}
-      <p>{until}</p>
+<div class="flex justify-between">
+  <div class="flex gap-4">
+    {#if inClass}
+      <div
+        class="radial-progress bg-base-200 border-base-200 border-4 text-sm"
+        style="--value:{progress}; --size:3rem; --thickness:0.25rem;"
+        role="progressbar"
+      >
+        <p>{remaining.hours}<span class="animate-pulse">:</span>{remaining.minutes}</p>
+      </div>
     {/if}
+    <div class="flex flex-col gap-2 text-base-content/75">
+      <p>{types[event.type]}</p>
+      {#if until}
+        <p>{until}</p>
+      {/if}
+    </div>
   </div>
-  <div class="flex flex-col gap-2">
-    <p class="flex items-center gap-2 whitespace-nowrap">
+  <div class="flex flex-col gap-2 text-base-content/75 items-end">
+    <p class="flex items-center gap-2 flex-wrap justify-end">
       {timeTo12Hour(event.from, true)}
       <span class:animate-pulse={inClass}><PhArrowRight></PhArrowRight></span>
       {timeTo12Hour(event.to, true)}
     </p>
     <p class="text-end">{eventDuration(event.from, event.to)}</p>
   </div>
+</div>
+<hr />
+<div class="flex gap-1">
+  {#each days as day, i}
+    {#if i < 5 || event.days[5] || event.days[6]}
+      <p
+        class="border border-base-content rounded-full w-8 h-8 flex items-center justify-center"
+        class:opacity-50={!event.days[i]}
+      >
+        {day}
+      </p>
+    {/if}
+  {/each}
 </div>
 <hr />
 <div class="flex gap-2 items-center flex-wrap mt-1">
