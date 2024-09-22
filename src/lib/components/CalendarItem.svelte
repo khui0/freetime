@@ -26,10 +26,15 @@
     });
   }}
 >
-  <p>{event.title} {event.number}</p>
-  <p>
-    {types[event.type]}
-    <span>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)} </span>
-  </p>
-  <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
+  <div class="hidden @[3rem]:block">
+    <p>{event.title} {event.number}</p>
+    <p>
+      {types[event.type]}
+      <span>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)} </span>
+    </p>
+    <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
+  </div>
+  <div class="@[3rem]:hidden">
+    <p class="rotate-90 whitespace-nowrap">{event.title} {event.number}</p>
+  </div>
 </button>
