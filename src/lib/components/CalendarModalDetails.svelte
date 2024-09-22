@@ -9,8 +9,10 @@
 
   const days = ["M", "T", "W", "T", "F", "S", "S"];
 
-  let until: string;
   let inClass: boolean;
+  let today: boolean;
+
+  let until: string;
   let progress: number = 0;
   let remaining: {
     hours: string;
@@ -22,7 +24,7 @@
     setInterval(update, 1000);
 
     function update() {
-      const today = event.days[(new Date().getDay() + 13) % 7];
+      today = event.days[(new Date().getDay() + 13) % 7];
 
       const now = Date.now();
       const start = timeToMs(event.from);
@@ -57,7 +59,7 @@
 
 <div class="flex justify-between">
   <div class="flex gap-4">
-    {#if inClass}
+    {#if inClass && today}
       <div
         class="radial-progress bg-base-200 border-base-200 border-4 text-sm"
         style="--value:{progress}; --size:3rem; --thickness:0.25rem;"
