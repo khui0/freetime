@@ -1,6 +1,9 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
   import { onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   import CalendarItem from "./CalendarItem.svelte";
 
@@ -9,10 +12,12 @@
   let time: string;
   let progress: number = -1;
 
-  export let data: CalendarEvent[] = [];
+  export let data: CalendarEvent[][] = [];
 
   export let headers: string[] = ["M", "T", "W", "T", "F", "S", "S"];
   export let columns: number = 5;
+  export let multiplier: number = data.length;
+  export let offset: number = 0;
 
   onMount(() => {
     setInterval(() => {
@@ -35,10 +40,16 @@
 >
   <p class="flex items-center justify-center mr-2 w-12"><PhClock></PhClock></p>
   {#each Array(Math.min(columns, headers.length)) as _, i}
-    {@const today = new Date().getDay() === (i + 1) % 7}
-    <button class="flex-1 btn font-normal p-0 min-h-0 h-6 mx-[1px]" class:btn-ghost={!today}
-      >{headers[i]}</button
+    {@const today = (new Date().getDay() + 13) % 7 === i + offset}
+    <button
+      class="flex-1 btn font-normal p-0 min-h-0 h-6 mx-[1px]"
+      class:btn-ghost={!today}
+      on:click={() => {
+        dispatch("selectday", { day: i });
+      }}
     >
+      {headers[i + offset]}
+    </button>
   {/each}
 </div>
 {#each Array(13) as _, i}
@@ -46,18 +57,25 @@
     <p class="text-sm text-base-content/50 self-center mr-2 w-12">
       {i !== 4 ? (i + 8) % 12 : 12}:00
     </p>
-    {#each Array(Math.min(columns, headers.length)) as _, j}
-      {@const today = new Date().getDay() === (j + 1) % 7}
-      {@const event = data?.find(
-        (item) => parseInt(item.from.split(":")[0]) === i + 8 && item.days[j],
+    {#each Array(Math.min(columns, headers.length) * multiplier) as _, j}
+      {@const today = (new Date().getDay() + 13) % 7 === Math.floor(j / multiplier) + offset}
+      {@const event = data[j % multiplier]?.find(
+        (item) =>
+          parseInt(item.from.split(":")[0]) === i + 8 &&
+          item.days[Math.floor(j / multiplier) + offset],
       )}
+      {@const user = j % multiplier === 0}
       <div
         class="flex-1 relative {today && $settings.highlightToday === 'true'
           ? 'bg-base-200/50'
           : ''}"
       >
         {#if event}
-          <CalendarItem {event} dim={!today && $settings.dimOtherDays === "true"} on:expand
+          <CalendarItem
+            {event}
+            dim={!today && $settings.dimOtherDays === "true"}
+            subtle={!user}
+            on:expand
           ></CalendarItem>
         {/if}
       </div>

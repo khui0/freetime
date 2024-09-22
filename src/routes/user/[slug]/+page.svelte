@@ -2,10 +2,13 @@
   /** @type {import('./$types').PageData} */
   export let data;
 
-  import { title } from "$lib/store";
+  import { title, ready } from "$lib/store";
   $title = data.username;
 
+  import { onMount } from "svelte";
+
   import { settings } from "$lib/settings";
+  import { pb, currentUser } from "$lib/pocketbase";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
@@ -13,6 +16,19 @@
   import CalendarModal from "$lib/components/CalendarModal.svelte";
 
   let details: CalendarModal;
+
+  let selfData: CalendarEvent[] = [];
+
+  $: events = [data.schedule];
+
+  onMount(() => {
+    ready.subscribe(async (ready) => {
+      if (!$currentUser || !ready) return;
+      const list = await pb.collection("schedules").getFullList();
+      const schedule = list.find((record) => record.user === $currentUser?.id);
+      selfData = schedule?.schedule;
+    });
+  });
 </script>
 
 {#if data?.schedule?.length > 0}
@@ -29,7 +45,7 @@
   </div>
   <div>
     <Calendar
-      bind:data={data.schedule}
+      bind:data={events}
       columns={$settings.showWeekend === "true" ? 7 : 5}
       on:expand={(e) => {
         details.show(e.detail.selected);
