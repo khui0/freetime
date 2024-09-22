@@ -5,6 +5,8 @@
   import { title } from "$lib/store";
   $title = data.username;
 
+  import { settings } from "$lib/settings";
+
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Calendar from "$lib/components/Calendar.svelte";
@@ -28,6 +30,7 @@
   <div>
     <Calendar
       bind:data={data.schedule}
+      columns={$settings.showWeekend === "true" ? 7 : 5}
       on:expand={(e) => {
         details.show(e.detail.selected);
       }}

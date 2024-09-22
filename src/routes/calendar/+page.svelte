@@ -4,6 +4,7 @@
 
   import { currentUser, pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
+  import { settings } from "$lib/settings";
 
   import Calendar from "$lib/components/Calendar.svelte";
   import CalendarModal from "$lib/components/CalendarModal.svelte";
@@ -41,14 +42,15 @@
 <div class="flex flex-col mt-2">
   <div class="px-4 pt-2 flex gap-2 items-center">
     <h1 class="text-2xl font-bold">{date}</h1>
-    <!-- <button class="btn btn-sm">Today</button> -->
-    <div class="ml-auto">
+    <div class="ml-auto flex gap-2 flex-wrap justify-end">
+      <button class="btn btn-sm">Today</button>
       <a class="btn btn-sm btn-square" href="/edit"><PhPencilSimple></PhPencilSimple></a>
     </div>
   </div>
   {#if data.length > 0}
     <Calendar
       bind:data
+      columns={$settings.showWeekend === "true" ? 7 : 5}
       on:expand={(e) => {
         details.show(e.detail.selected);
       }}
