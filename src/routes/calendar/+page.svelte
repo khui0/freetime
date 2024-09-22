@@ -30,8 +30,8 @@
       setInterval(update, 1000);
       function update() {
         date = new Date().toLocaleDateString("en-US", {
-          weekday: "short",
-          month: "long",
+          weekday: "long",
+          month: "short",
           day: "numeric",
         });
       }
