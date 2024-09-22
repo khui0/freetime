@@ -57,41 +57,43 @@
     <p class="text-sm text-base-content/50 self-center mr-2 w-12">
       {i !== 4 ? (i + 8) % 12 : 12}:00
     </p>
-    {#each Array(Math.min(columns, headers.length) * multiplier) as _, j}
-      {@const today = (new Date().getDay() + 13) % 7 === Math.floor(j / multiplier) + offset}
-      {@const event = data[j % multiplier]?.find(
-        (item) =>
-          parseInt(item.from.split(":")[0]) === i + 8 &&
-          item.days[Math.floor(j / multiplier) + offset],
-      )}
-      {@const user = j % multiplier === 0}
-      <div
-        class="flex-1 relative {today && $settings.highlightToday === 'true'
-          ? 'bg-base-200/50'
-          : ''}"
-      >
-        {#if event}
-          <CalendarItem
-            {event}
-            dim={!today && $settings.dimOtherDays === "true"}
-            subtle={!user}
-            on:expand
-          ></CalendarItem>
-        {/if}
-      </div>
-      <!-- Current time indicator -->
-      {#if i === 0}
-        <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">
-          <div
-            class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"
-          ></div>
-          <p
-            class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm w-12 -translate-y-1/2"
-          >
-            {time}
-          </p>
+    {#key data}
+      {#each Array(Math.min(columns, headers.length) * multiplier) as _, j}
+        {@const today = (new Date().getDay() + 13) % 7 === Math.floor(j / multiplier) + offset}
+        {@const event = data[j % multiplier]?.find(
+          (item) =>
+            parseInt(item.from.split(":")[0]) === i + 8 &&
+            item.days[Math.floor(j / multiplier) + offset],
+        )}
+        {@const user = j % multiplier === 0}
+        <div
+          class="flex-1 relative {today && $settings.highlightToday === 'true'
+            ? 'bg-base-200/50'
+            : ''}"
+        >
+          {#if event}
+            <CalendarItem
+              {event}
+              dim={!today && $settings.dimOtherDays === "true"}
+              subtle={!user}
+              on:expand
+            ></CalendarItem>
+          {/if}
         </div>
-      {/if}
-    {/each}
+        <!-- Current time indicator -->
+        {#if i === 0}
+          <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">
+            <div
+              class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"
+            ></div>
+            <p
+              class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm w-12 -translate-y-1/2"
+            >
+              {time}
+            </p>
+          </div>
+        {/if}
+      {/each}
+    {/key}
   </div>
 {/each}

@@ -18,8 +18,10 @@
   let details: CalendarModal;
 
   let selfData: CalendarEvent[] = [];
+  let singleView: boolean = false;
+  let viewOffset: number = 0;
 
-  $: events = [data.schedule];
+  $: events = [data.schedule, selfData];
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -46,9 +48,15 @@
   <div>
     <Calendar
       bind:data={events}
-      columns={$settings.showWeekend === "true" ? 7 : 5}
+      columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
+      offset={viewOffset}
+      multiplier={!singleView ? 1 : 2}
       on:expand={(e) => {
         details.show(e.detail.selected);
+      }}
+      on:selectday={(e) => {
+        singleView = !singleView;
+        viewOffset = singleView ? e.detail.day : 0;
       }}
     ></Calendar>
   </div>
