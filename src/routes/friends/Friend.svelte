@@ -20,10 +20,11 @@
   interface Status {
     inClass: boolean;
     details: string[];
+    offHours: boolean;
   }
 
   let status: Status | undefined;
-  
+
   setInterval(() => {
     status = getStatus();
   }, 1000);
@@ -63,9 +64,13 @@
       }
     }
 
+    const hour = new Date().getHours();
+    const offHours = hour < 8 || hour >= 20;
+
     return {
       inClass,
       details,
+      offHours,
     };
   }
 </script>
@@ -83,7 +88,7 @@
   >
     {#if schedule.length > 0}
       <div
-        class="w-3 h-3 rounded-full flex-none {status
+        class="w-3 h-3 rounded-full flex-none {status && !status.offHours
           ? status.inClass
             ? 'bg-warning'
             : 'bg-success'
