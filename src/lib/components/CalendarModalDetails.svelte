@@ -78,7 +78,7 @@
   <div class="flex flex-col gap-2 text-base-content/75 items-end">
     <p class="flex items-center gap-2 flex-wrap justify-end">
       {timeTo12Hour(event.from, true)}
-      <span class:animate-pulse={inClass}><PhArrowRight></PhArrowRight></span>
+      <span class:animate-pulse={inClass && today}><PhArrowRight></PhArrowRight></span>
       {timeTo12Hour(event.to, true)}
     </p>
     <p class="text-end">{eventDuration(event.from, event.to)}</p>
