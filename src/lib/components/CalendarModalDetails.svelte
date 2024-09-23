@@ -61,7 +61,7 @@
   <div class="flex gap-4">
     {#if inClass && today}
       <div
-        class="radial-progress bg-base-200 border-base-200 border-4 text-sm"
+        class="radial-progress bg-base-200 border-base-200 border-4 text-sm flex-shrink-0"
         style="--value:{progress}; --size:3rem; --thickness:0.25rem;"
         role="progressbar"
       >
