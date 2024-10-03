@@ -130,6 +130,7 @@
         <ClassesProgress
           value={status.classesToday - status.classesRemaining}
           max={status.classesToday}
+          inProgress={status.inClass}
         ></ClassesProgress>
       </div>
     {/if}
