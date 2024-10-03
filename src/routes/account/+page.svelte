@@ -93,11 +93,6 @@
       emailState.loading = false;
     }
   }
-
-  async function resetPassword() {
-    await pb.collection("users").requestPasswordReset($currentUser?.email);
-    passwordSuccess = "Check your email address to reset your password";
-  }
 </script>
 
 <TopBar>
@@ -135,32 +130,9 @@
         {/if}
       </label>
     </form>
-    <!-- Email -->
-    <form on:submit|preventDefault={updateEmail} class="flex-1 flex gap-1 min-w-[250px]">
-      <label class="flex flex-col text-xs w-full">
-        <span class="px-2">Email address</span>
-        <div class="flex gap-1">
-          <input type="email" class="input input-bordered input-sm w-full" bind:value={newEmail} />
-          <button class="btn btn-sm" on:click={updateEmail}>
-            {#if !emailState.loading}
-              Update
-            {:else}
-              <span class="loading loading-spinner loading-sm"></span>
-            {/if}
-          </button>
-        </div>
-        {#if emailState?.error}
-          <p class="text-xs text-error mx-2 mt-1">{emailState?.error}</p>
-        {/if}
-        {#if emailSuccess}
-          <p class="text-xs text-success mx-2 mt-1">{emailSuccess}</p>
-        {/if}
-      </label>
-    </form>
   </div>
   <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
     <button class="btn btn-sm" on:click={signOut}>Sign out</button>
-    <button class="btn btn-sm" on:click={resetPassword}>Request password reset</button>
     {#if passwordSuccess}
       <p class="text-xs text-success mx-2 my-1">{passwordSuccess}</p>
     {/if}

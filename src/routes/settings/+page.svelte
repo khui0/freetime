@@ -4,6 +4,7 @@
 
   import { settings } from "$lib/settings";
 
+  import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
 
@@ -21,18 +22,10 @@
     { value: "dark", name: "Dark" },
     { value: "light", name: "Light" },
   ];
-
-  const version = import.meta.env.PACKAGE_VERSION;
 </script>
 
 <div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
-  <div class="flex flex-col gap-4 items-center p-4">
-    <enhanced:img src="$lib/assets/freetime.svg" class="w-24" alt="Freetime logo" />
-    <div class="text-center">
-      <h1 class="text-2xl font-bold">SB Freetime</h1>
-      <p class="text-xs">{version}</p>
-    </div>
-  </div>
+  <Logo></Logo>
   <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
     Add or change your classes
   </SettingsField>

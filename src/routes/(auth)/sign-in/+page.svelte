@@ -55,7 +55,6 @@
     {/if}
   </button>
   <div class="flex justify-evenly text-sm">
-    <a class="link" href="/register">Register</a>
     <a class="link" href="/reset-password">Reset password</a>
   </div>
 </form>
