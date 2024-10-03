@@ -7,10 +7,12 @@
   import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
+  import Modal from "$lib/components/Modal.svelte";
 
   import { signOut } from "$lib/pocketbase";
 
   let confirm: Confirm;
+  let aboutModal: Modal;
 
   interface Option {
     name: string;
@@ -50,7 +52,14 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra padding to the bottom of the navigation bar
   </SettingsField>
-  <div class="text-xs leading-normal text-base-content/50 px-4">
+  <SettingsField type="button" title="About" on:click={aboutModal.show} text="Show about"
+  ></SettingsField>
+</div>
+
+<Confirm bind:this={confirm}></Confirm>
+
+<Modal title="About" bind:this={aboutModal}>
+  <div class="text-xs leading-relaxed text-base-content/50">
     <p>Not affiliated with Stony Brook University.</p>
     <p>
       Found a bug, incorrect data, or have a feature request? Email <a
@@ -60,6 +69,4 @@
     </p>
     <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
   </div>
-</div>
-
-<Confirm bind:this={confirm}></Confirm>
+</Modal>
