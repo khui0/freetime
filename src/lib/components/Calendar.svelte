@@ -36,13 +36,13 @@
 </script>
 
 <div
-  class="z-20 sticky top-0 px-4 py-2 text-base-content/50 bg-base-100/50 backdrop-blur-lg text-sm border-b flex"
+  class="z-20 sticky top-0 px-4 pt-2 text-base-content/50 bg-base-100/50 backdrop-blur-lg text-sm border-b flex"
 >
   <p class="flex items-center justify-center mr-2 w-12"><PhClock></PhClock></p>
   {#each Array(Math.min(columns, headers.length)) as _, i}
     {@const today = (new Date().getDay() + 13) % 7 === i + offset}
     <button
-      class="flex-1 btn font-normal p-0 min-h-0 h-6 mx-[1px]"
+      class="flex-1 btn font-normal px-0 min-h-0 h-8 rounded-b-none"
       class:btn-ghost={!today}
       on:click={() => {
         dispatch("selectday", { day: i });
