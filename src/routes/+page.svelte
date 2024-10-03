@@ -9,6 +9,7 @@
   import { fade } from "svelte/transition";
 
   import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
+  import ClassesProgress from "$lib/components/ClassesProgress.svelte";
 
   import Welcome from "$lib/components/Welcome.svelte";
   import Onboarding from "$lib/components/Onboarding.svelte";
@@ -62,14 +63,14 @@
     let message: string = "";
 
     if (today.length === 0) {
-      message = "You have no classes today";
+      message = "No classes today";
     } else if (inClass) {
-      message = "You are currently in";
+      message = "Currently in";
     } else {
       if (rest.length === 0) {
-        message = "You're all done for the day!";
+        message = "Done for the day!";
       } else {
-        message = `Your next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
+        message = `Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
       }
     }
 
@@ -126,18 +127,11 @@
             {status.classesToday - status.classesRemaining}/{status.classesToday}
           </span> classes completed
         </p>
-        <progress
-          class="progress progress-accent"
+        <ClassesProgress
           value={status.classesToday - status.classesRemaining}
           max={status.classesToday}
-        ></progress>
+        ></ClassesProgress>
       </div>
-    {:else}
-      <enhanced:img
-        in:fade|global={{ duration: 250, delay: 50 + (status.event ? 50 : 0) }}
-        src="$lib/assets/wolfie.png"
-        alt="Wolfie"
-      />
     {/if}
   {/if}
 </div>
