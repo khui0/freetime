@@ -2,13 +2,13 @@
   /** @type {import('./$types').PageData} */
   export let data;
 
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = data.username;
 
   import { onMount } from "svelte";
 
   import { settings } from "$lib/settings";
-  import { pb, currentUser } from "$lib/pocketbase";
+  import { ready, currentUser, schedules } from "$lib/pocketbase";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
@@ -26,9 +26,8 @@
   onMount(() => {
     ready.subscribe(async (ready) => {
       if (!$currentUser || !ready) return;
-      const list = await pb.collection("schedules").getFullList();
-      const schedule = list.find((record) => record.user === $currentUser?.id);
-      selfData = schedule?.schedule;
+      // Get own schedule
+      selfData = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
     });
   });
 </script>

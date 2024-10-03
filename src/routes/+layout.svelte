@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   import { onMount } from "svelte";
   import { currentUser } from "$lib/pocketbase";
   import { page } from "$app/stores";
   import { settings } from "$lib/settings";
-  import { ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
+  import { init, ready } from "$lib/pocketbase";
 
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
@@ -15,11 +15,9 @@
   import PhGear from "~icons/ph/gear";
   import PhGearFill from "~icons/ph/gear-fill";
 
-  onMount(async () => {
+  onMount(() => {
     if (!$currentUser || $ready) return;
-    await ensureScheduleExists();
-    await ensureFriendsExist();
-    $ready = true;
+    init();
   });
 </script>
 

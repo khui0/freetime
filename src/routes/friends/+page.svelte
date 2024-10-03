@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = "Friends";
 
-  import Friend from "./Friend.svelte";
+  import { ready, currentUser, pb, schedules, friends as friendsList } from "$lib/pocketbase";
+  import { onMount } from "svelte";
+  import type { RecordModel } from "pocketbase";
 
+  import Friend from "./Friend.svelte";
   import Modal from "$lib/components/Modal.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
@@ -23,10 +26,6 @@
 
   let loading: boolean = false;
 
-  import { currentUser, pb } from "$lib/pocketbase";
-  import { onMount } from "svelte";
-  import type { RecordModel } from "pocketbase";
-
   let self: RecordModel;
   let others: RecordModel[];
 
@@ -34,29 +33,18 @@
   let outgoing: RecordModel[] = [];
   let requests: RecordModel[] = [];
 
-  let schedules: RecordModel[] = [];
-
   onMount(() => {
     ready.subscribe((ready) => {
       if (!$currentUser || !ready) return;
 
       updateFriends();
-      pb.collection("friends").subscribe("*", async (e) => {
-        if (e.action === "update") updateFriends();
-      });
-
-      updateSchedules();
-      pb.collection("schedules").subscribe("*", async (e) => {
-        if (e.action === "update") updateSchedules();
-      });
+      friendsList.subscribe(updateFriends);
     });
   });
 
   async function updateFriends() {
     // List all friend lists that contain username
-    const list = await pb.collection("friends").getFullList({
-      expand: "friends,user",
-    });
+    const list = $friendsList;
 
     // Own friends list
     self = list.filter((record) => record.user === $currentUser?.id)[0];
@@ -76,11 +64,6 @@
     pb.collection("schedules").update(scheduleId, {
       viewers: friends.map((record) => record.id),
     });
-  }
-
-  async function updateSchedules() {
-    const list = await pb.collection("schedules").getFullList();
-    schedules = list;
   }
 
   async function getUserId(username: string) {
@@ -166,7 +149,7 @@
           index={i}
           username={friend.username}
           href="/user/{friend.username}"
-          schedule={schedules.find((record) => record.user === friend.id)?.schedule}
+          schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
           on:action={() => {
             confirm
               .prompt(

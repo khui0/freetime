@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = "Edit schedule";
 
   import { settings } from "$lib/settings";
-  import { pb, currentUser } from "$lib/pocketbase";
+  import { ready, pb, currentUser, schedules } from "$lib/pocketbase";
   import { fade } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
@@ -29,17 +29,8 @@
     ready.subscribe(async (ready) => {
       if (!$currentUser || !ready) return;
 
-      // Create record if it doesn't exist
-      await pb
-        .collection("schedules")
-        .getFirstListItem(`user="${$currentUser?.id}"`)
-        .catch(() => {
-          pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
-        });
-
-      // Load schedule from database
-      const list = await pb.collection("schedules").getFullList();
-      const schedule = list.find((record) => record.user === $currentUser?.id);
+      // Retrieve own schedule
+      const schedule = $schedules.find((r) => r.user === $currentUser?.id);
       id = schedule?.id || "";
       events = schedule?.schedule;
     });
@@ -77,7 +68,7 @@
           alert.prompt("Unable to save schedule", "An unforeseen error was encountered.");
         });
     } else {
-      alert.prompt("Invalid class", "One or more classes have missing fields!");
+      alert.prompt("Invalid data", "One or more classes have missing fields!");
     }
   }
 

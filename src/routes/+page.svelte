@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = "";
 
+  import { ready, currentUser, schedules } from "$lib/pocketbase";
+  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
   import { settings } from "$lib/settings";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
-  import { currentUser, pb } from "$lib/pocketbase";
 
   import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
 
@@ -31,13 +31,11 @@
     ready.subscribe(async (ready) => {
       if (!$currentUser || !ready) return;
 
-      const list = await pb.collection("schedules").getFullList();
-      const schedule = list.find((record) => record.user === $currentUser?.id);
-      data = schedule?.schedule;
+      // Retrieve own schedule
+      data = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
 
       update();
       setInterval(update, 1000);
-
       function update() {
         status = getStatus();
         until = timeUntil(status.event?.from, status.event?.to) || "";
