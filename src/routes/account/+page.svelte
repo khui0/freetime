@@ -19,23 +19,14 @@
   let confirm: Confirm;
 
   let newUsername: string;
-  let newEmail: string;
 
   let usernameState: FormState = {
     error: "",
     loading: false,
   };
-  let emailState: FormState = {
-    error: "",
-    loading: false,
-  };
-
-  let emailSuccess: string = "";
-  let passwordSuccess: string = "";
 
   onMount(() => {
     newUsername = $currentUser?.username;
-    newEmail = $currentUser?.email;
   });
 
   function deleteAccount() {
@@ -73,26 +64,6 @@
       usernameState.loading = false;
     }
   }
-
-  async function updateEmail() {
-    const result = z.string().email("Enter a valid email address").safeParse(newEmail);
-    if (result.success) {
-      emailState.loading = true;
-      emailState.error = "";
-      try {
-        await pb.collection("users").requestEmailChange(result.data);
-        emailSuccess = "Check your new email address to confirm the change";
-        emailState.loading = false;
-      } catch (err) {
-        setTimeout(() => {
-          emailState.loading = false;
-        }, 3000);
-      }
-    } else {
-      emailState.error = result.error.errors[0].message;
-      emailState.loading = false;
-    }
-  }
 </script>
 
 <TopBar>
@@ -106,6 +77,7 @@
   </button>
 </TopBar>
 <div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
+  <p class="px-4 text-base-content/50">{$currentUser?.email}</p>
   <div class="flex gap-2 border rounded-box p-4 flex-wrap">
     <!-- Username -->
     <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">
@@ -133,9 +105,6 @@
   </div>
   <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
     <button class="btn btn-sm" on:click={signOut}>Sign out</button>
-    {#if passwordSuccess}
-      <p class="text-xs text-success mx-2 my-1">{passwordSuccess}</p>
-    {/if}
     <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account</button>
   </div>
 </div>
