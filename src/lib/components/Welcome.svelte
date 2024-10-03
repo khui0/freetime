@@ -9,11 +9,9 @@
     <GoogleAuth></GoogleAuth>
     <a href="/sign-in" class="link text-sm">Continue with email</a>
   </div>
-  <div
-    class="absolute left-0 right-0 bottom-0 text-xs leading-normal text-base-content/50 text-center p-4"
-  >
+  <div class="absolute left-0 right-0 bottom-0 text-xs text-base-content/50 text-center p-4">
     <p>
-      Having issues signing in? Email <a class="font-bold" href="mailto:support@kennyhui.dev">
+      Having issues? Email <a class="font-bold" href="mailto:support@kennyhui.dev">
         support@kennyhui.dev
       </a>
     </p>
