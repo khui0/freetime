@@ -50,6 +50,7 @@ export async function init() {
 pb.authStore.onChange(() => {
   currentUser.set(pb.authStore.model);
   if (pb.authStore.isValid) {
+    init();
     createList("schedules", "schedule");
     createList("friends", "friends");
   }

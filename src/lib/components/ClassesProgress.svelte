@@ -8,7 +8,7 @@
   {#each Array(max) as _, i}
     {@const blink = inProgress && i === value}
     <div
-      class="rounded-md h-full {i <= value ? 'bg-accent' : 'bg-base-200'} transition-colors"
+      class="rounded-lg h-full {i <= value ? 'bg-accent' : 'bg-base-200'} transition-colors"
       class:animate-pulse={blink}
     ></div>
   {/each}
