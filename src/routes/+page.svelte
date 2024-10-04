@@ -65,7 +65,7 @@
     if (today.length === 0) {
       message = "No classes today";
     } else if (inClass) {
-      message = "Currently in";
+      message = `Class ends in ${timeUntil(current.from, current.to, true)}`;
     } else {
       if (rest.length === 0) {
         message = "Done for the day!";
@@ -113,7 +113,6 @@
         class="rounded-box border p-4 flex flex-col gap-2 h-fit"
         in:fade|global={{ duration: 250, delay: 50 }}
       >
-        <h2 class="font-bold text-2xl">{status.event.title} {status.event.number}</h2>
         <CalendarModalDetails event={status.event}></CalendarModalDetails>
       </div>
     {/if}

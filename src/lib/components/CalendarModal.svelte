@@ -11,7 +11,7 @@
   }
 </script>
 
-<Modal title="{selected?.title} {selected?.number}" bind:this={modal}>
+<Modal bind:this={modal}>
   {#if selected}
     {#key selected}
       <CalendarModalDetails event={selected}></CalendarModalDetails>
