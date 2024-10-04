@@ -25,6 +25,12 @@
     { value: "auto", name: "Auto" },
     { value: "dark", name: "Dark" },
     { value: "light", name: "Light" },
+    { value: "solar-dark", name: "SOLAR Dark" },
+    { value: "solar-light", name: "SOLAR Light" },
+    { value: "latte", name: "Catppuccin Latte" },
+    { value: "frappe", name: "Catppuccin Frappe" },
+    { value: "macchiato", name: "Catppuccin Macchiato" },
+    { value: "mocha", name: "Catppuccin Mocha" },
   ];
 </script>
 
