@@ -14,6 +14,8 @@
   import Welcome from "$lib/components/Welcome.svelte";
   import Onboarding from "$lib/components/Onboarding.svelte";
 
+  import PhPencilSimple from "~icons/ph/pencil-simple";
+
   let data: CalendarEvent[] = [];
 
   let status: {
@@ -105,8 +107,13 @@
 >
   {#if status}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>
-      <h1 class="font-bold text-2xl">{status.greeting}, {$currentUser?.username}!</h1>
-      <p class="font-bold text-xl">{status.message}</p>
+      <div class="flex gap-2 items-center justify-between">
+        <h1 class="font-bold text-4xl">{status.greeting}!</h1>
+        <a href="/edit" class="btn btn-square rounded-full btn-sm"
+          ><PhPencilSimple></PhPencilSimple></a
+        >
+      </div>
+      <p class="text-xl">{status.message}</p>
     </div>
     {#if status.event}
       <div

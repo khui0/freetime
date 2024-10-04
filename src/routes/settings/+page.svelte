@@ -11,6 +11,8 @@
 
   import { signOut } from "$lib/pocketbase";
 
+  const version = import.meta.env.PACKAGE_VERSION;
+
   let confirm: Confirm;
   let aboutModal: Modal;
 
@@ -52,7 +54,7 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra padding to the bottom of the navigation bar
   </SettingsField>
-  <SettingsField type="button" title="About" on:click={aboutModal.show} text="Show about"
+  <SettingsField type="button" title="About" on:click={aboutModal.show} text="Show"
   ></SettingsField>
 </div>
 
@@ -60,6 +62,7 @@
 
 <Modal title="About" bind:this={aboutModal}>
   <div class="text-xs leading-relaxed text-base-content/50">
+    <p>Freetime {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
     <p>
       Found a bug, incorrect data, or have a feature request? Email <a

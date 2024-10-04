@@ -42,7 +42,7 @@
   {#each Array(Math.min(columns, headers.length)) as _, i}
     {@const today = (new Date().getDay() + 13) % 7 === i + offset}
     <button
-      class="flex-1 btn font-normal px-0 min-h-0 h-8 rounded-b-none {today ? 'bg-base-200/80' : 'btn-ghost'}"
+      class="flex-1 btn font-normal px-0 min-h-0 h-8 rounded-b-none {today ? 'bg-base-200' : 'btn-ghost'}"
       on:click={() => {
         dispatch("selectday", { day: i });
       }}

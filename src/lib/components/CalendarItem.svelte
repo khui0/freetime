@@ -15,7 +15,7 @@
 </script>
 
 <button
-  class="absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container {!dim
+  class="leading-tight absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container {!dim
     ? 'bg-accent'
     : 'bg-accent/50'} {subtle ? 'opacity-25' : ''}"
   style="height: {length * 4}rem; transform: translateY({(parseInt(event.from.split(':')[1]) / 60) *
