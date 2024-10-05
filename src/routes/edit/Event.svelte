@@ -2,11 +2,13 @@
   import { createEventDispatcher } from "svelte";
   import PhTrash from "~icons/ph/trash";
   import Confirm from "$lib/components/Confirm.svelte";
-  import { locations } from "$lib/sbu";
+  import { locations, types } from "$lib/sbu";
 
   const dispatch = createEventDispatcher();
 
   let confirm: Confirm;
+
+  export let index: number = -1;
 
   export let data: CalendarEvent = {
     title: "",
@@ -38,15 +40,23 @@
   >
     <PhTrash></PhTrash>
   </button>
-  <h2 class="font-bold text-2xl pl-1">
-    {data.title && data.number ? `${data.title.toUpperCase()} ${data.number}` : "New class"}
-  </h2>
-  <div class="flex gap-1 pr-10">
+  <div class="flex items-center gap-2">
+    <h2 class="font-bold text-2xl pl-1">
+      {#if index !== -1}
+        <span class="text-base-content/50">{index + 1}.</span>
+      {/if}
+      {data.title && data.number ? `${data.title.toUpperCase()} ${data.number}` : "New class"}
+    </h2>
+    {#if data.type}
+      <p class="border border-base-content px-1.5 rounded-lg text-sm">{data.type.toUpperCase()}</p>
+    {/if}
+  </div>
+  <div class="flex gap-1 pr-10 flex-wrap">
     <label class="flex flex-col text-xs">
       <span class="px-2">Course</span>
       <input
         type="text"
-        class="input input-bordered input-sm w-full"
+        class="input input-bordered input-sm w-28"
         placeholder="e.g. CSE"
         bind:value={data.title}
         on:input={() => {
@@ -59,7 +69,7 @@
       <span class="px-2">Number</span>
       <input
         type="text"
-        class="input input-bordered input-sm w-full"
+        class="input input-bordered input-sm w-28"
         placeholder="e.g. 101"
         inputmode="numeric"
         bind:value={data.number}
@@ -69,8 +79,6 @@
         }}
       />
     </label>
-  </div>
-  <div class="flex gap-1 flex-wrap">
     <label class="flex flex-col text-xs">
       <span class="px-2">Type</span>
       <select
@@ -80,60 +88,61 @@
           dispatch("input");
         }}
       >
-        <option value="lecture">Lecture</option>
-        <option value="recitation">Recitation</option>
-        <option value="independent">Independent Study</option>
-        <option value="seminar">Seminar</option>
-        <option value="online">Online</option>
-        <option value="laboratory">Laboratory</option>
-        <option value="studio">Studio</option>
+        {#each Object.keys(types) as key}
+          <option value={key}>{types[key]}</option>
+        {/each}
       </select>
     </label>
   </div>
-  <div class="flex gap-1 flex-wrap">
-    {#each ["M", "T", "W", "T", "F", "S", "S"] as day, i}
-      <button
-        class="btn btn-square rounded-full {data.days[i]
-          ? 'bg-base-300'
-          : 'border-base-300 bg-transparent'}"
-        on:click={() => {
-          dispatch("input");
-          data.days[i] = !data.days[i];
-        }}
-      >
-        {day}
-      </button>
-    {/each}
-  </div>
-  <div class="flex gap-1 flex-wrap">
-    <label class="flex flex-col text-xs">
-      <span class="px-2">Start time</span>
-      <input
-        type="time"
-        class="input input-bordered input-sm w-full"
-        bind:value={data.from}
-        on:input={() => {
-          dispatch("input");
-        }}
-      />
-    </label>
-    <label class="flex flex-col text-xs">
-      <span class="px-2">End time</span>
-      <input
-        type="time"
-        class="input input-bordered input-sm w-full"
-        bind:value={data.to}
-        on:input={() => {
-          dispatch("input");
-        }}
-      />
-    </label>
+  <div class="flex gap-1 flex-wrap justify-between">
+    <div class="flex gap-1 flex-wrap">
+      <label class="flex flex-col text-xs">
+        <span class="px-2">Start time</span>
+        <input
+          type="time"
+          class="input input-bordered input-sm w-full"
+          bind:value={data.from}
+          on:input={() => {
+            dispatch("input");
+          }}
+        />
+      </label>
+      <label class="flex flex-col text-xs">
+        <span class="px-2">End time</span>
+        <input
+          type="time"
+          class="input input-bordered input-sm w-full"
+          bind:value={data.to}
+          on:input={() => {
+            dispatch("input");
+          }}
+        />
+      </label>
+    </div>
+    <div>
+      <p class="text-xs px-2">Days</p>
+      <div class="flex gap-1 flex-wrap">
+        {#each ["M", "T", "W", "T", "F", "S", "S"] as day, i}
+          <button
+            class="btn btn-square btn-sm rounded-full font-normal {data.days[i]
+              ? 'bg-base-300'
+              : 'border-base-300 bg-transparent'}"
+            on:click={() => {
+              dispatch("input");
+              data.days[i] = !data.days[i];
+            }}
+          >
+            {day}
+          </button>
+        {/each}
+      </div>
+    </div>
   </div>
   <div class="flex gap-1 w-full">
     <label class="flex flex-col text-xs">
       <span class="px-2">Location</span>
       <select
-        class="select select-bordered select-sm w-full"
+        class="select select-bordered select-sm max-w-48"
         bind:value={data.location}
         on:input={() => {
           dispatch("input");
@@ -151,7 +160,7 @@
       <span class="px-2">Room</span>
       <input
         type="text"
-        class="input input-bordered input-sm w-full"
+        class="input input-bordered input-sm w-28"
         bind:value={data.room}
         on:input={() => {
           dispatch("input");

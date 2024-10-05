@@ -140,6 +140,11 @@
         ></ClassesProgress>
       </div>
     {/if}
+    <a
+      in:fade|global={{ duration: 250, delay: 100 + (status.event ? 50 : 0) }}
+      href="/calendar"
+      class="btn btn-sm rounded-full self-center">View calendar</a
+    >
   {/if}
 </div>
 
