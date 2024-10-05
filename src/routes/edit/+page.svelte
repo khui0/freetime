@@ -105,11 +105,7 @@
     if (!saved && to && !leaveAnyways) {
       cancel();
       confirm
-        .prompt(
-          "Unsaved changes",
-          "Are you sure you want to leave? Changes will be lost!",
-          "Leave",
-        )
+        .prompt("Unsaved changes", "Are you sure you want to leave? Changes will be lost!", "Leave")
         .then(() => {
           leaveAnyways = true;
           console.log(to);
@@ -180,9 +176,14 @@
 <Confirm bind:this={confirm}></Confirm>
 <Modal title="Import schedule" bind:this={modal}>
   <p>
-    1. In SOLAR, go to <code>Student Records & Registration > Enrollment > My Class Schedule</code>
+    1. In SOLAR, go to <code class="bg-base-200 rounded-md"
+      >Student Records & Registration > Enrollment > My Class Schedule</code
+    >
   </p>
-  <p>2. Select all the text on the page and copy</p>
+  <p>
+    2. Select all the text on the page, copy it, and paste it into the textbox below. (This may not
+    work reliably on mobile)
+  </p>
   <label class="flex flex-col text-xs my-2">
     <span class="px-2">Paste text from SOLAR</span>
     <textarea class="textarea textarea-bordered resize-none" rows="5" bind:value={importText}
