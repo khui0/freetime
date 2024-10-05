@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
 
-  import { timeToMs, timeUntil } from "$lib/time";
+  import { timeToMs, timeUntilShort } from "$lib/time";
   import pluralize from "pluralize";
 
   import PhX from "~icons/ph/x";
@@ -50,7 +50,7 @@
       details.push("No classes today");
     } else if (inClass) {
       details.push(
-        `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`,
+        `${current.title} ${current.number} ends in ${timeUntilShort(current.from, current.to)}`,
       );
       details.push(`\n${pluralize("class", rest.length, true)} left`);
     } else {
@@ -58,7 +58,7 @@
         details.push("Done for the day");
       } else {
         details.push(
-          `${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`,
+          `${rest[0].title} ${rest[0].number} starts in ${timeUntilShort(rest[0].from, rest[0].to)}`,
         );
         details.push(`\n${pluralize("class", rest.length, true)} left`);
       }
@@ -77,12 +77,12 @@
 
 <div
   in:fade={{ duration: 250, delay: 50 * index }}
-  class="flex rounded-box border pr-4 mb-4 first:mt-4 {schedule.length > 0
+  class="flex rounded-box border pr-3 mb-4 first:mt-4 {schedule.length > 0
     ? 'active:opacity-50 transition-opacity'
     : ''}"
 >
   <a
-    class="flex-1 flex items-center gap-2 py-4 px-4 rounded-l-box"
+    class="flex-1 flex items-center gap-2 py-2 px-4 rounded-l-box"
     {href}
     class:hover:cursor-default={schedule.length === 0}
   >
