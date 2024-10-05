@@ -1,3 +1,8 @@
+<script lang="ts">
+  import { title } from "$lib/store";
+  $title = "Privacy Policy";
+</script>
+
 <article class="prose p-8 mx-auto">
   <h1>Privacy Policy</h1>
   <p>Last updated: October 05, 2024</p>
