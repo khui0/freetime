@@ -41,7 +41,7 @@
 
   async function updateFriends() {
     // List all friend lists that contain username
-    const list = $friendsList;
+    const list = structuredClone($friendsList);
 
     // Own friends list
     self = list.filter((record) => record.user === $currentUser?.id)[0];
@@ -127,14 +127,16 @@
   </div>
 </TopBar>
 <div class="flex gap-2 px-4 pt-4">
-  <div class="indicator">
-    <span class="indicator-item badge">{outgoing.length}</span>
-    <button class="btn btn-sm" on:click={outgoingModal.show}> Outgoing </button>
-  </div>
-  <div class="indicator">
-    <span class="indicator-item badge">{requests.length}</span>
-    <button class="btn btn-sm" on:click={requestsModal.show}> Requests </button>
-  </div>
+  <button class="btn btn-sm" on:click={outgoingModal.show}>
+    Outgoing {#if outgoing.length > 0}
+      ({outgoing.length})
+    {/if}
+  </button>
+  <button class="btn btn-sm" on:click={requestsModal.show}>
+    Incoming {#if requests.length > 0}
+      ({requests.length})
+    {/if}
+  </button>
 </div>
 <div class="flex flex-col px-4">
   {#if friends}
@@ -207,7 +209,7 @@
   </form>
 </Modal>
 
-<Modal title="Outgoing" bind:this={outgoingModal} additionalClasses="h-full">
+<Modal title="Outgoing requests" bind:this={outgoingModal} additionalClasses="h-full">
   {#if outgoing && outgoing.length > 0}
     <div class="overflow-auto">
       {#each outgoing as friend}
@@ -223,7 +225,7 @@
   {/if}
 </Modal>
 
-<Modal title="Requests" bind:this={requestsModal} additionalClasses="h-full">
+<Modal title="Incoming requests" bind:this={requestsModal} additionalClasses="h-full">
   {#if requests && requests.length > 0}
     <div class="overflow-auto">
       {#each requests as friend}
