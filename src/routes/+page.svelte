@@ -108,12 +108,12 @@
   {#if status}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>
       <div class="flex gap-2 items-center justify-between">
-        <h1 class="font-bold text-4xl">{status.greeting}!</h1>
+        <h1 class="font-bold text-4xl tracking-tight">{status.greeting}!</h1>
         <a href="/edit" class="btn btn-square rounded-full btn-sm"
           ><PhPencilSimple></PhPencilSimple></a
         >
       </div>
-      <p class="text-xl">{status.message}</p>
+      <p class="text-xl tracking-tight">{status.message}</p>
     </div>
     {#if status.event}
       <div

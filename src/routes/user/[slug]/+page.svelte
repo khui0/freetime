@@ -56,7 +56,7 @@
         >
           <PhArrowLeft></PhArrowLeft>
         </button>
-        <h2 class="font-bold text-2xl">{data.username}</h2>
+        <h2 class="font-bold text-2xl tracking-tight">{data.username}</h2>
       </div>
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button

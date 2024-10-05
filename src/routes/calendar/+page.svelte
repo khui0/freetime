@@ -54,7 +54,7 @@
     }}
   >
     <div class="px-4 pt-2 flex gap-2 items-center mt-2">
-      <h1 class="text-2xl font-bold">{date}</h1>
+      <h1 class="text-2xl font-bold tracking-tight">{date}</h1>
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button
           class="btn btn-sm"

@@ -121,7 +121,7 @@
 </script>
 
 <TopBar>
-  <h2 class="text-2xl font-bold">Friends</h2>
+  <h2 class="text-2xl font-bold tracking-tight">Friends</h2>
   <div class="flex gap-2 flex-wrap justify-end">
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>

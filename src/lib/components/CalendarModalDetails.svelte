@@ -58,7 +58,7 @@
 </script>
 
 <div class="flex gap-2 items-center">
-  <h2 class="text-2xl font-bold">{event.title} {event.number}</h2>
+  <h2 class="text-2xl font-bold tracking-tight">{event.title} {event.number}</h2>
   <p class="border border-base-content px-1.5 rounded-lg text-sm">{event.type.toUpperCase()}</p>
 </div>
 <div class="flex gap-2 text-base-content/75 items-center justify-between h-12">
