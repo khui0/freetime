@@ -78,7 +78,7 @@
     loading = true;
     const friend = await getUserId(username);
     if (!friend) {
-      error = "Username not found";
+      error = "User not found";
       loading = false;
       return;
     }
