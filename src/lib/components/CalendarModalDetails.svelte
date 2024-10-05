@@ -25,6 +25,7 @@
 
     function update() {
       today = event.days[(new Date().getDay() + 13) % 7];
+      console.log((new Date().getDay() + 13) % 7);
 
       const now = Date.now();
       const start = timeToMs(event.from);
@@ -81,20 +82,19 @@
     ({eventDurationShort(event.from, event.to)})
   </p>
 </div>
-<hr />
-<div class="flex gap-1">
+<div class="flex gap-1 my-2">
   {#each days as day, i}
     {#if i < 5 || event.days[5] || event.days[6]}
       <p
-        class="border border-base-content rounded-full w-8 h-8 flex items-center justify-center"
-        class:opacity-50={!event.days[i]}
+        class="border rounded-full w-8 h-8 flex items-center justify-center {event.days[i]
+          ? 'bg-base-300'
+          : 'border-base-300 bg-transparent'}"
       >
         {day}
       </p>
     {/if}
   {/each}
 </div>
-<hr />
 <div class="flex gap-2 items-center flex-wrap mt-1">
   <p class="border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">
     {event.room}
