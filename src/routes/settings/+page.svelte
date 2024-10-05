@@ -37,7 +37,7 @@
 <div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
   <Logo></Logo>
   <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
-    Add or change your classes
+    Add, remove, or change classes
   </SettingsField>
   <SettingsField type="link" title="Account" text="Open account settings" href="/account">
     Manage your account
@@ -46,19 +46,19 @@
     Sign out of your account
   </SettingsField>
   <SettingsField type="select" title="Theme" options={themes} bind:value={$settings.theme}>
-    Select a theme
+    Customize the look of Freetime
   </SettingsField>
   <SettingsField type="toggle" title="Highlight today" bind:value={$settings.highlightToday}>
-    Highlight the column for today
+    Highlight today's column
   </SettingsField>
   <SettingsField type="toggle" title="Dim other days" bind:value={$settings.dimOtherDays}>
-    Dim the background of events not taking place today
+    Make today's classes stand out
   </SettingsField>
   <SettingsField type="toggle" title="Show weekend" bind:value={$settings.showWeekend}>
-    Show columns for Saturday and Sunday in the calendar view
+    Show Saturday and Sunday columns
   </SettingsField>
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
-    Add extra padding to the bottom of the navigation bar
+    Add extra bottom padding to the navigation bar
   </SettingsField>
   <SettingsField type="button" title="Freetime" on:click={aboutModal.show} text="About"
   ></SettingsField>
