@@ -43,11 +43,11 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     -webkit-appearance: none;
-    background-color: WHITE;
+    background-color: #f2f2f2;
     background-image: none;
-    border: 1px solid #747775;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+    border: none;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     color: #1f1f1f;
@@ -121,7 +121,10 @@
   .gsi-material-button:disabled {
     cursor: default;
     background-color: #ffffff61;
-    border-color: #1f1f1f1f;
+  }
+
+  .gsi-material-button:disabled .gsi-material-button-state {
+    background-color: #1f1f1f1f;
   }
 
   .gsi-material-button:disabled .gsi-material-button-contents {
@@ -134,7 +137,7 @@
 
   .gsi-material-button:not(:disabled):active .gsi-material-button-state,
   .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-    background-color: #303030;
+    background-color: #001d35;
     opacity: 12%;
   }
 
@@ -148,7 +151,7 @@
   }
 
   .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-    background-color: #303030;
+    background-color: #001d35;
     opacity: 8%;
   }
 </style>
