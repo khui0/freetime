@@ -76,6 +76,7 @@
         href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
       >
     </p>
+    <p>Made with <span class="text-base-content">❤️</span> in Stony Brook, NY</p>
     <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
   </div>
 </Modal>
