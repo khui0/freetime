@@ -3,7 +3,7 @@
   import { timeToMs, timeUntil, msToUnits, eventDurationShort, timeTo12Hour } from "$lib/time";
   import { locations } from "$lib/sbu";
   import PhArrowRight from "~icons/ph/arrow-right";
-  import PhMapPin from "~icons/ph/map-pin";
+  import PhArrowSquareOut from "~icons/ph/arrow-square-out";
 
   export let event: CalendarEvent;
 
@@ -99,10 +99,12 @@
   <p class="border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">
     {event.room}
   </p>
-  <p>{locations[event.location].name}</p>
   {#if locations[event.location].maps}
-    <a href={locations[event.location].maps} class="btn btn-sm btn-square">
-      <PhMapPin></PhMapPin>
+    <a href={locations[event.location].maps} class="inline-flex gap-1 items-center hover:underline">
+      <p>{locations[event.location].name}</p>
+      <span class="mb-0.5"><PhArrowSquareOut></PhArrowSquareOut></span>
     </a>
+  {:else}
+    <p>{locations[event.location].name}</p>
   {/if}
 </div>
