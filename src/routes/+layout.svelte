@@ -12,8 +12,8 @@
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
-  import PhGear from "~icons/ph/gear";
-  import PhGearFill from "~icons/ph/gear-fill";
+  import PhList from '~icons/ph/list';
+  import PhListBold from '~icons/ph/list-bold';
 
   onMount(() => {
     if (!$currentUser || $ready) return;
@@ -60,9 +60,9 @@
   >
   <a href="/settings" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
     {#if $page.url.pathname === "/settings"}
-      <PhGearFill></PhGearFill>
+      <PhListBold></PhListBold>
     {:else}
-      <PhGear></PhGear>
+      <PhList></PhList>
     {/if}</a
   >
 </nav>
