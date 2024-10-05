@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = "Friends";
 
-  import Friend from "./Friend.svelte";
+  import { ready, currentUser, pb, schedules, friends as friendsList } from "$lib/pocketbase";
+  import { onMount } from "svelte";
+  import type { RecordModel } from "pocketbase";
 
+  import Friend from "./Friend.svelte";
   import Modal from "$lib/components/Modal.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
-
-  import PhArrowDown from "~icons/ph/arrow-down";
-  import PhArrowUp from "~icons/ph/arrow-up";
+  import { goto } from "$app/navigation";
 
   let confirm: Confirm;
 
@@ -23,10 +24,6 @@
 
   let loading: boolean = false;
 
-  import { currentUser, pb } from "$lib/pocketbase";
-  import { onMount } from "svelte";
-  import type { RecordModel } from "pocketbase";
-
   let self: RecordModel;
   let others: RecordModel[];
 
@@ -34,29 +31,18 @@
   let outgoing: RecordModel[] = [];
   let requests: RecordModel[] = [];
 
-  let schedules: RecordModel[] = [];
-
   onMount(() => {
     ready.subscribe((ready) => {
       if (!$currentUser || !ready) return;
 
       updateFriends();
-      pb.collection("friends").subscribe("*", async (e) => {
-        if (e.action === "update") updateFriends();
-      });
-
-      updateSchedules();
-      pb.collection("schedules").subscribe("*", async (e) => {
-        if (e.action === "update") updateSchedules();
-      });
+      friendsList.subscribe(updateFriends);
     });
   });
 
   async function updateFriends() {
     // List all friend lists that contain username
-    const list = await pb.collection("friends").getFullList({
-      expand: "friends,user",
-    });
+    const list = structuredClone($friendsList);
 
     // Own friends list
     self = list.filter((record) => record.user === $currentUser?.id)[0];
@@ -78,11 +64,6 @@
     });
   }
 
-  async function updateSchedules() {
-    const list = await pb.collection("schedules").getFullList();
-    schedules = list;
-  }
-
   async function getUserId(username: string) {
     const result = await pb
       .collection("users")
@@ -97,7 +78,7 @@
     loading = true;
     const friend = await getUserId(username);
     if (!friend) {
-      error = "Username not found";
+      error = "User not found";
       loading = false;
       return;
     }
@@ -141,23 +122,23 @@
 </script>
 
 <TopBar>
-  <h2 class="text-2xl font-bold">Friends</h2>
+  <h2 class="text-2xl font-bold tracking-tight">Friends</h2>
   <div class="flex gap-2 flex-wrap justify-end">
-    <div class="indicator">
-      <span class="indicator-item badge">{outgoing.length}</span>
-      <button class="btn btn-sm" on:click={outgoingModal.show}>
-        <PhArrowUp></PhArrowUp>
-      </button>
-    </div>
-    <div class="indicator">
-      <span class="indicator-item badge">{requests.length}</span>
-      <button class="btn btn-sm" on:click={requestsModal.show}>
-        <PhArrowDown></PhArrowDown>
-      </button>
-    </div>
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>
 </TopBar>
+<div class="flex gap-2 px-4 pt-4">
+  <button class="btn btn-sm" on:click={outgoingModal.show}>
+    Outgoing {#if outgoing.length > 0}
+      ({outgoing.length})
+    {/if}
+  </button>
+  <button class="btn btn-sm" on:click={requestsModal.show}>
+    Incoming {#if requests.length > 0}
+      ({requests.length})
+    {/if}
+  </button>
+</div>
 <div class="flex flex-col px-4">
   {#if friends}
     <div class="flex flex-col">
@@ -166,7 +147,7 @@
           index={i}
           username={friend.username}
           href="/user/{friend.username}"
-          schedule={schedules.find((record) => record.user === friend.id)?.schedule}
+          schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
           on:action={() => {
             confirm
               .prompt(
@@ -210,8 +191,16 @@
       {/if}
     </label>
     <div class="flex justify-between items-center flex-wrap">
-      <p>Your username is <b>{$currentUser?.username}</b></p>
-      <p class="bg-base-200 px-2 py-1 rounded-lg w-fit">
+      <div class="flex items-center gap-2">
+        <p>Your username is <b>{$currentUser?.username}</b></p>
+        <button
+          class="btn btn-xs"
+          on:click={() => {
+            goto("/account");
+          }}>Change</button
+        >
+      </div>
+      <p class="bg-base-200 px-2 py-1 rounded-lg w-fit text-sm">
         <span class="font-bold">freetime</span>.kennyhui.dev
       </p>
     </div>
@@ -229,7 +218,7 @@
   </form>
 </Modal>
 
-<Modal title="Outgoing" bind:this={outgoingModal} additionalClasses="h-full">
+<Modal title="Outgoing requests" bind:this={outgoingModal} additionalClasses="h-full">
   {#if outgoing && outgoing.length > 0}
     <div class="overflow-auto">
       {#each outgoing as friend}
@@ -245,7 +234,7 @@
   {/if}
 </Modal>
 
-<Modal title="Requests" bind:this={requestsModal} additionalClasses="h-full">
+<Modal title="Incoming requests" bind:this={requestsModal} additionalClasses="h-full">
   {#if requests && requests.length > 0}
     <div class="overflow-auto">
       {#each requests as friend}

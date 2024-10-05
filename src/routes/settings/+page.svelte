@@ -4,12 +4,17 @@
 
   import { settings } from "$lib/settings";
 
+  import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
+  import Modal from "$lib/components/Modal.svelte";
 
   import { signOut } from "$lib/pocketbase";
 
+  const version = import.meta.env.PACKAGE_VERSION;
+
   let confirm: Confirm;
+  let aboutModal: Modal;
 
   interface Option {
     name: string;
@@ -20,21 +25,19 @@
     { value: "auto", name: "Auto" },
     { value: "dark", name: "Dark" },
     { value: "light", name: "Light" },
+    { value: "solar-dark", name: "SOLAR Dark" },
+    { value: "solar-light", name: "SOLAR Light" },
+    { value: "latte", name: "Catppuccin Latte" },
+    { value: "frappe", name: "Catppuccin Frappe" },
+    { value: "macchiato", name: "Catppuccin Macchiato" },
+    { value: "mocha", name: "Catppuccin Mocha" },
   ];
-
-  const version = import.meta.env.PACKAGE_VERSION;
 </script>
 
 <div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
-  <div class="flex flex-col gap-4 items-center p-4">
-    <enhanced:img src="$lib/assets/freetime.svg" class="w-24" alt="Freetime logo" />
-    <div class="text-center">
-      <h1 class="text-2xl font-bold">SB Freetime</h1>
-      <p class="text-xs">{version}</p>
-    </div>
-  </div>
+  <Logo></Logo>
   <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
-    Add or change your classes
+    Add, remove, or change classes
   </SettingsField>
   <SettingsField type="link" title="Account" text="Open account settings" href="/account">
     Manage your account
@@ -43,21 +46,29 @@
     Sign out of your account
   </SettingsField>
   <SettingsField type="select" title="Theme" options={themes} bind:value={$settings.theme}>
-    Select a theme
+    Customize the look of Freetime
   </SettingsField>
   <SettingsField type="toggle" title="Highlight today" bind:value={$settings.highlightToday}>
-    Highlight the column for today
+    Highlight today's column
   </SettingsField>
   <SettingsField type="toggle" title="Dim other days" bind:value={$settings.dimOtherDays}>
-    Dim the background of events not taking place today
+    Make today's classes stand out
   </SettingsField>
   <SettingsField type="toggle" title="Show weekend" bind:value={$settings.showWeekend}>
-    Show columns for Saturday and Sunday in the calendar view
+    Show Saturday and Sunday columns
   </SettingsField>
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
-    Add extra padding to the bottom of the navigation bar
+    Add extra bottom padding to the navigation bar
   </SettingsField>
-  <div class="text-xs leading-normal text-base-content/50 px-4">
+  <SettingsField type="button" title="Freetime" on:click={aboutModal.show} text="About"
+  ></SettingsField>
+</div>
+
+<Confirm bind:this={confirm}></Confirm>
+
+<Modal title="About" bind:this={aboutModal}>
+  <div class="text-xs leading-relaxed text-base-content/50">
+    <p>Freetime {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
     <p>
       Found a bug, incorrect data, or have a feature request? Email <a
@@ -65,8 +76,7 @@
         href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
       >
     </p>
+    <p>Made with <span class="text-base-content">❤️</span> in Stony Brook, NY</p>
     <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
   </div>
-</div>
-
-<Confirm bind:this={confirm}></Confirm>
+</Modal>

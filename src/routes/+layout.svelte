@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   import { onMount } from "svelte";
   import { currentUser } from "$lib/pocketbase";
   import { page } from "$app/stores";
   import { settings } from "$lib/settings";
-  import { ensureScheduleExists, ensureFriendsExist } from "$lib/pocketbase";
+  import { init, ready } from "$lib/pocketbase";
 
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
@@ -12,19 +12,17 @@
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
-  import PhGear from "~icons/ph/gear";
-  import PhGearFill from "~icons/ph/gear-fill";
+  import PhList from '~icons/ph/list';
+  import PhListBold from '~icons/ph/list-bold';
 
-  onMount(async () => {
+  onMount(() => {
     if (!$currentUser || $ready) return;
-    await ensureScheduleExists();
-    await ensureFriendsExist();
-    $ready = true;
+    init();
   });
 </script>
 
 <svelte:head>
-  <title>{$title}{$title ? " - " : ""}SB Freetime</title>
+  <title>{$title}{$title ? " - " : ""}Freetime</title>
   <meta
     name="description"
     content="Social college schedule viewer for Stony Brook University. Share your class schedule with your friends! Find when everyone's free and easily plan meetups!"
@@ -62,9 +60,9 @@
   >
   <a href="/settings" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
     {#if $page.url.pathname === "/settings"}
-      <PhGearFill></PhGearFill>
+      <PhListBold></PhListBold>
     {:else}
-      <PhGear></PhGear>
+      <PhList></PhList>
     {/if}</a
   >
 </nav>

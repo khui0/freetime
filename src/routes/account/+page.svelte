@@ -19,23 +19,14 @@
   let confirm: Confirm;
 
   let newUsername: string;
-  let newEmail: string;
 
   let usernameState: FormState = {
     error: "",
     loading: false,
   };
-  let emailState: FormState = {
-    error: "",
-    loading: false,
-  };
-
-  let emailSuccess: string = "";
-  let passwordSuccess: string = "";
 
   onMount(() => {
     newUsername = $currentUser?.username;
-    newEmail = $currentUser?.email;
   });
 
   function deleteAccount() {
@@ -73,31 +64,6 @@
       usernameState.loading = false;
     }
   }
-
-  async function updateEmail() {
-    const result = z.string().email("Enter a valid email address").safeParse(newEmail);
-    if (result.success) {
-      emailState.loading = true;
-      emailState.error = "";
-      try {
-        await pb.collection("users").requestEmailChange(result.data);
-        emailSuccess = "Check your new email address to confirm the change";
-        emailState.loading = false;
-      } catch (err) {
-        setTimeout(() => {
-          emailState.loading = false;
-        }, 3000);
-      }
-    } else {
-      emailState.error = result.error.errors[0].message;
-      emailState.loading = false;
-    }
-  }
-
-  async function resetPassword() {
-    await pb.collection("users").requestPasswordReset($currentUser?.email);
-    passwordSuccess = "Check your email address to reset your password";
-  }
 </script>
 
 <TopBar>
@@ -111,6 +77,7 @@
   </button>
 </TopBar>
 <div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
+  <p class="px-4 text-base-content/50">{$currentUser?.email}</p>
   <div class="flex gap-2 border rounded-box p-4 flex-wrap">
     <!-- Username -->
     <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">
@@ -135,35 +102,9 @@
         {/if}
       </label>
     </form>
-    <!-- Email -->
-    <form on:submit|preventDefault={updateEmail} class="flex-1 flex gap-1 min-w-[250px]">
-      <label class="flex flex-col text-xs w-full">
-        <span class="px-2">Email address</span>
-        <div class="flex gap-1">
-          <input type="email" class="input input-bordered input-sm w-full" bind:value={newEmail} />
-          <button class="btn btn-sm" on:click={updateEmail}>
-            {#if !emailState.loading}
-              Update
-            {:else}
-              <span class="loading loading-spinner loading-sm"></span>
-            {/if}
-          </button>
-        </div>
-        {#if emailState?.error}
-          <p class="text-xs text-error mx-2 mt-1">{emailState?.error}</p>
-        {/if}
-        {#if emailSuccess}
-          <p class="text-xs text-success mx-2 mt-1">{emailSuccess}</p>
-        {/if}
-      </label>
-    </form>
   </div>
   <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
     <button class="btn btn-sm" on:click={signOut}>Sign out</button>
-    <button class="btn btn-sm" on:click={resetPassword}>Request password reset</button>
-    {#if passwordSuccess}
-      <p class="text-xs text-success mx-2 my-1">{passwordSuccess}</p>
-    {/if}
     <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account</button>
   </div>
 </div>

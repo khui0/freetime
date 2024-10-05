@@ -1,17 +1,20 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = "";
 
+  import { ready, currentUser, schedules } from "$lib/pocketbase";
+  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
   import { settings } from "$lib/settings";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
-  import { currentUser, pb } from "$lib/pocketbase";
 
   import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
+  import ClassesProgress from "$lib/components/ClassesProgress.svelte";
 
   import Welcome from "$lib/components/Welcome.svelte";
   import Onboarding from "$lib/components/Onboarding.svelte";
+
+  import PhPencilSimple from "~icons/ph/pencil-simple";
 
   let data: CalendarEvent[] = [];
 
@@ -31,13 +34,11 @@
     ready.subscribe(async (ready) => {
       if (!$currentUser || !ready) return;
 
-      const list = await pb.collection("schedules").getFullList();
-      const schedule = list.find((record) => record.user === $currentUser?.id);
-      data = schedule?.schedule;
+      // Retrieve own schedule
+      data = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
 
       update();
       setInterval(update, 1000);
-
       function update() {
         status = getStatus();
         until = timeUntil(status.event?.from, status.event?.to) || "";
@@ -64,14 +65,14 @@
     let message: string = "";
 
     if (today.length === 0) {
-      message = "You have no classes today";
+      message = "No classes today";
     } else if (inClass) {
-      message = "You are currently in";
+      message = `Class ends in ${timeUntil(current.from, current.to, true)}`;
     } else {
       if (rest.length === 0) {
-        message = "You're all done for the day!";
+        message = "Done for the day!";
       } else {
-        message = `Your next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
+        message = `Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
       }
     }
 
@@ -106,15 +107,19 @@
 >
   {#if status}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>
-      <h1 class="font-bold text-2xl">{status.greeting}, {$currentUser?.username}!</h1>
-      <p class="font-bold text-xl">{status.message}</p>
+      <div class="flex gap-2 items-center justify-between">
+        <h1 class="font-bold text-4xl tracking-tight">{status.greeting}!</h1>
+        <a href="/edit" class="btn btn-square rounded-full btn-sm"
+          ><PhPencilSimple></PhPencilSimple></a
+        >
+      </div>
+      <p class="text-xl tracking-tight">{status.message}</p>
     </div>
     {#if status.event}
       <div
         class="rounded-box border p-4 flex flex-col gap-2 h-fit"
         in:fade|global={{ duration: 250, delay: 50 }}
       >
-        <h2 class="font-bold text-2xl">{status.event.title} {status.event.number}</h2>
         <CalendarModalDetails event={status.event}></CalendarModalDetails>
       </div>
     {/if}
@@ -128,19 +133,18 @@
             {status.classesToday - status.classesRemaining}/{status.classesToday}
           </span> classes completed
         </p>
-        <progress
-          class="progress progress-accent"
+        <ClassesProgress
           value={status.classesToday - status.classesRemaining}
           max={status.classesToday}
-        ></progress>
+          inProgress={status.inClass}
+        ></ClassesProgress>
       </div>
-    {:else}
-      <enhanced:img
-        in:fade|global={{ duration: 250, delay: 50 + (status.event ? 50 : 0) }}
-        src="$lib/assets/wolfie.png"
-        alt="Wolfie"
-      />
     {/if}
+    <a
+      in:fade|global={{ duration: 250, delay: 100 + (status.event ? 50 : 0) }}
+      href="/calendar"
+      class="btn btn-sm rounded-full self-center">View calendar</a
+    >
   {/if}
 </div>
 

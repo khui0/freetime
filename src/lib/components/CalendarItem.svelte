@@ -15,9 +15,11 @@
 </script>
 
 <button
-  class="absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container {!dim
-    ? 'bg-accent'
-    : 'bg-accent/50'} {subtle ? 'opacity-25' : ''}"
+  class="leading-tight absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container {!dim
+    ? 'bg-accent  hover:bg-accent/80 active:bg-accent/80'
+    : 'bg-accent/50 hover:bg-accent/30 active:bg-accent/30'} {subtle
+    ? 'opacity-25'
+    : ''} transition-colors tracking-tight"
   style="height: {length * 4}rem; transform: translateY({(parseInt(event.from.split(':')[1]) / 60) *
     4}rem);"
   on:click={() => {

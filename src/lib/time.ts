@@ -34,6 +34,14 @@ export function eventDuration(from: string, to: string) {
   );
 }
 
+export function eventDurationShort(from: string, to: string) {
+  if (!from || !to) return;
+  const seconds = timeToS(to) - timeToS(from);
+  const minutes = seconds / 60;
+  const hours = minutes / 60;
+  return Math.floor(hours) + ":" + (minutes % 60).toString().padStart(2, "0");
+}
+
 export function timeUntil(from: string, to: string, timeOnly: boolean = false) {
   if (!from || !to) return;
   const now = Date.now();

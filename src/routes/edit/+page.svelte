@@ -1,18 +1,19 @@
 <script lang="ts">
-  import { title, ready } from "$lib/store";
+  import { title } from "$lib/store";
   $title = "Edit schedule";
 
   import { settings } from "$lib/settings";
-  import { pb, currentUser } from "$lib/pocketbase";
-  import { fade } from "svelte/transition";
+  import { ready, pb, currentUser, schedules } from "$lib/pocketbase";
+  import { fade, fly } from "svelte/transition";
+  import { beforeNavigate, goto } from "$app/navigation";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
-  import PhWarning from "~icons/ph/warning";
 
   import TopBar from "$lib/components/TopBar.svelte";
   import Event from "./Event.svelte";
-  import Alert from "$lib/components/Alert.svelte";
   import Modal from "$lib/components/Modal.svelte";
+  import Alert from "$lib/components/Alert.svelte";
+  import Confirm from "$lib/components/Confirm.svelte";
   import { onMount } from "svelte";
 
   import { parse } from "$lib/utilities";
@@ -21,27 +22,21 @@
   let importText: string;
 
   let alert: Alert;
+  let confirm: Confirm;
 
   let id: string;
   let events: CalendarEvent[] = [];
+
+  let leaveAnyways: boolean = false;
 
   onMount(async () => {
     ready.subscribe(async (ready) => {
       if (!$currentUser || !ready) return;
 
-      // Create record if it doesn't exist
-      await pb
-        .collection("schedules")
-        .getFirstListItem(`user="${$currentUser?.id}"`)
-        .catch(() => {
-          pb.collection("schedules").create({ user: $currentUser?.id, schedule: [] });
-        });
-
-      // Load schedule from database
-      const list = await pb.collection("schedules").getFullList();
-      const schedule = list.find((record) => record.user === $currentUser?.id);
+      // Retrieve own schedule
+      const schedule = $schedules.find((r) => r.user === $currentUser?.id);
       id = schedule?.id || "";
-      events = schedule?.schedule;
+      events = structuredClone(schedule?.schedule);
     });
   });
 
@@ -77,7 +72,7 @@
           alert.prompt("Unable to save schedule", "An unforeseen error was encountered.");
         });
     } else {
-      alert.prompt("Invalid class", "One or more classes have missing fields!");
+      alert.prompt("Invalid data", "One or more classes have missing fields!");
     }
   }
 
@@ -98,7 +93,30 @@
       },
     };
   };
+
+  function beforeUnload(e: BeforeUnloadEvent) {
+    if (!saved) {
+      e.preventDefault();
+      return "";
+    }
+  }
+
+  beforeNavigate(async ({ to, cancel }) => {
+    if (!saved && to && !leaveAnyways) {
+      cancel();
+      confirm
+        .prompt("Unsaved changes", "Are you sure you want to leave? Changes will be lost!", "Leave")
+        .then(() => {
+          leaveAnyways = true;
+          console.log(to);
+          goto(to.url.pathname);
+        })
+        .catch(() => {});
+    }
+  });
 </script>
+
+<svelte:window on:beforeunload={beforeUnload} />
 
 <TopBar>
   <button
@@ -124,6 +142,7 @@
     {#each events as event, i}
       <div in:fade|global={{ duration: 250, delay: 50 * i }}>
         <Event
+          index={i}
           bind:data={event}
           on:delete={() => {
             events = events.filter((item) => item !== event);
@@ -140,28 +159,31 @@
   {/if}
 </div>
 <div
-  class="fixed bottom-0 right-0 flex gap-2 justify-end m-4 items-center {$settings.tallNavigation ===
+  class="fixed bottom-0 right-0 flex gap-2 justify-end m-4 items-center drop-shadow-lg {$settings.tallNavigation ===
   'true'
     ? 'pb-[calc(49px+2rem)]'
     : 'pb-[49px]'}"
 >
   {#if !saved}
-    <p
-      in:fade={{ duration: 250 }}
-      class="px-3 min-h-8 bg-base-200 rounded-btn text-sm flex items-center gap-2"
-    >
-      <span><PhWarning></PhWarning></span>You have unsaved changes
-    </p>
+    <div in:fly={{ duration: 250, y: 10 }} out:fly={{ duration: 250, y: 10 }} class="relative">
+      <div class="bg-accent absolute inset-0 z-[-1] rounded-btn animate-ping"></div>
+      <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
+    </div>
   {/if}
-  <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
 </div>
 
 <Alert bind:this={alert}></Alert>
+<Confirm bind:this={confirm}></Confirm>
 <Modal title="Import schedule" bind:this={modal}>
   <p>
-    1. In SOLAR, go to <code>Student Records & Registration > Enrollment > My Class Schedule</code>
+    1. In SOLAR, go to <code class="bg-base-200 rounded-md"
+      >Student Records & Registration > Enrollment > My Class Schedule</code
+    >
   </p>
-  <p>2. Select all the text on the page and copy</p>
+  <p>
+    2. Select all the text on the page, copy it, and paste it into the textbox below. (This may not
+    work reliably on mobile)
+  </p>
   <label class="flex flex-col text-xs my-2">
     <span class="px-2">Paste text from SOLAR</span>
     <textarea class="textarea textarea-bordered resize-none" rows="5" bind:value={importText}

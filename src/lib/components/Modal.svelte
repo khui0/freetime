@@ -17,7 +17,7 @@
     dispatch("close");
   }
 
-  export let title: string;
+  export let title: string = "";
 
   export let additionalClasses: string = "";
   export let centered: boolean = false;
@@ -32,7 +32,9 @@
     </form>
     <div class="flex flex-col gap-2 h-full" class:items-center={centered}>
       <slot name="icon"></slot>
-      <h2 class="font-bold text-2xl {centered ? '' : 'self-start pr-8'}">{title}</h2>
+      {#if title !== ""}
+        <h2 class="font-bold text-2xl {centered ? '' : 'self-start pr-8'}">{title}</h2>
+      {/if}
       <slot></slot>
     </div>
     <slot name="buttons"></slot>
