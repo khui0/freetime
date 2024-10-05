@@ -11,9 +11,6 @@
   import Confirm from "$lib/components/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
 
-  import PhArrowDown from "~icons/ph/arrow-down";
-  import PhArrowUp from "~icons/ph/arrow-up";
-
   let confirm: Confirm;
 
   let addModal: Modal;
@@ -126,21 +123,19 @@
 <TopBar>
   <h2 class="text-2xl font-bold">Friends</h2>
   <div class="flex gap-2 flex-wrap justify-end">
-    <div class="indicator">
-      <span class="indicator-item badge">{outgoing.length}</span>
-      <button class="btn btn-sm" on:click={outgoingModal.show}>
-        <PhArrowUp></PhArrowUp>
-      </button>
-    </div>
-    <div class="indicator">
-      <span class="indicator-item badge">{requests.length}</span>
-      <button class="btn btn-sm" on:click={requestsModal.show}>
-        <PhArrowDown></PhArrowDown>
-      </button>
-    </div>
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>
 </TopBar>
+<div class="flex gap-2 px-4 pt-4">
+  <div class="indicator">
+    <span class="indicator-item badge">{outgoing.length}</span>
+    <button class="btn btn-sm" on:click={outgoingModal.show}> Outgoing </button>
+  </div>
+  <div class="indicator">
+    <span class="indicator-item badge">{requests.length}</span>
+    <button class="btn btn-sm" on:click={requestsModal.show}> Requests </button>
+  </div>
+</div>
 <div class="flex flex-col px-4">
   {#if friends}
     <div class="flex flex-col">

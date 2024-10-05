@@ -60,7 +60,7 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra padding to the bottom of the navigation bar
   </SettingsField>
-  <SettingsField type="button" title="About" on:click={aboutModal.show} text="Show"
+  <SettingsField type="button" title="Freetime" on:click={aboutModal.show} text="About"
   ></SettingsField>
 </div>
 
