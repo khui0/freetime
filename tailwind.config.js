@@ -19,6 +19,11 @@ export default {
   future: {
     hoverOnlyWhenSupported: true,
   },
+  extend: {
+    screens: {
+      print: { raw: "print" },
+    },
+  },
   daisyui: {
     themes: [
       {

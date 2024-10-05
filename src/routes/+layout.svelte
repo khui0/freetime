@@ -12,8 +12,8 @@
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
-  import PhList from '~icons/ph/list';
-  import PhListBold from '~icons/ph/list-bold';
+  import PhList from "~icons/ph/list";
+  import PhListBold from "~icons/ph/list-bold";
 
   onMount(() => {
     if (!$currentUser || $ready) return;
@@ -34,7 +34,7 @@
 </main>
 <div class="fixed z-50 left-0 right-0 -top-20 h-20 bg-base-100"></div>
 <nav
-  class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-around border-t text-xl"
+  class="fixed bottom-0 left-0 right-0 bg-base-100/50 backdrop-blur-lg z-40 flex justify-around border-t text-xl print:hidden"
   class:pb-8={$settings.tallNavigation === "true"}
 >
   <a href="/" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
