@@ -224,8 +224,7 @@
   <h2>Links to Other Websites</h2>
   <p>
     Our Service may contain links to other websites that are not operated by Us. If You click on a
-    third party link, You will be directed to that third party's site. We strongly advise You to
-    review the Privacy Policy of every site You visit.
+    third party link, You will be directed to that third party's site.
   </p>
   <p>
     We have no control over and assume no responsibility for the content, privacy policies or
