@@ -19,7 +19,7 @@
     ? 'bg-accent  hover:bg-accent/80 active:bg-accent/80'
     : 'bg-accent/50 hover:bg-accent/30 active:bg-accent/30'} {subtle
     ? 'opacity-25'
-    : ''} transition-colors"
+    : ''} transition-colors tracking-tight"
   style="height: {length * 4}rem; transform: translateY({(parseInt(event.from.split(':')[1]) / 60) *
     4}rem);"
   on:click={() => {
