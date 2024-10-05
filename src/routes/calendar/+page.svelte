@@ -32,7 +32,7 @@
       function update() {
         date = new Date().toLocaleDateString("en-US", {
           weekday: "long",
-          month: "short",
+          month: "long",
           day: "numeric",
         });
       }
