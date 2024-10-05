@@ -10,6 +10,7 @@
   import Modal from "$lib/components/Modal.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
+  import { goto } from "$app/navigation";
 
   let confirm: Confirm;
 
@@ -190,8 +191,16 @@
       {/if}
     </label>
     <div class="flex justify-between items-center flex-wrap">
-      <p>Your username is <b>{$currentUser?.username}</b></p>
-      <p class="bg-base-200 px-2 py-1 rounded-lg w-fit">
+      <div class="flex items-center gap-2">
+        <p>Your username is <b>{$currentUser?.username}</b></p>
+        <button
+          class="btn btn-xs"
+          on:click={() => {
+            goto("/account");
+          }}>Change</button
+        >
+      </div>
+      <p class="bg-base-200 px-2 py-1 rounded-lg w-fit text-sm">
         <span class="font-bold">freetime</span>.kennyhui.dev
       </p>
     </div>
