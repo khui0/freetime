@@ -52,27 +52,27 @@
   <div class="mt-10 flex gap-5">
     <enhanced:img
       src="$lib/assets/promo/theme-split.png"
-      alt="Freetime promo image showcasing a dark and light image"
+      alt="Freetime with light and dark theme"
       class="w-56"
     />
-    <div class="flex flex-col items-start justify-center gap-5 text-start">
-      <h2 class="text-xl">View your schedule on a fluid calendar</h2>
-      <h2 class="text-xl">That works beautifully on mobile</h2>
-      <h2 class="text-xl">With multiple themes</h2>
-      <h2 class="text-xl">Including <b>Dark</b>...</h2>
-      <h2 class="text-xl"><i>Light</i>... and more!</h2>
+    <div class="flex flex-col items-start justify-center gap-2 sm:gap-5 text-start">
+      <p class="sm:text-xl">View your schedule on a fluid calendar</p>
+      <p class="sm:text-xl">That works beautifully on mobile</p>
+      <p class="sm:text-xl">With multiple themes</p>
+      <p class="sm:text-xl">Including <b>Dark</b>...</p>
+      <p class="sm:text-xl"><i>Light</i>... and more!</p>
     </div>
   </div>
-  <div class="-mt-20 flex gap-5 flex-row-reverse">
+  <div class="sm:-mt-20 flex gap-5 flex-row-reverse">
     <enhanced:img
       src="$lib/assets/promo/compare.png"
-      alt="Freetime promo image showcasing a dark and light image"
+      alt="Freetime side by side view of two schedules"
       class="w-56"
     />
-    <div class="flex flex-col items-end justify-center gap-5 text-end">
-      <h2 class="text-xl">Share your schedule with your friends</h2>
-      <h2 class="text-xl">See your schedules side by side</h2>
-      <h2 class="text-xl">And see when you both have <i>Freetime!</i></h2>
+    <div class="flex flex-col items-end justify-center gap-2 sm:gap-5 text-end">
+      <p class="sm:text-xl">Share your schedule with your friends</p>
+      <p class="sm:text-xl">See your schedules side by side</p>
+      <p class="sm:text-xl">And see when you both have <i>Freetime!</i></p>
     </div>
   </div>
   <div class="mt-5">
