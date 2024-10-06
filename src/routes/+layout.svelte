@@ -6,7 +6,8 @@
   <title>{$title}{$title ? " - " : ""}Freetime</title>
   <meta
     name="description"
-    content="Social college schedule viewer for Stony Brook University. Share your class schedule with your friends! Find when everyone's free and easily plan meetups!"
+    content="Social schedule viewer for Stony Brook University! Navigate to your classes, see when they start
+    (and end), and share it with your friends!"
   />
 </svelte:head>
 

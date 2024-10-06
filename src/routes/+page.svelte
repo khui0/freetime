@@ -21,22 +21,25 @@
   });
 </script>
 
-<div class="fixed inset-0 z-50 bg-base-100">
-  <div class="flex flex-col gap-4 items-center justify-center p-10 h-full">
-    <Logo></Logo>
-    <p class="text-lg text-center max-w-lg my-5">
-      Social college schedule viewer for Stony Brook University. Share your class schedule with your
-      friends!
-    </p>
-    <GoogleAuth></GoogleAuth>
-    <a href="/legacy-sign-in" class="link text-sm">Continue with email</a>
-  </div>
-  <div class="absolute left-0 right-0 bottom-0 text-xs text-base-content/50 text-center p-4">
-    <a href="/privacy-policy" class="link">Privacy Policy</a>
-    <p>
-      Having issues? Contact <a class="font-bold" href="mailto:support@kennyhui.dev">
-        support@kennyhui.dev
-      </a>
-    </p>
-  </div>
+<main class="text-center p-10 mb-12">
+  <div class="mx-auto w-fit"><Logo></Logo></div>
+  <p class="text-center max-w-xl my-5 mx-auto leading-relaxed text-balance">
+    Social schedule viewer for Stony Brook University! Navigate to your classes, see when they start
+    (and end), and share it with your friends!
+  </p>
+  <GoogleAuth></GoogleAuth>
+  <a href="/legacy-sign-in" class="link text-sm block mt-5">Continue with email</a>
+</main>
+<div class="fixed bottom-0 w-full text-xs text-base-content/50 text-center p-5">
+  <p>Not affiliated with Stony Brook University.</p>
+  <p>
+    Having issues? Contact <a class="link" href="mailto:support@kennyhui.dev">
+      support@kennyhui.dev
+    </a>
+  </p>
+  <p>
+    Copyright &copy; 2024 Kenny Hui. All rights reserved. <a href="/privacy-policy" class="link"
+      >Privacy Policy</a
+    >
+  </p>
 </div>

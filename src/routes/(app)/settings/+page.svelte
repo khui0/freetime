@@ -74,7 +74,7 @@
     <p>Not affiliated with Stony Brook University.</p>
     <p>
       Found a bug, incorrect data, or have a feature request? Contact <a
-        class="font-bold"
+        class="link"
         href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
       >
     </p>
