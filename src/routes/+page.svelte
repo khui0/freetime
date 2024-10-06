@@ -23,12 +23,20 @@
 
 <main class="text-center p-10 mb-12">
   <div class="mx-auto w-fit"><Logo></Logo></div>
-  <p class="text-center max-w-xl my-5 mx-auto leading-relaxed text-balance">
-    Social schedule viewer for Stony Brook University! Navigate to your classes, see when they start
-    (and end), and share it with your friends!
+  <p class="mt-5 text-center max-w-xlmx-auto leading-relaxed text-balance">
+    Social schedule viewer for Stony Brook University!
   </p>
-  <GoogleAuth></GoogleAuth>
-  <a href="/legacy-sign-in" class="link text-sm block mt-5">Continue with email</a>
+  <div class="mt-5 flex gap-2 flex-wrap justify-center">
+    <p class="border rounded-lg w-fit px-2 py-1">Navigate to your classes</p>
+    <p class="border rounded-lg w-fit px-2 py-1">see when they start (and end)</p>
+    <p class="border rounded-lg w-fit px-2 py-1">and share it with your friends!</p>
+  </div>
+  <div class="mt-5">
+    <GoogleAuth></GoogleAuth>
+  </div>
+  <div class="mt-5">
+    <a href="/legacy-sign-in" class="link text-sm">Continue with email</a>
+  </div>
 </main>
 <div class="fixed bottom-0 w-full text-xs text-base-content/50 text-center p-5">
   <p>Not affiliated with Stony Brook University.</p>
