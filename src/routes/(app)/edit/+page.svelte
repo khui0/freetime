@@ -62,7 +62,6 @@
     const valid = !events.some((event) => !isValid(event));
     if (events.length === 0) return;
     if (valid) {
-      console.log(id);
       pb.collection("schedules")
         .update(id, { schedule: events })
         .then(() => {
@@ -108,7 +107,6 @@
         .prompt("Unsaved changes", "Are you sure you want to leave? Changes will be lost!", "Leave")
         .then(() => {
           leaveAnyways = true;
-          console.log(to);
           goto(to.url.pathname);
         })
         .catch(() => {});
@@ -194,7 +192,6 @@
     on:click={() => {
       events = parse(importText) || [];
       importText = "";
-      console.log(events);
       saved = false;
       modal.close();
       alert.prompt(

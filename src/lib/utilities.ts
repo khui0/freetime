@@ -32,7 +32,6 @@ export function parse(data: string) {
       const buildingCode = Object.entries(locations).find(([, value]) => {
         return value.name === fuse.search(location?.[1] || "")[0].item.name;
       })?.[0];
-      console.log(buildingCode);
       schedule.push({
         title: courses[i].split(" ")[0],
         number: courses[i].split(" ")[1],

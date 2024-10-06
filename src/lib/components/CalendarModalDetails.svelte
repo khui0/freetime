@@ -25,7 +25,6 @@
 
     function update() {
       today = event.days[(new Date().getDay() + 13) % 7];
-      console.log((new Date().getDay() + 13) % 7);
 
       const now = Date.now();
       const start = timeToMs(event.from);
