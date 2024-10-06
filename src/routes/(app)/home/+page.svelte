@@ -103,14 +103,19 @@
     : 'h-[calc(100svh-49px)]'}"
 >
   {#if status}
+    {@const newUser = data.length === 0 && $ready}
     <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>
       <div class="flex gap-2 items-center justify-between">
-        <h1 class="font-bold text-4xl tracking-tight">{status.greeting}!</h1>
+        <h1 class="font-bold text-4xl tracking-tight">
+          {newUser ? "Welcome" : status.greeting}!
+        </h1>
         <a href="/edit" class="btn btn-square rounded-full btn-sm"
           ><PhPencilSimple></PhPencilSimple></a
         >
       </div>
-      <p class="text-xl tracking-tight">{status.message}</p>
+      <p class="text-xl tracking-tight">
+        {newUser ? "Start by adding your classes!" : status.message}
+      </p>
     </div>
     {#if status.event}
       <div
@@ -139,10 +144,8 @@
     {/if}
     <a
       in:fade|global={{ duration: 250, delay: 100 + (status.event ? 50 : 0) }}
-      href="/calendar"
-      class="btn btn-sm rounded-full self-center">View calendar</a
+      href={newUser ? "/edit" : "/calendar"}
+      class="btn btn-sm rounded-full self-center">{newUser ? "Add classes" : "View calendar"}</a
     >
   {/if}
 </div>
-
-<!-- {:else if data.length === 0 && $ready} -->
