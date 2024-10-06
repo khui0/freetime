@@ -8,7 +8,6 @@
 
   import Calendar from "$lib/components/Calendar.svelte";
   import CalendarModal from "$lib/components/CalendarModal.svelte";
-  import Onboarding from "$lib/components/Onboarding.svelte";
 
   import PhPencilSimple from "~icons/ph/pencil-simple";
 
@@ -67,10 +66,6 @@
       </div>
     </div>
   </Calendar>
-{/if}
-
-{#if data.length === 0 && ready}
-  <Onboarding></Onboarding>
 {/if}
 
 <CalendarModal bind:this={details}></CalendarModal>

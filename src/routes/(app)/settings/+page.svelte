@@ -35,7 +35,7 @@
 </script>
 
 <div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
-  <Logo></Logo>
+  <div class="self-center my-5"><Logo></Logo></div>
   <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
     Add, remove, or change classes
   </SettingsField>
@@ -73,8 +73,8 @@
     <p>Freetime {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
     <p>
-      Found a bug, incorrect data, or have a feature request? Email <a
-        class="font-bold"
+      Found a bug, incorrect data, or have a feature request? Contact <a
+        class="link"
         href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
       >
     </p>

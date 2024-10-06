@@ -44,10 +44,15 @@
 </script>
 
 <form on:submit|preventDefault={submit} class="flex flex-col gap-3">
+  <p class="text-center text-sm">
+    Email sign in is now deprecated. Consider signing in through Google. If you need to have your
+    account email changed to your Gmail, contact
+    <a class="link" href="mailto:support@kennyhui.dev">support@kennyhui.dev</a>
+  </p>
   <FormField type="email" bind:result={email}></FormField>
   <FormField type="password" bind:result={password}></FormField>
   <FormErrors bind:errors></FormErrors>
-  <button class="btn btn-accent" on:click={submit}>
+  <button class="btn" on:click={submit}>
     {#if !loading}
       Sign in
     {:else}
