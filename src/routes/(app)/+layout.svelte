@@ -29,7 +29,7 @@
   class:pb-8={$settings.tallNavigation === "true"}
 >
   <a href="/home" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
-    {#if $page.url.pathname === "/"}
+    {#if $page.url.pathname === "/home"}
       <PhHouseFill></PhHouseFill>
     {:else}
       <PhHouse></PhHouse>
