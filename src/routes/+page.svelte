@@ -3,7 +3,7 @@
   $title = "";
 
   import GoogleAuth from "$lib/components/GoogleAuth.svelte";
-  import LogoLarge from "$lib/components/LogoLarge.svelte";
+  import Logo from "$lib/components/Logo.svelte";
 
   import { pb } from "$lib/pocketbase";
   import { goto } from "$app/navigation";
@@ -23,7 +23,7 @@
 
 <div class="fixed inset-0 z-50 bg-base-100">
   <div class="flex flex-col gap-4 items-center justify-center p-10 h-full">
-    <LogoLarge></LogoLarge>
+    <Logo></Logo>
     <p class="text-lg text-center max-w-lg my-5">
       Social college schedule viewer for Stony Brook University. Share your class schedule with your
       friends!
