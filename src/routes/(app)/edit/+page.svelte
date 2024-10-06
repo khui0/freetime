@@ -59,8 +59,7 @@
   let saved: boolean = true;
 
   function save() {
-    const valid = !events.some((event) => !isValid(event));
-    if (events.length === 0) return;
+    const valid = events.every((event) => isValid(event)) || events.length === 0;
     if (valid) {
       pb.collection("schedules")
         .update(id, { schedule: events })
