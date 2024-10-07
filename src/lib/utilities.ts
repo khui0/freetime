@@ -9,29 +9,45 @@ const fuse = new Fuse(Object.values(locations), {
 });
 
 export function parse(data: string) {
-  const courses = data.match(/^[A-Z]{3} [0-9]{3}/gm);
-  if (!courses) return;
-  const extracted = data
+  const COURSE_REGEX = /^[A-Z]{3} [0-9]{3}/gm;
+  const TIME_REGEX =
+    /((?:Mo|Tu|We|Th|Fr|Sa|Su)+) ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM)) - ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM))/;
+  const ROOM_REGEX = /(.+) ([A-Z]?[0-9-]+)/;
+  const DATE_REGEX = /[0-9]{2}\/[0-9]{2}\/[0-9]{4} - [0-9]{2}\/[0-9]{2}\/[0-9]{4}/;
+  // Normalize input between Chrome, Firefox, and Safari
+  const normalized = data
     .trim()
-    .split(/^[A-Z]{3} [0-9]{3}/gm)
-    .map((item) => item.split("\n").filter((line) => line.trim()))
-    .filter((item) => item[0].startsWith(" - "));
+    .replace(/\n\t+\n/g, "\n")
+    .replace(/ \t|\t/g, " ")
+    .replace(/ {2}/g, " ")
+    .replace(/\n \n/g, "\n");
+  // Match courses
+  const courses = normalized.match(COURSE_REGEX);
+  if (!courses) return; // Stop if no courses are detected
+  // Split input by courses and separate each line
+  const extracted = normalized
+    .split(COURSE_REGEX)
+    .slice(1)
+    .map((item) => item.split("\n"));
+
   const schedule: CalendarEvent[] = [];
   for (let i = 0; i < extracted.length; i++) {
-    const timeRegex =
-      /((?:Mo|Tu|We|Th|Fr|Sa|Su)+) ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM)) - ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM))/;
     const item = extracted[i];
+    // Get the index of each occurrence of a date in MM/DD/YYYY - MM/DD/YYYY format
     const indicies = item.reduce((a: number[], e, i) => {
-      if (e === "View Textbook") a.push(i);
+      if (e.match(DATE_REGEX)) a.push(i);
       return a;
     }, []);
+    // Loop over each index, in case a course has multiple classes
     indicies.forEach((index) => {
-      const type = item[index - 5];
-      const times = item[index - 4].match(timeRegex);
-      const location = item[index - 3].match(/(.+) ([A-Z]?[0-9-]+)/);
+      // Get information by relative index
+      const type = item[index - 4];
+      const times = item[index - 3].match(TIME_REGEX);
+      const location = item[index - 2].match(ROOM_REGEX);
       const buildingCode = Object.entries(locations).find(([, value]) => {
         return value.name === fuse.search(location?.[1] || "")[0].item.name;
       })?.[0];
+      console.log("Found", courses[i], type, times, location, buildingCode);
       schedule.push({
         title: courses[i].split(" ")[0],
         number: courses[i].split(" ")[1],
