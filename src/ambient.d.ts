@@ -14,6 +14,8 @@ interface Locations {
     name: string;
     short?: string;
     maps?: string;
+    lat?: string;
+    lon?: string;
   };
 }
 
