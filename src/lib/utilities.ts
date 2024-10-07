@@ -45,9 +45,12 @@ export function parse(data: string) {
       const type = item[index - 4];
       const times = item[index - 3].match(TIME_REGEX);
       const location = item[index - 2].match(ROOM_REGEX);
-      const buildingCode = Object.entries(locations).find(([, value]) => {
-        return value.name === fuse.search(location?.[1] || "")[0].item.name;
-      })?.[0];
+      const estimatedLocation = location && fuse.search(location[1])[0].item.name;
+      const buildingCode =
+        estimatedLocation &&
+        Object.entries(locations).find(([, value]) => {
+          return value.name === estimatedLocation;
+        })?.[0];
       console.log("Found", courses[i], type, times, location, buildingCode);
       schedule.push({
         title: courses[i].split(" ")[0],

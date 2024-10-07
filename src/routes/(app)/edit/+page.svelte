@@ -199,7 +199,6 @@
       events = parse(importText) || [];
       importText = "";
       saved = false;
-      console.log(events);
       modal.close();
       alert.prompt(
         "Attempted to import schedule",
