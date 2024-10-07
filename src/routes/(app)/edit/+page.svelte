@@ -16,7 +16,7 @@
   import Confirm from "$lib/components/Confirm.svelte";
   import { onMount } from "svelte";
 
-  import { parse } from "$lib/utilities";
+  import { parse, isMac } from "$lib/utilities";
 
   let modal: Modal;
   let importText: string;
@@ -172,26 +172,34 @@
 <Alert bind:this={alert}></Alert>
 <Confirm bind:this={confirm}></Confirm>
 <Modal title="Import schedule" bind:this={modal}>
+  {@const ctrlKey = isMac() ? "⌘" : "Ctrl"}
   <p>
-    1. In SOLAR, go to <code class="bg-base-200 rounded-md"
-      >Student Records & Registration > Enrollment > My Class Schedule</code
-    >
+    1. Log into SOLAR. Then, go to <code>
+      Student Records & Registration > Enrollment > My Class Schedule
+    </code>
   </p>
   <p>
-    2. Select all the text on the page, copy it, and paste it into the textbox below. (This may not
-    work reliably on mobile)
+    2. Click <code>Printer Friendly Page</code> at the bottom of the page
   </p>
+  <p>3. Select all the text on the page</p>
+  <p><kbd class="kbd">{ctrlKey}</kbd> + <kbd class="kbd">A</kbd></p>
+  <p>4. Copy it</p>
+  <p><kbd class="kbd">{ctrlKey}</kbd> + <kbd class="kbd">C</kbd></p>
+  <p>5. Paste it into the textbox below.</p>
+  <p><kbd class="kbd">{ctrlKey}</kbd> + <kbd class="kbd">V</kbd></p>
   <label class="flex flex-col text-xs my-2">
     <span class="px-2">Paste text from SOLAR</span>
     <textarea class="textarea textarea-bordered resize-none" rows="5" bind:value={importText}
     ></textarea>
   </label>
+  <p class="text-sm">NOTE: This may not work reliably</p>
   <button
     class="btn btn-sm"
     on:click={() => {
       events = parse(importText) || [];
       importText = "";
       saved = false;
+      console.log(events);
       modal.close();
       alert.prompt(
         "Attempted to import schedule",
@@ -200,3 +208,9 @@
     }}>Import</button
   >
 </Modal>
+
+<style>
+  code {
+    @apply bg-base-200 rounded-md text-sm font-bold px-1 py-0.5;
+  }
+</style>

@@ -9,6 +9,7 @@ const fuse = new Fuse(Object.values(locations), {
 });
 
 export function parse(data: string) {
+  if (!data) return;
   const COURSE_REGEX = /^[A-Z]{3} [0-9]{3}/gm;
   const TIME_REGEX =
     /((?:Mo|Tu|We|Th|Fr|Sa|Su)+) ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM)) - ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM))/;
@@ -83,5 +84,13 @@ export function parse(data: string) {
       hours += 12;
     }
     return hours.toString().padStart(2, "0") + ":" + parts[2];
+  }
+}
+
+export function isMac(): boolean {
+  try {
+    return navigator.userAgent.indexOf("Mac OS X") != -1;
+  } catch {
+    return false;
   }
 }
