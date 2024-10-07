@@ -45,6 +45,7 @@
     <p class="border rounded-lg w-fit px-2 py-1">See when they start (and end)</p>
     <p class="border rounded-lg w-fit px-2 py-1">And share it with your friends!</p>
   </div>
+  <a href="#get-started" class="mt-5 btn rounded-full">Get started</a>
   <h2 class="mt-10 text-5xl font-bold tracking-tight">At a glance</h2>
   <div class="mt-5 rounded-box border p-4 flex flex-col gap-2 w-full">
     <CalendarModalDetails event={sampleEvent}></CalendarModalDetails>
@@ -103,7 +104,7 @@
       <li>Navigate to your classes with Google Maps™</li>
     </ul>
   </div>
-  <h2 class="mt-10 text-4xl font-bold">Get started</h2>
+  <h2 id="get-started" class="mt-10 text-4xl font-bold">Get started</h2>
   <div class="mt-5">
     <GoogleAuth></GoogleAuth>
   </div>
@@ -128,3 +129,9 @@
     </p>
   </div>
 </main>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+</style>
