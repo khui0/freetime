@@ -35,10 +35,11 @@
   });
 </script>
 
+<!-- Header -->
 <div class="z-20 sticky top-0 flex flex-col bg-base-100/50 backdrop-blur-lg border-b">
   <slot></slot>
   <div class="flex px-4 pt-2 text-base-content/50 text-sm">
-    <p class="flex items-center justify-center mr-2 w-12"><PhClock></PhClock></p>
+    <p class="flex items-center justify-center mr-2 w-10"><PhClock></PhClock></p>
     {#each Array(Math.min(columns, headers.length)) as _, i}
       {@const today = (new Date().getDay() + 13) % 7 === i + offset}
       <button
@@ -54,25 +55,38 @@
     {/each}
   </div>
 </div>
-{#each Array(13) as _, i}
-  <div class="relative mx-4 text-center h-16 flex" class:border-b={i !== 12}>
-    <p class="text-sm text-base-content/50 self-center mr-2 w-12">
-      {i !== 4 ? (i + 8) % 12 : 12}:00
-    </p>
-    {#key data}
-      {#each Array(Math.min(columns, headers.length) * multiplier) as _, j}
-        {@const today = (new Date().getDay() + 13) % 7 === Math.floor(j / multiplier) + offset}
-        {@const event = data[j % multiplier]?.find(
+<!-- Body -->
+<div class="relative flex mx-4">
+  <!-- Time column -->
+  <div class="w-10 text-end pr-1 py-4">
+    {#each Array(14) as _, row}
+      {@const time = row !== 4 ? ((row + 8) % 12) + " PM" : "Noon"}
+      <div class="relative text-xs text-base-content/50 {row !== 13 ? 'h-16' : 'h-0'}">
+        <p class="absolute w-full -translate-y-1/2">{time}</p>
+      </div>
+    {/each}
+  </div>
+  <div class="w-2 py-4">
+    {#each Array(13) as _, row}
+      <div
+        class="relative text-sm text-base-content/50 {row !== 13 ? 'h-16' : 'h-0'} {row === 0
+          ? 'border-y'
+          : 'border-b'}"
+      ></div>
+    {/each}
+  </div>
+  <!-- Schedule -->
+  {#each Array(Math.min(columns, headers.length) * multiplier) as _, col}
+    {@const today = (new Date().getDay() + 13) % 7 === Math.floor(col / multiplier) + offset}
+    <div class="flex-1 py-4 {today && $settings.highlightToday === 'true' ? 'bg-base-200/50' : ''}">
+      {#each Array(13) as _, row}
+        {@const event = data[col % multiplier]?.find(
           (item) =>
-            parseInt(item.from.split(":")[0]) === i + 8 &&
-            item.days[Math.floor(j / multiplier) + offset],
+            parseInt(item.from.split(":")[0]) === row + 8 &&
+            item.days[Math.floor(col / multiplier) + offset],
         )}
-        {@const user = j % multiplier === 0}
-        <div
-          class="flex-1 relative {today && $settings.highlightToday === 'true'
-            ? 'bg-base-200/50'
-            : ''}"
-        >
+        {@const user = col % multiplier === 0}
+        <div class="relative h-16 {row === 0 ? 'border-y' : 'border-b'}">
           {#if event}
             <CalendarItem
               {event}
@@ -82,20 +96,15 @@
             ></CalendarItem>
           {/if}
         </div>
-        <!-- Current time indicator -->
-        {#if i === 0}
-          <div class="z-10 absolute w-full" style="transform: translateY({progress * 48}rem)">
-            <div
-              class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"
-            ></div>
-            <p
-              class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm w-12 -translate-y-1/2"
-            >
-              {time}
-            </p>
-          </div>
-        {/if}
       {/each}
-    {/key}
+    </div>
+  {/each}
+  <div class="absolute w-full" style="transform: translateY({progress * 48 + 1}rem)">
+    <div class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"></div>
+    <p
+      class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm tracking-tight w-10 -translate-y-1/2 text-center"
+    >
+      {time}
+    </p>
   </div>
-{/each}
+</div>
