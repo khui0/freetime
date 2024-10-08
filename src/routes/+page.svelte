@@ -102,6 +102,7 @@
     <ul class="mt-4 space-y-3">
       <li>Import your schedule from SOLAR</li>
       <li>Navigate to your classes with Google Maps™</li>
+      <li>Export to iCalendar</li>
     </ul>
   </div>
   <h2 id="get-started" class="mt-10 text-4xl font-bold">Get started</h2>
