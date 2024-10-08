@@ -174,7 +174,7 @@
   </form>
 </Modal>
 
-<Modal title="Outgoing requests" bind:this={outgoingModal} additionalClasses="h-full">
+<Modal title="Outgoing requests" bind:this={outgoingModal} additionalClasses="max-h-full">
   {#if $friends?.outgoing && $friends?.outgoing.length > 0}
     <div class="overflow-auto">
       {#each $friends?.outgoing as friend}
@@ -190,7 +190,7 @@
   {/if}
 </Modal>
 
-<Modal title="Incoming requests" bind:this={requestsModal} additionalClasses="h-full">
+<Modal title="Incoming requests" bind:this={requestsModal} additionalClasses="max-h-full">
   {#if $friends?.requests && $friends?.requests.length > 0}
     <div class="overflow-auto">
       {#each $friends?.requests as friend}
