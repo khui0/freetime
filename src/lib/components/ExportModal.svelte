@@ -30,6 +30,7 @@
         lon: parseFloat(locations[event.location].lon || "0"),
       },
       recurrenceRule: rrule(event.days),
+      productId: "Freetime (freetime.kennyhui.dev)",
     };
   });
   $: ical = ics.createEvents(events).value;
