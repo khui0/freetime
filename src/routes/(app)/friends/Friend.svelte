@@ -25,6 +25,7 @@
 
   let status: Status | undefined;
 
+  status = getStatus();
   setInterval(() => {
     status = getStatus();
   }, 1000);
