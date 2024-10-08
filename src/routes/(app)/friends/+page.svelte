@@ -2,9 +2,8 @@
   import { title } from "$lib/store";
   $title = "Friends";
 
-  import { ready, currentUser, pb, schedules, friends as friendsList } from "$lib/pocketbase";
+  import { currentUser, pb, schedules, friends } from "$lib/pocketbase";
   import { onMount } from "svelte";
-  import type { RecordModel } from "pocketbase";
 
   import Friend from "./Friend.svelte";
   import Modal from "$lib/components/Modal.svelte";
@@ -19,50 +18,20 @@
   let error: string;
 
   let outgoingModal: Modal;
-
   let requestsModal: Modal;
 
   let loading: boolean = false;
 
-  let self: RecordModel;
-  let others: RecordModel[];
-
-  let friends: RecordModel[] = [];
-  let outgoing: RecordModel[] = [];
-  let requests: RecordModel[] = [];
-
   onMount(() => {
-    ready.subscribe((ready) => {
-      if (!$currentUser || !ready) return;
-
-      updateFriends();
-      friendsList.subscribe(updateFriends);
+    friends.subscribe((friends) => {
+      // Update own schedule visibility to account for new friends
+      const scheduleId = $schedules?.find((r) => r.user === $currentUser?.id)?.id;
+      scheduleId &&
+        pb.collection("schedules").update(scheduleId, {
+          viewers: friends.friends.map((record) => record.id),
+        });
     });
   });
-
-  async function updateFriends() {
-    // List all friend lists that contain username
-    const list = structuredClone($friendsList);
-
-    // Own friends list
-    self = list.filter((record) => record.user === $currentUser?.id)[0];
-    // List of people who have you added
-    others = list
-      .filter((record) => record.user !== $currentUser?.id)
-      .map((record) => record?.expand?.user);
-
-    friends = calculateFriends();
-    outgoing = calculateOutgoing();
-    requests = calculateRequests();
-
-    // Set own schedule visibility
-    const scheduleId = (
-      await pb.collection("schedules").getFirstListItem(`user="${$currentUser?.id}"`)
-    ).id;
-    pb.collection("schedules").update(scheduleId, {
-      viewers: friends.map((record) => record.id),
-    });
-  }
 
   async function getUserId(username: string) {
     const result = await pb
@@ -76,15 +45,20 @@
 
   async function addFriend(username: string) {
     loading = true;
-    const friend = await getUserId(username);
-    if (!friend) {
+    const self = $friends?.self;
+    const target = await getUserId(username);
+    if (!target) {
       error = "User not found";
+      loading = false;
+      return;
+    } else if (!self) {
+      error = "Unexpected error occurred";
       loading = false;
       return;
     }
     pb.collection("friends")
       .update(self.id, {
-        friends: [...self.friends, friend],
+        friends: [...self.friends, target],
       })
       .then(() => {
         addModal.close();
@@ -95,29 +69,11 @@
   }
 
   async function removeFriend(id: string) {
+    const self = $friends?.self;
+    if (!self) return;
     pb.collection("friends").update(self.id, {
       friends: self.friends.filter((user: string) => user !== id),
     });
-  }
-
-  function calculateFriends(): RecordModel[] {
-    return (
-      self?.expand?.friends?.filter((record: RecordModel) =>
-        others.map((item) => item.id).includes(record.id),
-      ) || []
-    );
-  }
-
-  function calculateOutgoing(): RecordModel[] {
-    return (
-      self?.expand?.friends?.filter(
-        (record: RecordModel) => !others.map((item) => item.id).includes(record.id),
-      ) || []
-    );
-  }
-
-  function calculateRequests(): RecordModel[] {
-    return others.filter((item) => !self?.friends?.includes(item.id));
   }
 </script>
 
@@ -129,20 +85,20 @@
 </TopBar>
 <div class="flex gap-2 px-4 pt-4">
   <button class="btn btn-sm" on:click={outgoingModal.show}>
-    Outgoing {#if outgoing.length > 0}
-      ({outgoing.length})
+    Outgoing {#if $friends?.outgoing?.length > 0}
+      ({$friends?.outgoing.length})
     {/if}
   </button>
   <button class="btn btn-sm" on:click={requestsModal.show}>
-    Incoming {#if requests.length > 0}
-      ({requests.length})
+    Incoming {#if $friends?.requests?.length > 0}
+      ({$friends?.requests?.length})
     {/if}
   </button>
 </div>
 <div class="flex flex-col px-4">
-  {#if friends}
+  {#if $friends?.friends}
     <div class="flex flex-col">
-      {#each friends as friend, i}
+      {#each $friends?.friends as friend, i}
         <Friend
           index={i}
           username={friend.username}
@@ -219,9 +175,9 @@
 </Modal>
 
 <Modal title="Outgoing requests" bind:this={outgoingModal} additionalClasses="h-full">
-  {#if outgoing && outgoing.length > 0}
+  {#if $friends?.outgoing && $friends?.outgoing.length > 0}
     <div class="overflow-auto">
-      {#each outgoing as friend}
+      {#each $friends?.outgoing as friend}
         <Friend
           username={friend.username}
           action="Cancel"
@@ -235,9 +191,9 @@
 </Modal>
 
 <Modal title="Incoming requests" bind:this={requestsModal} additionalClasses="h-full">
-  {#if requests && requests.length > 0}
+  {#if $friends?.requests && $friends?.requests.length > 0}
     <div class="overflow-auto">
-      {#each requests as friend}
+      {#each $friends?.requests as friend}
         <Friend
           username={friend.username}
           action="Accept"
