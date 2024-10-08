@@ -11,7 +11,7 @@
   }
 </script>
 
-<Modal bind:this={modal}>
+<Modal bind:this={modal} transparent>
   {#if selected}
     {#key selected}
       <CalendarModalDetails event={selected}></CalendarModalDetails>
