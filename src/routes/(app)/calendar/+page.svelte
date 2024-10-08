@@ -8,10 +8,15 @@
 
   import Calendar from "$lib/components/Calendar.svelte";
   import CalendarModal from "$lib/components/CalendarModal.svelte";
+  import ExportModal from "$lib/components/ExportModal.svelte";
 
+  import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
   import PhPencilSimple from "~icons/ph/pencil-simple";
+  import PhDownloadSimple from "~icons/ph/download-simple";
 
   let details: CalendarModal;
+
+  let exportModal: ExportModal;
 
   let data: CalendarEvent[][] = [];
   let date: string = "";
@@ -62,10 +67,27 @@
             viewOffset = singleView ? (new Date().getDay() + 13) % 7 : 0;
           }}>{!singleView ? "Today" : "Week"}</button
         >
-        <a class="btn btn-sm btn-square" href="/edit"><PhPencilSimple></PhPencilSimple></a>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-sm btn-square">
+            <PhDotsThreeVerticalBold></PhDotsThreeVerticalBold>
+          </div>
+          <ul
+            role="menu"
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+          >
+            <li><a href="/edit"><PhPencilSimple></PhPencilSimple>Edit</a></li>
+            <li>
+              <button on:click={exportModal.show}>
+                <PhDownloadSimple></PhDownloadSimple>Export ICS
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </Calendar>
 {/if}
 
 <CalendarModal bind:this={details}></CalendarModal>
+<ExportModal bind:this={exportModal}></ExportModal>
