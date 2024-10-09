@@ -20,7 +20,7 @@
     }
   });
 
-  import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
+  import EventDetails from "$lib/components/EventDetails.svelte";
   const sampleEvent: CalendarEvent = {
     days: [false, true, false, true, false, false, false],
     from: "15:30",
@@ -48,7 +48,7 @@
   <a href="#get-started" class="mt-5 btn rounded-full">Get started</a>
   <h2 class="mt-10 text-5xl font-bold tracking-tight">At a glance</h2>
   <div class="mt-5 rounded-box border p-4 flex flex-col gap-2 w-full">
-    <CalendarModalDetails event={sampleEvent}></CalendarModalDetails>
+    <EventDetails event={sampleEvent}></EventDetails>
   </div>
   <div class="mt-10 flex gap-5">
     <enhanced:img

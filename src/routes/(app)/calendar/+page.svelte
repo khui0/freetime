@@ -19,7 +19,7 @@
   let exportModal: ExportModal;
 
   import Dropdown from "$lib/components/Dropdown.svelte";
-  import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
+  import EventDetails from "$lib/components/EventDetails.svelte";
   let dropdown: Dropdown;
   let selected: CalendarEvent;
 
@@ -98,5 +98,5 @@
 <CalendarModal bind:this={details}></CalendarModal>
 <ExportModal bind:this={exportModal}></ExportModal>
 <Dropdown bind:this={dropdown}>
-  <CalendarModalDetails event={selected}></CalendarModalDetails>
+  <EventDetails event={selected}></EventDetails>
 </Dropdown>

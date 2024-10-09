@@ -8,7 +8,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
-  import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
+  import EventDetails from "$lib/components/EventDetails.svelte";
   import ClassesProgress from "$lib/components/ClassesProgress.svelte";
 
   import PhPencilSimple from "~icons/ph/pencil-simple";
@@ -122,7 +122,7 @@
         class="rounded-box border p-4 flex flex-col gap-2 h-fit"
         in:fade|global={{ duration: 250, delay: 50 }}
       >
-        <CalendarModalDetails event={status.event}></CalendarModalDetails>
+        <EventDetails event={status.event}></EventDetails>
       </div>
     {/if}
     {#if status.classesToday > 0}

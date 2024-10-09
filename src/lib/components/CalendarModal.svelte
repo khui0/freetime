@@ -1,6 +1,6 @@
 <script lang="ts">
   import Modal from "./Modal.svelte";
-  import CalendarModalDetails from "./CalendarModalDetails.svelte";
+  import EventDetails from "./EventDetails.svelte";
 
   let modal: Modal;
   let selected: CalendarEvent;
@@ -14,7 +14,7 @@
 <Modal bind:this={modal} transparent>
   {#if selected}
     {#key selected}
-      <CalendarModalDetails event={selected}></CalendarModalDetails>
+      <EventDetails event={selected}></EventDetails>
     {/key}
   {/if}
 </Modal>
