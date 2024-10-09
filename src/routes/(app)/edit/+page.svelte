@@ -133,9 +133,11 @@
 <div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto" use:scrollToBottom={events}>
   {#if events.length > 0}
     {#each events as event, i}
+      {@const empty = !saved && !isValid(event)}
       <div class="border-b last:border-none py-4">
         <Event
           index={i}
+          expanded={empty}
           bind:data={event}
           on:delete={() => {
             events = events.filter((item) => item !== event);
