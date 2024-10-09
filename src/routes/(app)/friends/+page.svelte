@@ -83,7 +83,7 @@
     <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
   </div>
 </TopBar>
-<div class="flex gap-2 px-4 pt-4">
+<div class="flex gap-2 px-4 pt-4 w-[min(100%,800px)] mx-auto">
   <button class="btn btn-sm" on:click={outgoingModal.show}>
     Outgoing {#if $friends?.outgoing?.length > 0}
       ({$friends?.outgoing.length})
@@ -95,7 +95,7 @@
     {/if}
   </button>
 </div>
-<div class="flex flex-col px-4">
+<div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto">
   {#if $friends?.friends}
     <div class="flex flex-col py-4">
       {#each $friends?.friends as friend, i}
