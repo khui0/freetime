@@ -13,13 +13,10 @@
 
   import { onMount } from "svelte";
   import { currentUser, ready, init } from "$lib/pocketbase";
-  import { goto } from "$app/navigation";
 
   onMount(() => {
     if ($currentUser && !$ready) {
       init();
-    } else {
-      goto("/");
     }
   });
 </script>

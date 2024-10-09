@@ -60,10 +60,15 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra bottom padding to the navigation bar
   </SettingsField>
-  <SettingsField type="link" title="Privacy policy" href="/privacy-policy" text="View"
-  ></SettingsField>
-  <SettingsField type="button" title="Freetime" on:click={aboutModal.show} text="About"
-  ></SettingsField>
+  <div class="rounded-box pl-4 p-2 border">
+    <div class="flex gap-2 items-center justify-between p-1">
+      <p>Freetime {version}</p>
+      <div class="flex gap-2 flex-wrap justify-end">
+        <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
+        <button class="btn btn-sm" on:click={aboutModal.show}>About</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <Confirm bind:this={confirm}></Confirm>
