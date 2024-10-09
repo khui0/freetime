@@ -129,15 +129,11 @@
     <button class="btn btn-sm" on:click={addEvent}>Add class</button>
   </div>
 </TopBar>
-<div
-  class="grid grid-cols-1 {events.length > 0
-    ? 'md:grid-cols-2'
-    : ''} gap-4 overflow-auto p-4 flex-1 pb-16"
-  use:scrollToBottom={events}
->
+
+<div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto" use:scrollToBottom={events}>
   {#if events.length > 0}
     {#each events as event, i}
-      <div in:fade|global={{ duration: 250, delay: 50 * i }}>
+      <div class="border-b last:border-none py-4">
         <Event
           index={i}
           bind:data={event}
