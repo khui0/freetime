@@ -65,7 +65,8 @@
   <!-- Time column -->
   <div class="w-10 text-end pr-1 py-4">
     {#each Array(14) as _, row}
-      {@const time = row !== 4 ? ((row + 8) % 12) + " PM" : "Noon"}
+      {@const period = row > 4 ? " PM" : " AM"}
+      {@const time = row !== 4 ? ((row + 8) % 12) + period : "Noon"}
       <div class="relative text-xs text-base-content/50 {row !== 13 ? 'h-16' : 'h-0'}">
         <p class="absolute w-full -translate-y-1/2">{time}</p>
       </div>
