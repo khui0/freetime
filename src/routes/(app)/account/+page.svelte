@@ -33,7 +33,7 @@
     confirm
       .prompt(
         "Are you sure you want to delete your account?",
-        "This action is permanent!",
+        "Doing so is permanent and cannot be undone!",
         "Delete",
         true,
       )
@@ -77,35 +77,31 @@
   </button>
 </TopBar>
 <div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
-  <p class="px-4 text-base-content/50">{$currentUser?.email}</p>
-  <div class="flex gap-2 border rounded-box p-4 flex-wrap">
-    <!-- Username -->
-    <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">
-      <label class="flex flex-col text-xs w-full">
-        <span class="px-2">Username</span>
-        <div class="flex gap-1">
-          <input
-            class="input input-bordered input-sm w-full"
-            type="text"
-            bind:value={newUsername}
-          />
-          <button class="btn btn-sm" on:click={updateUsername}>
-            {#if !usernameState?.loading}
-              Update
-            {:else}
-              <span class="loading loading-spinner loading-sm"></span>
-            {/if}
-          </button>
-        </div>
-        {#if usernameState?.error}
-          <p class="text-xs text-error mx-2 mt-1">{usernameState?.error}</p>
-        {/if}
-      </label>
-    </form>
-  </div>
-  <div class="flex flex-col gap-2 border rounded-box p-4 items-start">
+  <div class="flex items-center justify-between">
+    <p class="px-3 text-base-content/50">{$currentUser?.email}</p>
     <button class="btn btn-sm" on:click={signOut}>Sign out</button>
-    <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account</button>
+  </div>
+  <!-- Username -->
+  <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">
+    <label class="flex flex-col text-xs w-full">
+      <span class="px-2">Username</span>
+      <div class="flex gap-2">
+        <input class="input input-bordered input-sm w-full" type="text" bind:value={newUsername} />
+        <button class="btn btn-sm" on:click={updateUsername}>
+          {#if !usernameState?.loading}
+            Change
+          {:else}
+            <span class="loading loading-spinner loading-sm"></span>
+          {/if}
+        </button>
+      </div>
+      {#if usernameState?.error}
+        <p class="text-xs text-error mx-2 mt-1">{usernameState?.error}</p>
+      {/if}
+    </label>
+  </form>
+  <div class="flex gap-2 justify-center py-4">
+    <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account...</button>
   </div>
 </div>
 
