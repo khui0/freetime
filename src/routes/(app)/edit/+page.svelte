@@ -148,7 +148,13 @@
       </div>
     {/each}
   {:else}
-    <p class="text-base-content/50 text-xl text-center">Add your first class!</p>
+    <p class="text-base-content/50 text-xl text-center py-4">
+      Add your first class or import your schedule from SOLAR!
+    </p>
+    <div class="flex gap-2 flex-wrap self-center">
+      <button class="btn btn-sm" on:click={modal.show}>Import from SOLAR</button>
+      <button class="btn btn-sm" on:click={addEvent}>Add class</button>
+    </div>
   {/if}
 </div>
 <div
