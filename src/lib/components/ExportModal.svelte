@@ -71,16 +71,19 @@
   }
 </script>
 
-<Modal bind:this={modal} title="Export ICS">
+<Modal bind:this={modal} title="Export iCalendar">
   {#if ical}
-    <p>Generated a calendar file for {pluralize("event", events.length, true)}:</p>
+    <p>Generated an iCalendar file for {pluralize("event", events.length, true)}:</p>
     <ul>
       {#each events as event}
-        <li>{event.title} - {event.location}</li>
+        <li class="flex justify-between flex-wrap border-b">
+          <p>{event.title}</p>
+          <p>{event.location}</p>
+        </li>
       {/each}
     </ul>
-    <button class="btn btn-sm" on:click={save}>Export</button>
+    <button class="btn btn-sm" on:click={save}>Export (.ics)</button>
   {:else}
-    <p>Unable to generate ICS file</p>
+    <p>Unable to generate file</p>
   {/if}
 </Modal>

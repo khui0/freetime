@@ -68,12 +68,12 @@
           <ul
             role="menu"
             tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            class="dropdown-content my-2 menu bg-base-100 border rounded-box z-[1] w-52 p-2 shadow-lg"
           >
             <li><a href="/edit"><PhPencilSimple></PhPencilSimple>Edit</a></li>
             <li>
               <button on:click={exportModal.show}>
-                <PhDownloadSimple></PhDownloadSimple>Export ICS
+                <PhDownloadSimple></PhDownloadSimple>Export (.ics)
               </button>
             </li>
           </ul>
