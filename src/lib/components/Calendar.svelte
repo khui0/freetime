@@ -9,6 +9,11 @@
 
   import PhClock from "~icons/ph/clock";
 
+  import Dropdown from "$lib/components/Dropdown.svelte";
+  import EventDetails from "$lib/components/EventDetails.svelte";
+  let dropdown: Dropdown;
+  let selected: CalendarEvent;
+
   let time: string;
   let progress: number = -1;
 
@@ -92,7 +97,10 @@
               {event}
               dim={!today && $settings.dimOtherDays === "true"}
               subtle={!user}
-              on:expand
+              on:expand={(e) => {
+                selected = e.detail.selected;
+                dropdown.show(e.detail.rect);
+              }}
             ></CalendarItem>
           {/if}
         </div>
@@ -108,3 +116,7 @@
     </p>
   </div>
 </div>
+
+<Dropdown bind:this={dropdown}>
+  <EventDetails event={selected}></EventDetails>
+</Dropdown>

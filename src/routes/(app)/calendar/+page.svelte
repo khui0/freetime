@@ -7,21 +7,13 @@
   import { settings } from "$lib/settings";
 
   import Calendar from "$lib/components/Calendar.svelte";
-  import CalendarModal from "$lib/components/CalendarModal.svelte";
-  import ExportModal from "$lib/components/ExportModal.svelte";
 
   import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
   import PhPencilSimple from "~icons/ph/pencil-simple";
   import PhDownloadSimple from "~icons/ph/download-simple";
 
-  let details: CalendarModal;
-
+  import ExportModal from "$lib/components/ExportModal.svelte";
   let exportModal: ExportModal;
-
-  import Dropdown from "$lib/components/Dropdown.svelte";
-  import EventDetails from "$lib/components/EventDetails.svelte";
-  let dropdown: Dropdown;
-  let selected: CalendarEvent;
 
   let data: CalendarEvent[][] = [];
   let date: string = "";
@@ -54,10 +46,6 @@
     bind:data
     columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
     offset={viewOffset}
-    on:expand={(e) => {
-      selected = e.detail.selected;
-      dropdown.show(e.detail.rect);
-    }}
     on:selectday={(e) => {
       singleView = !singleView;
       viewOffset = singleView ? e.detail.day : 0;
@@ -95,8 +83,4 @@
   </Calendar>
 {/if}
 
-<CalendarModal bind:this={details}></CalendarModal>
 <ExportModal bind:this={exportModal}></ExportModal>
-<Dropdown bind:this={dropdown}>
-  <EventDetails event={selected}></EventDetails>
-</Dropdown>

@@ -13,9 +13,6 @@
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Calendar from "$lib/components/Calendar.svelte";
-  import CalendarModal from "$lib/components/CalendarModal.svelte";
-
-  let details: CalendarModal;
 
   let selfData: CalendarEvent[] = [];
   let singleView: boolean = false;
@@ -38,9 +35,6 @@
     columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
     offset={viewOffset}
     multiplier={!singleView ? 1 : 2}
-    on:expand={(e) => {
-      details.show(e.detail.selected);
-    }}
     on:selectday={(e) => {
       singleView = !singleView;
       viewOffset = singleView ? e.detail.day : 0;
@@ -74,5 +68,3 @@
     <p class="text-base-content/50 text-xl place-self-center text-center">No schedule found</p>
   </div>
 {/if}
-
-<CalendarModal bind:this={details}></CalendarModal>
