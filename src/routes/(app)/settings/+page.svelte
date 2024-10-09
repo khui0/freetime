@@ -6,8 +6,14 @@
 
   import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
+  import SettingsFieldLarge from "./SettingsFieldLarge.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
   import Modal from "$lib/components/Modal.svelte";
+
+  import PhUser from "~icons/ph/user";
+  import PhSignOut from "~icons/ph/sign-out";
+  import PhCalendarDots from "~icons/ph/calendar-dots";
+  import PhPalette from "~icons/ph/palette";
 
   import { signOut } from "$lib/pocketbase";
 
@@ -34,20 +40,27 @@
   ];
 </script>
 
-<div class="flex flex-col gap-2 p-4 w-[min(100%,800px)] mx-auto">
+<div class="flex flex-col p-4 w-[min(100%,800px)] mx-auto">
   <div class="self-center my-5"><Logo></Logo></div>
-  <SettingsField type="link" title="Schedule" text="Edit schedule" href="/edit">
-    Add, remove, or change classes
-  </SettingsField>
-  <SettingsField type="link" title="Account" text="Open account settings" href="/account">
-    Manage your account
-  </SettingsField>
-  <SettingsField type="button" title="Sign out" text="Sign out" on:click={signOut}>
-    Sign out of your account
-  </SettingsField>
-  <SettingsField type="select" title="Theme" options={themes} bind:value={$settings.theme}>
-    Customize the look of Freetime
-  </SettingsField>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <SettingsFieldLarge type="link" title="Account" text="Open account settings" href="/account">
+      <span slot="icon"><PhUser></PhUser></span>
+      Manage your account
+    </SettingsFieldLarge>
+    <SettingsFieldLarge type="button" title="Sign out" text="Sign out" on:click={signOut}>
+      <span slot="icon"><PhSignOut></PhSignOut></span>
+      Sign out of your account
+    </SettingsFieldLarge>
+    <SettingsFieldLarge type="link" title="Schedule" text="Edit schedule" href="/edit">
+      <span slot="icon"><PhCalendarDots></PhCalendarDots></span>
+      Add, remove, or change classes
+    </SettingsFieldLarge>
+    <SettingsFieldLarge type="select" title="Theme" options={themes} bind:value={$settings.theme}>
+      <span slot="icon"><PhPalette></PhPalette></span>
+      Customize the look of Freetime
+    </SettingsFieldLarge>
+  </div>
+  <h2 class="font-bold text-2xl mt-4">Other</h2>
   <SettingsField type="toggle" title="Highlight today" bind:value={$settings.highlightToday}>
     Highlight today's column
   </SettingsField>
@@ -60,13 +73,11 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra bottom padding to the navigation bar
   </SettingsField>
-  <div class="rounded-box pl-4 p-2 border">
-    <div class="flex gap-2 items-center justify-between p-1">
-      <p>Freetime {version}</p>
-      <div class="flex gap-2 flex-wrap justify-end">
-        <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
-        <button class="btn btn-sm" on:click={aboutModal.show}>About</button>
-      </div>
+  <div class="flex gap-2 items-center justify-between py-4">
+    <p>Freetime {version}</p>
+    <div class="flex gap-2 flex-wrap justify-end">
+      <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
+      <button class="btn btn-sm" on:click={aboutModal.show}>About</button>
     </div>
   </div>
 </div>

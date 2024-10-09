@@ -27,8 +27,9 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<div class="flex gap-2 items-center justify-between border-b">
-  <div class="flex flex-col py-4 gap-1">
+<div class="flex flex-col gap-2 items-center rounded-box border px-4 py-3">
+  <div class="flex flex-col items-center text-center">
+    <p class="text-2xl"><slot name="icon"></slot></p>
     <h3>{title}</h3>
     <p class="text-sm text-base-content/50"><slot></slot></p>
   </div>
