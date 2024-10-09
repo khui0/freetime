@@ -131,7 +131,7 @@
         in:fade|global={{ duration: 250, delay: 50 + (status.event ? 50 : 0) }}
       >
         <p class="text-xl font-bold">
-          <span class="bg-base-300 py-1 px-2 rounded-lg">
+          <span class="bg-base-200 py-1 px-2 rounded-lg text-lg">
             {status.classesToday - status.classesRemaining}/{status.classesToday}
           </span> classes completed
         </p>

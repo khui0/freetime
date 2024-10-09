@@ -97,7 +97,7 @@
 </div>
 <div class="flex flex-col px-4">
   {#if $friends?.friends}
-    <div class="flex flex-col">
+    <div class="flex flex-col py-4">
       {#each $friends?.friends as friend, i}
         <Friend
           index={i}

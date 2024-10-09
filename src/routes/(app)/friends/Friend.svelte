@@ -78,7 +78,7 @@
 
 <div
   in:fade={{ duration: 250, delay: 50 * index }}
-  class="flex rounded-box border pr-3 mb-4 first:mt-4 {schedule.length > 0
+  class="flex rounded-box border pr-3 mb-4 last:mb-0 {schedule.length > 0
     ? 'active:opacity-50 transition-opacity'
     : ''}"
 >

@@ -188,7 +188,6 @@
     <textarea class="textarea textarea-bordered resize-none" rows="5" bind:value={importText}
     ></textarea>
   </label>
-  <p class="text-sm">NOTE: This may not work reliably</p>
   <button
     class="btn btn-sm"
     on:click={() => {
