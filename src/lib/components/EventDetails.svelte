@@ -74,7 +74,7 @@
   {#if until && !inClass}
     <p>{until}</p>
   {/if}
-  <p class="flex items-center gap-2 flex-wrap justify-end">
+  <p class="flex items-center gap-x-2 flex-wrap justify-end">
     {timeTo12Hour(event.from, true)}
     <span><PhArrowRight></PhArrowRight></span>
     {timeTo12Hour(event.to, true)}

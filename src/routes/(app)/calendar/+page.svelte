@@ -16,7 +16,10 @@
   let exportModal: ExportModal;
 
   let data: CalendarEvent[][] = [];
-  let date: string = "";
+  let status = {
+    long: "",
+    short: "",
+  };
 
   let singleView: boolean = false;
   let viewOffset: number = 0;
@@ -31,9 +34,14 @@
       update();
       setInterval(update, 1000);
       function update() {
-        date = new Date().toLocaleDateString("en-US", {
+        status.long = new Date().toLocaleDateString("en-US", {
           weekday: "long",
           month: "long",
+          day: "numeric",
+        });
+        status.short = new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "short",
           day: "numeric",
         });
       }
@@ -52,7 +60,8 @@
     }}
   >
     <div class="px-4 pt-2 flex gap-2 items-center mt-2">
-      <h1 class="text-2xl font-bold tracking-tight">{date}</h1>
+      <h1 class="text-2xl font-bold tracking-tight hidden sm:inline">{status.long}</h1>
+      <h1 class="text-2xl font-bold tracking-tight sm:hidden">{status.short}</h1>
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button
           class="btn btn-sm"
