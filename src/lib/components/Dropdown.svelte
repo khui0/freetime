@@ -56,15 +56,20 @@
       const inside = e.target instanceof Node && element.contains(e.target);
       if (!inside) close();
     });
+    document.addEventListener("keydown", (e) => {
+      if (shown && e.key === "Escape") {
+        close();
+      }
+    });
   });
 </script>
 
 {#if shown}
   <div
-    in:fly={{ y: up ? 10 : -10 }}
-    out:fly={{ y: up ? 10 : -10 }}
+    in:fly={{ duration: 200, y: up ? 10 : -10 }}
+    out:fly={{ duration: 200, y: up ? 10 : -10 }}
     bind:this={element}
-    class="absolute z-50 rounded-box border p-4 bg-base-100 max-w-[32rem] text-base shadow-lg"
+    class="absolute z-50 rounded-box border p-4 bg-base-100 max-w-[32rem] text-base shadow-xl"
   >
     <slot></slot>
     <button
