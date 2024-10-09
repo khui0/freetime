@@ -10,11 +10,14 @@
   import { locations, types } from "$lib/sbu";
   import { timeTo12Hour, timeToS } from "$lib/time";
 
+  let button: HTMLButtonElement;
+
   $: length = (timeToS(event.to) - timeToS(event.from)) / 3600;
   $: location = locations[event.location];
 </script>
 
 <button
+  bind:this={button}
   class="leading-tight absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container {!dim
     ? 'bg-accent  hover:bg-accent/80 active:bg-accent/80'
     : 'bg-accent/50 hover:bg-accent/30 active:bg-accent/30'} {subtle
@@ -25,6 +28,7 @@
   on:click={() => {
     dispatch("expand", {
       selected: event,
+      rect: button.getBoundingClientRect(),
     });
   }}
 >

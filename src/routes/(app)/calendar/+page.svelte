@@ -18,6 +18,11 @@
 
   let exportModal: ExportModal;
 
+  import Dropdown from "$lib/components/Dropdown.svelte";
+  import CalendarModalDetails from "$lib/components/CalendarModalDetails.svelte";
+  let dropdown: Dropdown;
+  let selected: CalendarEvent;
+
   let data: CalendarEvent[][] = [];
   let date: string = "";
 
@@ -50,7 +55,8 @@
     columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
     offset={viewOffset}
     on:expand={(e) => {
-      details.show(e.detail.selected);
+      selected = e.detail.selected;
+      dropdown.show(e.detail.rect);
     }}
     on:selectday={(e) => {
       singleView = !singleView;
@@ -91,3 +97,6 @@
 
 <CalendarModal bind:this={details}></CalendarModal>
 <ExportModal bind:this={exportModal}></ExportModal>
+<Dropdown bind:this={dropdown}>
+  <CalendarModalDetails event={selected}></CalendarModalDetails>
+</Dropdown>
