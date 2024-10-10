@@ -34,6 +34,14 @@ export function eventDuration(from: string, to: string) {
   );
 }
 
+export function eventDurationMedium(from: string, to: string) {
+  if (!from || !to) return;
+  const seconds = timeToS(to) - timeToS(from);
+  const minutes = seconds / 60;
+  const hours = minutes / 60;
+  return Math.floor(hours) + " hr " + (minutes % 60).toString().padStart(2, "0") + " min";
+}
+
 export function eventDurationShort(from: string, to: string) {
   if (!from || !to) return;
   const seconds = timeToS(to) - timeToS(from);
@@ -58,6 +66,20 @@ export function timeUntil(from: string, to: string, timeOnly: boolean = false) {
   } else {
     return "";
   }
+}
+
+export function timeUntilMedium(from: string, to: string) {
+  if (!from || !to) return;
+  const now = Date.now();
+  const start = timeToMs(from);
+  const end = timeToMs(to);
+  let time;
+  if (now < start) {
+    time = msToUnits(start - now);
+  } else if (now < end) {
+    time = msToUnits(end - now);
+  }
+  if (time) return time.hours + " hr " + (time.minutes + 1).toString().padStart(2, "0") + " min";
 }
 
 export function timeUntilShort(from: string, to: string) {

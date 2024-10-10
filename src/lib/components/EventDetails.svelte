@@ -1,8 +1,15 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { timeToMs, timeUntil, msToUnits, eventDurationShort, timeTo12Hour } from "$lib/time";
+  import {
+    timeToMs,
+    timeUntil,
+    timeUntilMedium,
+    msToUnits,
+    eventDurationShort,
+    eventDurationMedium,
+    timeTo12Hour,
+  } from "$lib/time";
   import { locations } from "$lib/sbu";
-  import PhArrowRight from "~icons/ph/arrow-right";
   import PhArrowSquareOut from "~icons/ph/arrow-square-out";
 
   export let event: CalendarEvent;
@@ -61,7 +68,7 @@
   <h2 class="text-2xl font-bold tracking-tight">{event.title} {event.number}</h2>
   <p class="border border-base-content px-1.5 rounded-lg text-sm">{event.type.toUpperCase()}</p>
 </div>
-<div class="flex gap-2 text-base-content/75 items-center justify-between h-12">
+<div class="flex gap-2 text-base-content/75 items-center justify-between min-h-14 flex-wrap">
   {#if inClass && today}
     <div
       class="radial-progress bg-base-200 border-base-200 text-base-content border-4 text-sm flex-shrink-0"
@@ -74,11 +81,11 @@
   {#if until && !inClass}
     <p>{until}</p>
   {/if}
-  <p class="flex items-center gap-x-2 flex-wrap justify-end">
+  <p>
     {timeTo12Hour(event.from, true)}
-    <span><PhArrowRight></PhArrowRight></span>
+    &mdash;
     {timeTo12Hour(event.to, true)}
-    ({eventDurationShort(event.from, event.to)})
+    ({eventDurationMedium(event.from, event.to)})
   </p>
 </div>
 <div class="flex gap-1 my-2">
