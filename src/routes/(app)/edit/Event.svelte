@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import Confirm from "$lib/components/Confirm.svelte";
   import { locations, types } from "$lib/sbu";
 
@@ -12,8 +12,10 @@
 
   let confirm: Confirm;
 
+  export let empty: boolean = false;
+
   export let index: number = -1;
-  export let expanded: boolean = false;
+  let expanded: boolean = false;
 
   export let data: CalendarEvent = {
     title: "",
@@ -25,6 +27,14 @@
     room: "",
     type: "",
   };
+
+  export function expand() {
+    expanded = true;
+  }
+
+  onMount(() => {
+    if (empty) expand();
+  });
 </script>
 
 <div>

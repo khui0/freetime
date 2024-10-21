@@ -137,7 +137,7 @@
       <div class="border-b last:border-none py-4">
         <Event
           index={i}
-          expanded={empty}
+          {empty}
           bind:data={event}
           on:delete={() => {
             events = events.filter((item) => item !== event);
