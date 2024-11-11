@@ -11,4 +11,7 @@
   />
 </svelte:head>
 
+<div class="sticky top-0 bg-accent p-2 text-center text-sm">
+  <p>Freetime's backend is currently down. This will be restored soon!</p>
+</div>
 <slot></slot>
