@@ -22,6 +22,7 @@
     inClass: boolean;
     classesRemaining: number;
     classesToday: number;
+    currentRemaining: number;
   };
 
   let until: string;
@@ -64,12 +65,12 @@
     if (today.length === 0) {
       message = "No classes today";
     } else if (inClass) {
-      message = `Class ends in ${timeUntil(current.from, current.to, true)}`;
+      message = `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`;
     } else {
       if (rest.length === 0) {
         message = "Done for the day!";
       } else {
-        message = `Next class is in ${timeUntil(rest[0].from, rest[0].to, true)}`;
+        message = `${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`;
       }
     }
 
@@ -92,6 +93,11 @@
       inClass,
       classesRemaining: rest.length + (current ? 1 : 0),
       classesToday: today.length,
+      currentRemaining: current
+        ? 100 -
+          ((timeToMs(current?.to) - Date.now()) * 100) /
+            (timeToMs(current.to) - timeToMs(current.from))
+        : 0,
     };
   }
 </script>
@@ -138,7 +144,7 @@
         <ClassesProgress
           value={status.classesToday - status.classesRemaining}
           max={status.classesToday}
-          inProgress={status.inClass}
+          progress={status.currentRemaining}
         ></ClassesProgress>
       </div>
     {/if}
