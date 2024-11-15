@@ -9,8 +9,8 @@
 
   import PhClock from "~icons/ph/clock";
 
-  import Dropdown from "$lib/components/Dropdown.svelte";
-  import EventDetails from "$lib/components/EventDetails.svelte";
+  import Dropdown from "$lib/components/dialog/Dropdown.svelte";
+  import EventDetails from "$lib/components/calendar/EventDetails.svelte";
   let dropdown: Dropdown;
   let selected: CalendarEvent;
 

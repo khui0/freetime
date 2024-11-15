@@ -8,8 +8,8 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
-  import EventDetails from "$lib/components/EventDetails.svelte";
-  import ClassesProgress from "$lib/components/ClassesProgress.svelte";
+  import EventDetails from "$lib/components/calendar/EventDetails.svelte";
+  import ClassesProgress from "$lib/components/widgets/ClassesProgress.svelte";
 
   import PhPencilSimple from "~icons/ph/pencil-simple";
 

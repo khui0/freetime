@@ -6,8 +6,8 @@
   import { onMount } from "svelte";
 
   import Friend from "./Friend.svelte";
-  import Modal from "$lib/components/Modal.svelte";
-  import Confirm from "$lib/components/Confirm.svelte";
+  import Modal from "$lib/components/dialog/Modal.svelte";
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
   import { goto } from "$app/navigation";
 

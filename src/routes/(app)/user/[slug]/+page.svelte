@@ -12,7 +12,7 @@
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
-  import Calendar from "$lib/components/Calendar.svelte";
+  import Calendar from "$lib/components/calendar/Calendar.svelte";
 
   let selfData: CalendarEvent[] = [];
   let singleView: boolean = false;

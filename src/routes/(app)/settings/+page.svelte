@@ -7,8 +7,8 @@
   import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import SettingsFieldLarge from "./SettingsFieldLarge.svelte";
-  import Confirm from "$lib/components/Confirm.svelte";
-  import Modal from "$lib/components/Modal.svelte";
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
+  import Modal from "$lib/components/dialog/Modal.svelte";
 
   import PhUser from "~icons/ph/user";
   import PhSignOut from "~icons/ph/sign-out";

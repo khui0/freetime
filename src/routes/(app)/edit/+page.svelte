@@ -2,21 +2,21 @@
   import { title } from "$lib/store";
   $title = "Edit schedule";
 
-  import { settings } from "$lib/settings";
-  import { ready, pb, currentUser, schedules } from "$lib/pocketbase";
-  import { fade, fly } from "svelte/transition";
   import { beforeNavigate, goto } from "$app/navigation";
+  import { currentUser, pb, ready, schedules } from "$lib/pocketbase";
+  import { settings } from "$lib/settings";
+  import { fly } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
+  import Alert from "$lib/components/dialog/Alert.svelte";
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
+  import Modal from "$lib/components/dialog/Modal.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
-  import Event from "./Event.svelte";
-  import Modal from "$lib/components/Modal.svelte";
-  import Alert from "$lib/components/Alert.svelte";
-  import Confirm from "$lib/components/Confirm.svelte";
   import { onMount } from "svelte";
+  import Event from "./Event.svelte";
 
-  import { parse, isMac } from "$lib/utilities";
+  import { isMac, parse } from "$lib/utilities";
 
   let modal: Modal;
   let importText: string;

@@ -6,13 +6,13 @@
   import { onMount } from "svelte";
   import { settings } from "$lib/settings";
 
-  import Calendar from "$lib/components/Calendar.svelte";
+  import Calendar from "$lib/components/calendar/Calendar.svelte";
 
   import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
   import PhPencilSimple from "~icons/ph/pencil-simple";
   import PhDownloadSimple from "~icons/ph/download-simple";
 
-  import ExportModal from "$lib/components/ExportModal.svelte";
+  import ExportModal from "./ExportModal.svelte";
   let exportModal: ExportModal;
 
   let data: CalendarEvent[][] = [];

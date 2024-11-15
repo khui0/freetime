@@ -20,7 +20,7 @@
     }
   });
 
-  import EventDetails from "$lib/components/EventDetails.svelte";
+  import EventDetails from "$lib/components/calendar/EventDetails.svelte";
   const sampleEvent: CalendarEvent = {
     days: [false, true, false, true, false, false, false],
     from: "15:30",
@@ -32,7 +32,7 @@
     type: "lecture",
   };
 
-  import DemoFriend from "$lib/components/DemoFriend.svelte";
+  import DemoFriend from "./DemoFriend.svelte";
 </script>
 
 <main class="text-center p-10 w-[min(100%,800px)] mx-auto">

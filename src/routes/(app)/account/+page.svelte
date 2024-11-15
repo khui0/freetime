@@ -6,7 +6,7 @@
   import { z } from "zod";
   import { onMount } from "svelte";
 
-  import Confirm from "$lib/components/Confirm.svelte";
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
 
   import PhArrowLeft from "~icons/ph/arrow-left";

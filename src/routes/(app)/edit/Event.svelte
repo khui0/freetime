@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import Confirm from "$lib/components/Confirm.svelte";
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
   import { locations, types } from "$lib/sbu";
 
   import PhTrash from "~icons/ph/trash";
