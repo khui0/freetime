@@ -12,7 +12,8 @@
   let max: number = $state(0);
   let progress: number = $state(0);
 
-  let { class: classList }: { class?: string } = $props();
+  let { class: classList, empty = $bindable(false) }: { class?: string; empty?: boolean } =
+    $props();
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -34,6 +35,7 @@
 
         const rest = today.filter((event) => timeToMs(event.from) > Date.now());
 
+        empty = max === 0;
         max = today.length;
         value = today.length - rest.length - (current ? 1 : 0);
         progress = current

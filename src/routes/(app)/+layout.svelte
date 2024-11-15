@@ -22,6 +22,8 @@
 
   let compact: boolean = $state(false);
 
+  let hideProgress: boolean = $state(false);
+
   onMount(() => {
     if ($currentUser && !$ready) {
       init();
@@ -145,8 +147,8 @@
         </a>
       </li>
     </ul>
-    <div class="p-3 {compact || $page.url.pathname === '/home' ? 'hidden' : ''}">
-      <TodayProgress class="!h-3"></TodayProgress>
+    <div class="p-3 {hideProgress || compact || $page.url.pathname === '/home' ? 'hidden' : ''}">
+      <TodayProgress class="!h-3" bind:empty={hideProgress}></TodayProgress>
     </div>
   </div>
   <main class="flex-1 overflow-auto">
