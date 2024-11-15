@@ -4,23 +4,23 @@
 
   import { settings } from "$lib/settings";
 
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
+  import Modal from "$lib/components/dialog/Modal.svelte";
   import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import SettingsFieldLarge from "./SettingsFieldLarge.svelte";
-  import Confirm from "$lib/components/dialog/Confirm.svelte";
-  import Modal from "$lib/components/dialog/Modal.svelte";
 
-  import PhUser from "~icons/ph/user";
-  import PhSignOut from "~icons/ph/sign-out";
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPalette from "~icons/ph/palette";
+  import PhSignOut from "~icons/ph/sign-out";
+  import PhUser from "~icons/ph/user";
 
   import { signOut } from "$lib/pocketbase";
 
   const version = import.meta.env.PACKAGE_VERSION;
 
-  let confirm: Confirm;
-  let aboutModal: Modal;
+  let confirm: Confirm | undefined = $state();
+  let aboutModal: Modal | undefined = $state();
 
   interface Option {
     name: string;
@@ -41,22 +41,30 @@
 </script>
 
 <div class="flex flex-col p-4 w-[min(100%,800px)] mx-auto">
-  <div class="self-center my-5"><Logo></Logo></div>
+  <div class="self-center my-5 sm:hidden"><Logo></Logo></div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <SettingsFieldLarge type="link" title="Account" text="Open account settings" href="/account">
-      <span slot="icon"><PhUser></PhUser></span>
+      {#snippet icon()}
+        <span><PhUser></PhUser></span>
+      {/snippet}
       Manage your account
     </SettingsFieldLarge>
-    <SettingsFieldLarge type="button" title="Sign out" text="Sign out" on:click={signOut}>
-      <span slot="icon"><PhSignOut></PhSignOut></span>
+    <SettingsFieldLarge type="button" title="Sign out" text="Sign out" onclick={signOut}>
+      {#snippet icon()}
+        <span><PhSignOut></PhSignOut></span>
+      {/snippet}
       Sign out of your account
     </SettingsFieldLarge>
     <SettingsFieldLarge type="link" title="Schedule" text="Edit schedule" href="/edit">
-      <span slot="icon"><PhCalendarDots></PhCalendarDots></span>
+      {#snippet icon()}
+        <span><PhCalendarDots></PhCalendarDots></span>
+      {/snippet}
       Add, remove, or change classes
     </SettingsFieldLarge>
     <SettingsFieldLarge type="select" title="Theme" options={themes} bind:value={$settings.theme}>
-      <span slot="icon"><PhPalette></PhPalette></span>
+      {#snippet icon()}
+        <span><PhPalette></PhPalette></span>
+      {/snippet}
       Customize the look of Freetime
     </SettingsFieldLarge>
   </div>
@@ -73,11 +81,11 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra bottom padding to the navigation bar
   </SettingsField>
-  <div class="flex gap-2 items-center justify-between py-4">
+  <div class="flex gap-2 items-center justify-between pt-4">
     <p>Freetime {version}</p>
     <div class="flex gap-2 flex-wrap justify-end">
       <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
-      <button class="btn btn-sm" on:click={aboutModal.show}>About</button>
+      <button class="btn btn-sm" onclick={aboutModal?.show}>About</button>
     </div>
   </div>
 </div>

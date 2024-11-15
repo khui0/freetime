@@ -97,3 +97,8 @@ export function isMac(): boolean {
     return false;
   }
 }
+
+export function update(callback: () => unknown, interval: number = 1000) {
+  callback();
+  setInterval(callback, interval);
+}

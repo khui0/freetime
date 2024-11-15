@@ -2,27 +2,28 @@
   import { title } from "$lib/store";
   $title = "Calendar";
 
-  import { ready, currentUser, schedules } from "$lib/pocketbase";
-  import { onMount } from "svelte";
+  import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
+  import { onMount } from "svelte";
 
   import Calendar from "$lib/components/calendar/Calendar.svelte";
 
   import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
-  import PhPencilSimple from "~icons/ph/pencil-simple";
   import PhDownloadSimple from "~icons/ph/download-simple";
+  import PhPencilSimple from "~icons/ph/pencil-simple";
 
+  import { update } from "$lib/utilities";
   import ExportModal from "./ExportModal.svelte";
-  let exportModal: ExportModal;
+  let exportModal: ExportModal | undefined = $state();
 
-  let data: CalendarEvent[][] = [];
-  let status = {
+  let data: CalendarEvent[][] = $state([]);
+  let status = $state({
     long: "",
     short: "",
-  };
+  });
 
-  let singleView: boolean = false;
-  let viewOffset: number = 0;
+  let singleView: boolean = $state(false);
+  let viewOffset: number = $state(0);
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -31,9 +32,7 @@
       // Retrieve own schedule
       data = [$schedules.find((r) => r.user === $currentUser?.id)?.schedule];
 
-      update();
-      setInterval(update, 1000);
-      function update() {
+      update(() => {
         status.long = new Date().toLocaleDateString("en-US", {
           weekday: "long",
           month: "long",
@@ -44,7 +43,7 @@
           month: "short",
           day: "numeric",
         });
-      }
+      });
     });
   });
 </script>
@@ -54,9 +53,9 @@
     bind:data
     columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
     offset={viewOffset}
-    on:selectday={(e) => {
+    select={(day: number) => {
       singleView = !singleView;
-      viewOffset = singleView ? e.detail.day : 0;
+      viewOffset = singleView ? day : 0;
     }}
   >
     <div class="px-4 pt-2 flex gap-2 items-center mt-2">
@@ -65,7 +64,7 @@
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button
           class="btn btn-sm"
-          on:click={() => {
+          onclick={() => {
             singleView = !singleView;
             viewOffset = singleView ? (new Date().getDay() + 13) % 7 : 0;
           }}>{!singleView ? "Today" : "Week"}</button
@@ -81,7 +80,7 @@
           >
             <li><a href="/edit"><PhPencilSimple></PhPencilSimple>Edit</a></li>
             <li>
-              <button on:click={exportModal.show}>
+              <button onclick={exportModal?.show}>
                 <PhDownloadSimple></PhDownloadSimple>Export (.ics)
               </button>
             </li>

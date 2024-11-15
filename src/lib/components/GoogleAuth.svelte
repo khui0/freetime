@@ -2,7 +2,7 @@
   import { auth } from "$lib/pocketbase";
 </script>
 
-<button class="gsi-material-button" on:click={auth}>
+<button class="gsi-material-button" onclick={auth}>
   <div class="gsi-material-button-state"></div>
   <div class="gsi-material-button-content-wrapper">
     <div class="gsi-material-button-icon">

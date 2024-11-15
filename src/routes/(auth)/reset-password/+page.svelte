@@ -1,22 +1,24 @@
 <script lang="ts">
+  import { preventDefault } from "svelte/legacy";
+
   import { title } from "$lib/store";
   $title = "Reset password";
 
   import { pb } from "$lib/pocketbase";
 
-  import FormField from "$lib/components/FormField.svelte";
   import FormErrors from "$lib/components/form/FormErrors.svelte";
+  import FormField from "$lib/components/form/FormField.svelte";
 
-  let email: Result;
+  let email: Result | undefined = $state();
 
-  let errors: String[] = [];
-  let success: string = "";
+  let errors: String[] = $state([]);
+  let success: string = $state("");
 
-  let loading: boolean = false;
+  let loading: boolean = $state(false);
 
   async function submit() {
     validate();
-    if (email.success) {
+    if (email?.success) {
       loading = true;
       await pb.collection("users").requestPasswordReset(email.success);
       setTimeout(() => {
@@ -29,14 +31,14 @@
   function validate() {
     loading = false;
     errors = [];
-    if (email.error) errors.push(email.error);
+    if (email?.error) errors.push(email.error);
   }
 </script>
 
-<form on:submit|preventDefault={submit} class="flex flex-col gap-3">
+<form onsubmit={preventDefault(submit)} class="flex flex-col gap-3">
   <FormField type="email" bind:result={email}></FormField>
   <FormErrors bind:errors></FormErrors>
-  <button class="btn" on:click={submit}>
+  <button class="btn" onclick={submit}>
     {#if !loading}
       Reset
     {:else}

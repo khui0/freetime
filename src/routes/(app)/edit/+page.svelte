@@ -8,6 +8,7 @@
   import { fly } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
+  import PhPlus from "~icons/ph/plus";
 
   import Alert from "$lib/components/dialog/Alert.svelte";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
@@ -18,14 +19,14 @@
 
   import { isMac, parse } from "$lib/utilities";
 
-  let modal: Modal;
-  let importText: string;
+  let modal: Modal | undefined = $state();
+  let importText: string = $state("");
 
-  let alert: Alert;
-  let confirm: Confirm;
+  let alert: Alert | undefined = $state();
+  let confirm: Confirm | undefined = $state();
 
   let id: string;
-  let events: CalendarEvent[] = [];
+  let events: CalendarEvent[] = $state([]);
 
   let leaveAnyways: boolean = false;
 
@@ -56,7 +57,7 @@
     scrollEnabled = true;
   }
 
-  let saved: boolean = true;
+  let saved: boolean = $state(true);
 
   function save() {
     const valid = events.every((event) => isValid(event)) || events.length === 0;
@@ -67,10 +68,10 @@
           saved = true;
         })
         .catch(() => {
-          alert.prompt("Unable to save schedule", "An unforeseen error was encountered.");
+          alert?.prompt("Unable to save schedule", "An unforeseen error was encountered.");
         });
     } else {
-      alert.prompt("Invalid data", "One or more classes have missing fields!");
+      alert?.prompt("Invalid data", "One or more classes have missing fields!");
     }
   }
 
@@ -103,7 +104,11 @@
     if (!saved && to && !leaveAnyways) {
       cancel();
       confirm
-        .prompt("Unsaved changes", "Are you sure you want to leave? Changes will be lost!", "Leave")
+        ?.prompt(
+          "Unsaved changes",
+          "Are you sure you want to leave? Changes will be lost!",
+          "Leave",
+        )
         .then(() => {
           leaveAnyways = true;
           goto(to.url.pathname);
@@ -113,20 +118,23 @@
   });
 </script>
 
-<svelte:window on:beforeunload={beforeUnload} />
+<svelte:window onbeforeunload={beforeUnload} />
 
 <TopBar>
   <button
     class="btn btn-square btn-sm rounded-full"
-    on:click={() => {
+    onclick={() => {
       history.back();
     }}
   >
     <PhArrowLeft></PhArrowLeft>
   </button>
   <div class="flex gap-2 flex-wrap justify-end">
-    <button class="btn btn-sm" on:click={modal.show}>Import from SOLAR</button>
-    <button class="btn btn-sm" on:click={addEvent}>Add class</button>
+    <button class="btn btn-sm" onclick={modal?.show}>Import from SOLAR</button>
+    <button class="btn btn-sm" onclick={addEvent}>
+      <PhPlus></PhPlus>
+      Add class
+    </button>
   </div>
 </TopBar>
 
@@ -138,12 +146,12 @@
         <Event
           index={i}
           {empty}
-          bind:data={event}
-          on:delete={() => {
+          bind:data={events[i]}
+          ondelete={() => {
             events = events.filter((item) => item !== event);
             saved = false;
           }}
-          on:input={() => {
+          oninput={() => {
             saved = false;
           }}
         ></Event>
@@ -154,8 +162,8 @@
       Add your first class or import your schedule from SOLAR!
     </p>
     <div class="flex gap-2 flex-wrap self-center">
-      <button class="btn btn-sm" on:click={modal.show}>Import from SOLAR</button>
-      <button class="btn btn-sm" on:click={addEvent}>Add class</button>
+      <button class="btn btn-sm" onclick={modal?.show}>Import from SOLAR</button>
+      <button class="btn btn-sm" onclick={addEvent}>Add class</button>
     </div>
   {/if}
 </div>
@@ -168,7 +176,7 @@
   {#if !saved}
     <div in:fly={{ duration: 250, y: 10 }} out:fly={{ duration: 250, y: 10 }} class="relative">
       <div class="bg-accent absolute inset-0 z-[-1] rounded-btn animate-ping"></div>
-      <button class="btn btn-sm btn-accent" on:click={save}>Save</button>
+      <button class="btn btn-sm btn-accent" onclick={save}>Save</button>
     </div>
   {/if}
 </div>
@@ -198,12 +206,12 @@
   </label>
   <button
     class="btn btn-sm"
-    on:click={() => {
+    onclick={() => {
       events = parse(importText) || [];
       importText = "";
       saved = false;
-      modal.close();
-      alert.prompt(
+      modal?.close();
+      alert?.prompt(
         "Attempted to import schedule",
         "Information may not be accurate, you may need to manually edit some fields. Changes are not applied until you click save.",
       );

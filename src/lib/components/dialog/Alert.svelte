@@ -4,12 +4,12 @@
 
   import PhWarningLight from "~icons/ph/warning-light";
 
-  let modal: Modal;
+  let modal: Modal | undefined = $state();
 
-  let result: DeferredPromise<string> | null;
+  let result: DeferredPromise<string> | null | undefined = $state();
 
-  let titleText: string;
-  let bodyText: string;
+  let titleText: string | undefined = $state();
+  let bodyText: string | undefined = $state();
 
   let additionalClasses: string;
 
@@ -17,7 +17,7 @@
     result = new DeferredPromise();
     titleText = title;
     bodyText = body;
-    modal.show();
+    modal?.show();
     return result;
   }
 </script>
@@ -25,24 +25,28 @@
 <Modal
   title={titleText}
   bind:this={modal}
-  on:close={() => {
+  onclose={() => {
     result?.reject();
   }}
   additionalClasses="max-w-sm items-center"
   centered
 >
-  <span slot="icon" class="text-5xl">
-    <PhWarningLight></PhWarningLight>
-  </span>
+  {#snippet icon()}
+    <span class="text-5xl">
+      <PhWarningLight></PhWarningLight>
+    </span>
+  {/snippet}
   <p>{bodyText}</p>
-  <form method="dialog" class="flex gap-2 mt-4" slot="buttons">
-    <button
-      class="btn btn-sm flex-1 {additionalClasses}"
-      on:click={() => {
-        result?.resolve("");
-      }}
-    >
-      Okay
-    </button>
-  </form>
+  {#snippet buttons()}
+    <form method="dialog" class="flex gap-2 mt-4">
+      <button
+        class="btn btn-sm flex-1 {additionalClasses}"
+        onclick={() => {
+          result?.resolve("");
+        }}
+      >
+        Okay
+      </button>
+    </form>
+  {/snippet}
 </Modal>

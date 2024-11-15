@@ -1,8 +1,7 @@
+import { pb } from "$lib/pocketbase.js";
 import { error } from "@sveltejs/kit";
 
 /** @type {import('./$types').PageLoad} */
-import { pb } from "$lib/pocketbase.js";
-
 export async function load({ params }) {
   const username: string = params.slug;
 

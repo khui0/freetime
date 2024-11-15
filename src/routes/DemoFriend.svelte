@@ -1,6 +1,15 @@
 <script lang="ts">
-  export let name: string;
-  export let busy: boolean = false;
+  import type { Snippet } from "svelte";
+
+  let {
+    name,
+    busy = false,
+    children,
+  }: {
+    name: string;
+    busy?: boolean;
+    children?: Snippet;
+  } = $props();
 </script>
 
 <div class="flex flex-col gap-4">
@@ -13,7 +22,7 @@
       ></div>
       <p class="pl-1 py-2">{name}</p>
       <div class="px-2 text-sm text-base-content/50 flex justify-between w-full flex-wrap gap-x-4">
-        <slot></slot>
+        {@render children?.()}
       </div>
     </div>
   </div>

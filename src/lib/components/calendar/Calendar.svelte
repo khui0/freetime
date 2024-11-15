@@ -1,31 +1,41 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
-  import { onMount } from "svelte";
-  import { createEventDispatcher } from "svelte";
-
-  const dispatch = createEventDispatcher();
+  import { onMount, type Snippet } from "svelte";
 
   import CalendarItem from "./CalendarItem.svelte";
 
   import PhClock from "~icons/ph/clock";
 
-  import Dropdown from "$lib/components/dialog/Dropdown.svelte";
   import EventDetails from "$lib/components/calendar/EventDetails.svelte";
-  let dropdown: Dropdown;
-  let selected: CalendarEvent;
+  import Dropdown from "$lib/components/dialog/Dropdown.svelte";
+  import { update } from "$lib/utilities";
 
-  let time: string;
-  let progress: number = -1;
+  let dropdown: Dropdown | undefined = $state();
+  let selected: CalendarEvent | undefined = $state();
 
-  export let data: CalendarEvent[][] = [];
+  let time: string | undefined = $state();
+  let progress: number = $state(-1);
 
-  export let headers: string[] = ["M", "T", "W", "T", "F", "S", "S"];
-  export let columns: number = 5;
-  export let multiplier: number = data.length;
-  export let offset: number = 0;
+  let {
+    data = $bindable([]),
+    headers = ["M", "T", "W", "T", "F", "S", "S"],
+    columns = 5,
+    multiplier = data.length,
+    offset = 0,
+    children,
+    select,
+  }: {
+    data: CalendarEvent[][];
+    headers?: string[];
+    columns: number;
+    multiplier?: number;
+    offset: number;
+    children: Snippet;
+    select: Function;
+  } = $props();
 
   onMount(() => {
-    setInterval(() => {
+    update(() => {
       const now = new Date();
       const tzo = now.getTimezoneOffset() * 60000;
       const hour = ((Date.now() % 8.64e7) - tzo) / 3.6e6;
@@ -42,7 +52,7 @@
 
 <!-- Header -->
 <div class="z-20 sticky top-0 flex flex-col bg-base-100/50 backdrop-blur-lg border-b">
-  <slot></slot>
+  {@render children?.()}
   <div class="flex px-4 pt-2 text-base-content/50 text-sm">
     <p class="flex items-center justify-center mr-2 w-10"><PhClock></PhClock></p>
     {#each Array(Math.min(columns, headers.length)) as _, i}
@@ -51,8 +61,8 @@
         class="flex-1 btn font-normal px-0 min-h-0 h-8 rounded-b-none {today
           ? 'bg-base-200'
           : 'btn-ghost'}"
-        on:click={() => {
-          dispatch("selectday", { day: i });
+        onclick={() => {
+          select(i);
         }}
       >
         {headers[i + offset]}
@@ -98,9 +108,9 @@
               {event}
               dim={!today && $settings.dimOtherDays === "true"}
               subtle={!user}
-              on:expand={(e) => {
-                selected = e.detail.selected;
-                dropdown.show(e.detail.rect);
+              expand={(e: any) => {
+                selected = e.selected;
+                dropdown?.show(e.rect);
               }}
             ></CalendarItem>
           {/if}
@@ -119,5 +129,7 @@
 </div>
 
 <Dropdown bind:this={dropdown}>
-  <EventDetails event={selected}></EventDetails>
+  {#if selected}
+    <EventDetails event={selected}></EventDetails>
+  {/if}
 </Dropdown>

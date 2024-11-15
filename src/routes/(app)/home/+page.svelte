@@ -2,28 +2,34 @@
   import { title } from "$lib/store";
   $title = "";
 
-  import { ready, currentUser, schedules } from "$lib/pocketbase";
-  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
+  import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
+  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
+  import { update } from "$lib/utilities";
   import { onMount } from "svelte";
-  import { fade } from "svelte/transition";
+  import { fly } from "svelte/transition";
 
-  import EventDetails from "$lib/components/calendar/EventDetails.svelte";
-  import ClassesProgress from "$lib/components/widgets/ClassesProgress.svelte";
+  import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
 
+  import CourseLocation from "$lib/components/widgets/CourseLocation.svelte";
+  import CourseTimes from "$lib/components/widgets/CourseTimes.svelte";
+
+  import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPencilSimple from "~icons/ph/pencil-simple";
 
-  let data: CalendarEvent[] = [];
+  let data: CalendarEvent[] = $state([]);
 
-  let status: {
-    message: string;
-    greeting: string;
-    event: CalendarEvent;
-    inClass: boolean;
-    classesRemaining: number;
-    classesToday: number;
-    currentRemaining: number;
-  };
+  let status:
+    | {
+        message: string;
+        greeting: string;
+        event: CalendarEvent;
+        inClass: boolean;
+        classesRemaining: number;
+        classesToday: number;
+        currentRemaining: number;
+      }
+    | undefined = $state();
 
   let until: string;
   let untilShort: string;
@@ -35,13 +41,11 @@
       // Retrieve own schedule
       data = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
 
-      update();
-      setInterval(update, 1000);
-      function update() {
+      update(() => {
         status = getStatus();
         until = timeUntil(status.event?.from, status.event?.to) || "";
         untilShort = timeUntilShort(status.event?.from, status.event?.to) || "";
-      }
+      });
     });
   });
 
@@ -103,21 +107,18 @@
 </script>
 
 <div
-  class="flex flex-col px-4 py-8 gap-6 w-[min(100%,800px)] justify-center mx-auto {$settings.tallNavigation ===
+  class="flex flex-col p-8 gap-6 w-[min(100%,800px)] justify-center mx-auto {$settings.tallNavigation ===
   'true'
     ? 'h-[calc(100svh-49px-2rem)]'
     : 'h-[calc(100svh-49px)]'}"
 >
   {#if status}
     {@const newUser = data.length === 0 && $ready}
-    <div class="flex flex-col gap-4 px-4" in:fade={{ duration: 250 }}>
+    <div class="flex flex-col gap-4" in:fly={{ x: -100, duration: 500 }}>
       <div class="flex gap-2 items-center justify-between">
         <h1 class="font-bold text-4xl tracking-tight">
           {newUser ? "Welcome" : status.greeting}!
         </h1>
-        <a href="/edit" class="btn btn-square rounded-full btn-sm"
-          ><PhPencilSimple></PhPencilSimple></a
-        >
       </div>
       <p class="text-xl tracking-tight">
         {newUser ? "Start by adding your classes!" : status.message}
@@ -125,33 +126,37 @@
     </div>
     {#if status.event}
       <div
-        class="rounded-box border p-4 flex flex-col gap-2 h-fit"
-        in:fade|global={{ duration: 250, delay: 50 }}
+        in:fly|global={{ x: -100, duration: 500, delay: 100 }}
+        class="flex flex-col gap-2 pl-2 border-l-2"
       >
-        <EventDetails event={status.event}></EventDetails>
+        <CourseTimes {...status.event}></CourseTimes>
+        <CourseLocation {...status.event}></CourseLocation>
       </div>
     {/if}
     {#if status.classesToday > 0}
       <div
-        class="px-4 flex flex-col gap-4"
-        in:fade|global={{ duration: 250, delay: 50 + (status.event ? 50 : 0) }}
+        class=" flex flex-col gap-4"
+        in:fly|global={{ x: -100, duration: 500, delay: 100 + (status.event ? 50 : 0) }}
       >
-        <p class="text-xl font-bold">
-          <span class="bg-base-200 py-1 px-2 rounded-lg text-lg">
+        <p class="text-lg">
+          <span class="font-bold bg-base-200 py-1 px-2 rounded-lg">
             {status.classesToday - status.classesRemaining}/{status.classesToday}
           </span> classes completed
         </p>
-        <ClassesProgress
-          value={status.classesToday - status.classesRemaining}
-          max={status.classesToday}
-          progress={status.currentRemaining}
-        ></ClassesProgress>
+        <TodayProgress></TodayProgress>
       </div>
     {/if}
-    <a
-      in:fade|global={{ duration: 250, delay: 100 + (status.event ? 50 : 0) }}
-      href={newUser ? "/edit" : "/calendar"}
-      class="btn btn-sm rounded-full self-center">{newUser ? "Add classes" : "View calendar"}</a
+    <div
+      in:fly|global={{ x: -100, duration: 500, delay: 100 + (status.event ? 50 : 0) }}
+      class="flex gap-2"
     >
+      <a href={newUser ? "/edit" : "/calendar"} class="btn btn-sm rounded-full">
+        <PhCalendarDots></PhCalendarDots>
+        {newUser ? "Add classes" : "View calendar"}
+      </a>
+      <a href="/edit" class="btn btn-square rounded-full btn-sm">
+        <PhPencilSimple></PhPencilSimple>
+      </a>
+    </div>
   {/if}
 </div>

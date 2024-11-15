@@ -76,10 +76,18 @@ export default {
           "base-content": "#ffffff",
         },
       },
-      catppuccin("latte"),
-      catppuccin("frappe"),
-      catppuccin("macchiato"),
-      catppuccin("mocha"),
+      catppuccin("latte", {
+        accent: "red",
+      }),
+      catppuccin("frappe", {
+        accent: "lavender",
+      }),
+      catppuccin("macchiato", {
+        accent: "lavender",
+      }),
+      catppuccin("mocha", {
+        accent: "lavender",
+      }),
     ],
   },
 };

@@ -1,36 +1,31 @@
 <script lang="ts">
+  import { msToUnits, timeToMs, timeUntil } from "$lib/time";
+  import { update } from "$lib/utilities";
   import { onMount } from "svelte";
-  import {
-    timeToMs,
-    timeUntil,
-    timeUntilMedium,
-    msToUnits,
-    eventDurationShort,
-    eventDurationMedium,
-    timeTo12Hour,
-  } from "$lib/time";
-  import { locations } from "$lib/sbu";
-  import PhArrowSquareOut from "~icons/ph/arrow-square-out";
+  import CourseDays from "../widgets/CourseDays.svelte";
+  import CourseLocation from "../widgets/CourseLocation.svelte";
+  import CourseRadialProgress from "../widgets/CourseRadialProgress.svelte";
+  import CourseTimes from "../widgets/CourseTimes.svelte";
+  import CourseTitle from "../widgets/CourseTitle.svelte";
 
-  export let event: CalendarEvent;
+  let {
+    event,
+  }: {
+    event: CalendarEvent;
+  } = $props();
 
-  const days = ["M", "T", "W", "T", "F", "S", "S"];
+  let inClass: boolean = $state(false);
+  let today: boolean = $state(false);
 
-  let inClass: boolean;
-  let today: boolean;
-
-  let until: string;
-  let progress: number = 0;
+  let until: string = $state("");
+  let progress: number = $state(0);
   let remaining: {
     hours: string;
     minutes: string;
-  };
+  } = $state({ hours: "0", minutes: "0" });
 
   onMount(() => {
-    update();
-    setInterval(update, 1000);
-
-    function update() {
+    update(() => {
       today = event.days[(new Date().getDay() + 13) % 7];
 
       const now = Date.now();
@@ -60,57 +55,15 @@
       if (today) {
         until = timeUntil(event?.from, event?.to) || "";
       }
-    }
+    });
   });
 </script>
 
-<div class="flex gap-2 items-center">
-  <h2 class="text-2xl font-bold tracking-tight">{event.title} {event.number}</h2>
-  <p class="border border-base-content px-1.5 rounded-lg text-sm">{event.type.toUpperCase()}</p>
+<CourseTitle {...event}></CourseTitle>
+<div class="flex flex-wrap items-center justify-between gap-x-2">
+  <div class="my-2">
+    <CourseTimes {...event}></CourseTimes>
+  </div>
+  <CourseDays {...event}></CourseDays>
 </div>
-<div class="flex gap-2 text-base-content/75 items-center justify-between min-h-14 flex-wrap">
-  {#if inClass && today}
-    <div
-      class="radial-progress bg-base-200 border-base-200 text-base-content border-4 text-sm flex-shrink-0"
-      style="--value:{progress}; --size:3rem; --thickness:0.25rem;"
-      role="progressbar"
-    >
-      <p>{remaining.hours}<span class="animate-pulse">:</span>{remaining.minutes}</p>
-    </div>
-  {/if}
-  {#if until && !inClass}
-    <p>{until}</p>
-  {/if}
-  <p>
-    {timeTo12Hour(event.from, true)}
-    &mdash;
-    {timeTo12Hour(event.to, true)}
-    ({eventDurationMedium(event.from, event.to)})
-  </p>
-</div>
-<div class="flex gap-1 my-2">
-  {#each days as day, i}
-    {#if i < 5 || event.days[5] || event.days[6]}
-      <p
-        class="border rounded-full w-8 h-8 flex items-center justify-center {event.days[i]
-          ? 'bg-base-300'
-          : 'border-base-300 bg-transparent'}"
-      >
-        {day}
-      </p>
-    {/if}
-  {/each}
-</div>
-<div class="flex gap-2 items-center flex-wrap mt-1">
-  <p class="border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">
-    {event.room}
-  </p>
-  {#if locations[event.location].maps}
-    <a href={locations[event.location].maps} class="inline-flex gap-1 items-center hover:underline">
-      <p>{locations[event.location].name}</p>
-      <span class="mb-0.5"><PhArrowSquareOut></PhArrowSquareOut></span>
-    </a>
-  {:else}
-    <p>{locations[event.location].name}</p>
-  {/if}
-</div>
+<CourseLocation {...event}></CourseLocation>

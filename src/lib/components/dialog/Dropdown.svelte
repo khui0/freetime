@@ -1,15 +1,19 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, tick } from "svelte";
+  import { onMount, tick, type Snippet } from "svelte";
   import { fly } from "svelte/transition";
-
-  const dispatch = createEventDispatcher();
 
   import PhX from "~icons/ph/x";
 
-  let element: HTMLElement;
-  let shown: boolean = false;
+  let {
+    children,
+  }: {
+    children: Snippet;
+  } = $props();
 
-  let up: boolean = false;
+  let element: HTMLElement | undefined = $state();
+  let shown: boolean = $state(false);
+
+  let up: boolean = $state(false);
 
   export async function show(r: DOMRect) {
     // Position dropdown appropriately
@@ -24,6 +28,7 @@
     up = !bottom;
     shown = true;
     await tick();
+    if (!element) return;
     element.style.removeProperty("left");
     element.style.removeProperty("right");
     element.style.removeProperty("top");
@@ -39,12 +44,10 @@
       element.style.bottom = h - r.top - offset + "px";
     }
     element.style.width = Math.max(width, MIN_WIDTH) + "px";
-    dispatch("show");
   }
 
   export function close() {
     shown = false;
-    dispatch("close");
   }
 
   onMount(() => {
@@ -53,7 +56,7 @@
     });
     document.addEventListener("pointerdown", (e) => {
       if (!shown) return;
-      const inside = e.target instanceof Node && element.contains(e.target);
+      const inside = e.target instanceof Node && element?.contains(e.target);
       if (!inside) close();
     });
     document.addEventListener("keydown", (e) => {
@@ -71,11 +74,11 @@
     bind:this={element}
     class="absolute z-50 rounded-box border p-4 bg-base-100 max-w-[32rem] text-base shadow-xl"
   >
-    <slot></slot>
+    {@render children?.()}
     <button
       class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
       aria-label="Close"
-      on:click={close}
+      onclick={close}
     >
       <PhX></PhX>
     </button>

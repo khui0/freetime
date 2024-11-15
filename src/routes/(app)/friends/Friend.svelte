@@ -1,21 +1,26 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
 
-  import { timeToMs, timeUntilShort } from "$lib/time";
+  import { timeToMs, timeUntilShort, timeUntilMedium } from "$lib/time";
   import pluralize from "pluralize";
 
   import PhX from "~icons/ph/x";
 
-  const dispatch = createEventDispatcher();
-
-  export let username: string;
-  export let action: string = "";
-  export let href: string = "";
-
-  export let schedule: CalendarEvent[] = [];
-
-  export let index: number = 0;
+  let {
+    username,
+    action = "",
+    href = "",
+    schedule = [],
+    index = 0,
+    onaction,
+  }: {
+    username: string;
+    action?: string;
+    href?: string;
+    schedule?: CalendarEvent[];
+    index?: number;
+    onaction?: Function;
+  } = $props();
 
   interface Status {
     inClass: boolean;
@@ -23,7 +28,7 @@
     offHours: boolean;
   }
 
-  let status: Status | undefined;
+  let status: Status | undefined = $state();
 
   status = getStatus();
   setInterval(() => {
@@ -51,7 +56,7 @@
       details.push("No classes today");
     } else if (inClass) {
       details.push(
-        `${current.title} ${current.number} ends in ${timeUntilShort(current.from, current.to)}`,
+        `${current.title} ${current.number} ends in ${timeUntilMedium(current.from, current.to)}`,
       );
       details.push(`\n${pluralize("class", rest.length, true)} left`);
     } else {
@@ -59,7 +64,7 @@
         details.push("Done for the day");
       } else {
         details.push(
-          `${rest[0].title} ${rest[0].number} starts in ${timeUntilShort(rest[0].from, rest[0].to)}`,
+          `${rest[0].title} ${rest[0].number} starts in ${timeUntilMedium(rest[0].from, rest[0].to)}`,
         );
         details.push(`\n${pluralize("class", rest.length, true)} left`);
       }
@@ -112,8 +117,8 @@
   <button
     class="btn btn-sm self-center"
     class:btn-square={!action}
-    on:click={() => {
-      dispatch("action");
+    onclick={() => {
+      onaction?.();
     }}
   >
     {#if action}

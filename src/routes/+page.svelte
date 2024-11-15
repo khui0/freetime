@@ -5,8 +5,8 @@
   import GoogleAuth from "$lib/components/GoogleAuth.svelte";
   import Logo from "$lib/components/Logo.svelte";
 
-  import { pb } from "$lib/pocketbase";
   import { goto } from "$app/navigation";
+  import { pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
   onMount(() => {
@@ -108,9 +108,6 @@
   <h2 id="get-started" class="mt-10 text-4xl font-bold">Get started</h2>
   <div class="mt-5">
     <GoogleAuth></GoogleAuth>
-  </div>
-  <div class="mt-5">
-    <a href="/legacy-sign-in" class="link text-sm">Continue with email</a>
   </div>
   <p class="mt-5 text-sm max-w-md mx-auto text-balance">
     Your Google™ account is only used to sign you in with your email. No other data is collected.

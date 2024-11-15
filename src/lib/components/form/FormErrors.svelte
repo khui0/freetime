@@ -1,5 +1,9 @@
 <script lang="ts">
-  export let errors: String[];
+  let {
+    errors = $bindable(),
+  }: {
+    errors: String[];
+  } = $props();
 </script>
 
 {#if errors.length > 0}
