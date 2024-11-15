@@ -1,7 +1,7 @@
 <script lang="ts">
   import { locations } from "$lib/sbu";
   import { eventDurationMedium, msToUnits, timeTo12Hour, timeToMs, timeUntil } from "$lib/time";
-  import { onMount } from "svelte";
+  import Updater from "../widgets/Updater.svelte";
   import PhArrowSquareOut from "~icons/ph/arrow-square-out";
 
   let {
@@ -23,43 +23,6 @@
         minutes: string;
       }
     | undefined = $state();
-
-  onMount(() => {
-    update();
-    setInterval(update, 1000);
-
-    function update() {
-      today = event.days[(new Date().getDay() + 13) % 7];
-
-      const now = Date.now();
-      const start = timeToMs(event.from);
-      const end = timeToMs(event.to);
-
-      inClass = start <= now && now < end;
-
-      if (inClass) {
-        progress = ((now - start) / (end - start)) * 100;
-
-        let time;
-        if (now < start) {
-          time = msToUnits(start - now);
-        } else if (now < end) {
-          time = msToUnits(end - now);
-        }
-
-        if (time) {
-          remaining = {
-            hours: time?.hours.toString() || "",
-            minutes: (time?.minutes + 1).toString().padStart(2, "0"),
-          };
-        }
-      }
-
-      if (today) {
-        until = timeUntil(event?.from, event?.to) || "";
-      }
-    }
-  });
 </script>
 
 <div class="flex gap-2 items-center">
@@ -99,6 +62,41 @@
     {/if}
   {/each}
 </div>
+
+<Updater
+  onupdate={() => {
+    today = event.days[(new Date().getDay() + 13) % 7];
+
+    const now = Date.now();
+    const start = timeToMs(event.from);
+    const end = timeToMs(event.to);
+
+    inClass = start <= now && now < end;
+
+    if (inClass) {
+      progress = ((now - start) / (end - start)) * 100;
+
+      let time;
+      if (now < start) {
+        time = msToUnits(start - now);
+      } else if (now < end) {
+        time = msToUnits(end - now);
+      }
+
+      if (time) {
+        remaining = {
+          hours: time?.hours.toString() || "",
+          minutes: (time?.minutes + 1).toString().padStart(2, "0"),
+        };
+      }
+    }
+
+    if (today) {
+      until = timeUntil(event?.from, event?.to) || "";
+    }
+  }}
+></Updater>
+
 <div class="flex gap-2 items-center flex-wrap mt-1">
   <p class="border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">
     {event.room}

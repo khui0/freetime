@@ -13,6 +13,7 @@
   import PhPencilSimple from "~icons/ph/pencil-simple";
 
   import ExportModal from "./ExportModal.svelte";
+  import Updater from "$lib/components/widgets/Updater.svelte";
   let exportModal: ExportModal | undefined = $state();
 
   let data: CalendarEvent[][] = $state([]);
@@ -30,24 +31,24 @@
 
       // Retrieve own schedule
       data = [$schedules.find((r) => r.user === $currentUser?.id)?.schedule];
-
-      update();
-      setInterval(update, 1000);
-      function update() {
-        status.long = new Date().toLocaleDateString("en-US", {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-        });
-        status.short = new Date().toLocaleDateString("en-US", {
-          weekday: "long",
-          month: "short",
-          day: "numeric",
-        });
-      }
     });
   });
 </script>
+
+<Updater
+  onupdate={() => {
+    status.long = new Date().toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+    status.short = new Date().toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+    });
+  }}
+></Updater>
 
 {#if data.length > 0}
   <Calendar

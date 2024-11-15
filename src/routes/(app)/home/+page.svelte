@@ -12,6 +12,7 @@
   import ClassesProgress from "$lib/components/widgets/ClassesProgress.svelte";
 
   import PhPencilSimple from "~icons/ph/pencil-simple";
+  import Updater from "$lib/components/widgets/Updater.svelte";
 
   let data: CalendarEvent[] = $state([]);
 
@@ -36,14 +37,6 @@
 
       // Retrieve own schedule
       data = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
-
-      update();
-      setInterval(update, 1000);
-      function update() {
-        status = getStatus();
-        until = timeUntil(status.event?.from, status.event?.to) || "";
-        untilShort = timeUntilShort(status.event?.from, status.event?.to) || "";
-      }
     });
   });
 
@@ -103,6 +96,14 @@
     };
   }
 </script>
+
+<Updater
+  onupdate={() => {
+    status = getStatus();
+    until = timeUntil(status.event?.from, status.event?.to) || "";
+    untilShort = timeUntilShort(status.event?.from, status.event?.to) || "";
+  }}
+></Updater>
 
 <div
   class="flex flex-col px-4 py-8 gap-6 w-[min(100%,800px)] justify-center mx-auto {$settings.tallNavigation ===
