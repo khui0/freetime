@@ -6,9 +6,9 @@
 
   import PhClock from "~icons/ph/clock";
 
-  import Updater from "../widgets/Updater.svelte";
   import EventDetails from "$lib/components/calendar/EventDetails.svelte";
   import Dropdown from "$lib/components/dialog/Dropdown.svelte";
+  import { update } from "$lib/utilities";
 
   let dropdown: Dropdown | undefined = $state();
   let selected: CalendarEvent | undefined = $state();
@@ -33,23 +33,22 @@
     children: Snippet;
     select: Function;
   } = $props();
-</script>
 
-<Updater
-  interval={100}
-  onupdate={() => {
-    const now = new Date();
-    const tzo = now.getTimezoneOffset() * 60000;
-    const hour = ((Date.now() % 8.64e7) - tzo) / 3.6e6;
-    progress = (hour - 8) / 12;
-    time = now
-      .toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-      })
-      .replace(/AM|PM/, "");
-  }}
-></Updater>
+  onMount(() => {
+    update(() => {
+      const now = new Date();
+      const tzo = now.getTimezoneOffset() * 60000;
+      const hour = ((Date.now() % 8.64e7) - tzo) / 3.6e6;
+      progress = (hour - 8) / 12;
+      time = now
+        .toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        })
+        .replace(/AM|PM/, "");
+    }, 100);
+  });
+</script>
 
 <!-- Header -->
 <div class="z-20 sticky top-0 flex flex-col bg-base-100/50 backdrop-blur-lg border-b">
