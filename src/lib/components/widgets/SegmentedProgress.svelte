@@ -3,15 +3,17 @@
     value,
     max,
     progress = 100,
+    class: classList,
   }: {
     value: number;
     max: number;
     progress?: number;
+    class?: string;
   } = $props();
 </script>
 
 <div
-  class="grid gap-1 h-5 w-full rounded-full overflow-hidden"
+  class="grid gap-1 h-5 w-full rounded-full overflow-hidden {classList}"
   style="grid-template-columns: repeat({max}, 1fr);"
 >
   {#each Array(max) as _, i}

@@ -4,19 +4,19 @@
 
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
+  import PhCaretLeft from "~icons/ph/caret-left";
+  import PhCaretRight from "~icons/ph/caret-right";
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
   import PhList from "~icons/ph/list";
   import PhListBold from "~icons/ph/list-bold";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
-  import PhCaretLeft from "~icons/ph/caret-left";
-  import PhCaretRight from "~icons/ph/caret-right";
 
+  import LogoSmall from "$lib/components/LogoSmall.svelte";
   import { currentUser, init, ready } from "$lib/pocketbase";
   import { onMount, type Snippet } from "svelte";
-  import LogoSmall from "$lib/components/LogoSmall.svelte";
-  import { fly } from "svelte/transition";
+  import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
 
   let { children }: { children: Snippet } = $props();
 
@@ -117,6 +117,18 @@
             {/if}
           </a>
         </li>
+        <li>
+          <a href="/friends" class="h-9 flex items-center">
+            {#if $page.url.pathname === "/friends"}
+              <PhUsersFill></PhUsersFill>
+            {:else}
+              <PhUsers></PhUsers>
+            {/if}
+            {#if !compact}
+              Friends
+            {/if}
+          </a>
+        </li>
       </ul>
     </div>
     <ul class="menu">
@@ -133,6 +145,9 @@
         </a>
       </li>
     </ul>
+    <div class="p-3 {compact || $page.url.pathname === '/home' ? 'hidden' : ''}">
+      <TodayProgress class="!h-3"></TodayProgress>
+    </div>
   </div>
   <main class="flex-1 overflow-auto">
     {@render children()}

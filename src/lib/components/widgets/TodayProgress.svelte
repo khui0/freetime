@@ -12,6 +12,8 @@
   let max: number = $state(0);
   let progress: number = $state(0);
 
+  let { class: classList }: { class?: string } = $props();
+
   onMount(() => {
     ready.subscribe(async (ready) => {
       if (!$currentUser || !ready) return;
@@ -44,4 +46,4 @@
   });
 </script>
 
-<SegmentedProgress {value} {max} {progress}></SegmentedProgress>
+<SegmentedProgress {value} {max} {progress} class={classList}></SegmentedProgress>

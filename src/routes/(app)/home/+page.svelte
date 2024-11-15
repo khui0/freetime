@@ -5,17 +5,17 @@
   import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
   import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
+  import { update } from "$lib/utilities";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
-  import { update } from "$lib/utilities";
 
   import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
 
   import CourseLocation from "$lib/components/widgets/CourseLocation.svelte";
   import CourseTimes from "$lib/components/widgets/CourseTimes.svelte";
 
-  import PhPencilSimple from "~icons/ph/pencil-simple";
   import PhCalendarDots from "~icons/ph/calendar-dots";
+  import PhPencilSimple from "~icons/ph/pencil-simple";
 
   let data: CalendarEvent[] = $state([]);
 

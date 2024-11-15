@@ -81,7 +81,7 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra bottom padding to the navigation bar
   </SettingsField>
-  <div class="flex gap-2 items-center justify-between py-4">
+  <div class="flex gap-2 items-center justify-between pt-4">
     <p>Freetime {version}</p>
     <div class="flex gap-2 flex-wrap justify-end">
       <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
