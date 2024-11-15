@@ -1,12 +1,14 @@
 <script lang="ts">
-  export let type: "username" | "password" | "email";
-  export let placeholder: string | undefined = undefined;
-
-  export let result: Result = {};
-
   import { z } from "zod";
+  interface Props {
+    type: "username" | "password" | "email";
+    placeholder?: string | undefined;
+    result?: Result;
+  }
 
-  let value: string;
+  let { type, placeholder = undefined, result = $bindable({}) }: Props = $props();
+
+  let value: string = $state("");
 
   const schema = {
     username: z.string().min(3, "Username must be at least 3 characters"),
@@ -32,7 +34,7 @@
     type="text"
     placeholder={placeholder || "Username"}
     bind:value
-    on:input={validate}
+    oninput={validate}
   />
 {:else if type === "password"}
   <input
@@ -40,7 +42,7 @@
     type="password"
     placeholder={placeholder || "Password"}
     bind:value
-    on:input={validate}
+    oninput={validate}
   />
 {:else if type === "email"}
   <input
@@ -48,6 +50,6 @@
     type="email"
     placeholder={placeholder || "Email address"}
     bind:value
-    on:input={validate}
+    oninput={validate}
   />
 {/if}

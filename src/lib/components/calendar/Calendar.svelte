@@ -11,18 +11,29 @@
   import EventDetails from "$lib/components/calendar/EventDetails.svelte";
   import Dropdown from "$lib/components/dialog/Dropdown.svelte";
 
-  let dropdown: Dropdown;
-  let selected: CalendarEvent;
+  let dropdown: Dropdown | undefined = $state();
+  let selected: CalendarEvent | undefined = $state();
 
-  let time: string;
-  let progress: number = -1;
+  let time: string | undefined = $state();
+  let progress: number = $state(-1);
 
-  export let data: CalendarEvent[][] = [];
+  interface Props {
+    data?: CalendarEvent[][];
+    headers?: string[];
+    columns?: number;
+    multiplier?: number;
+    offset?: number;
+    children?: import("svelte").Snippet;
+  }
 
-  export let headers: string[] = ["M", "T", "W", "T", "F", "S", "S"];
-  export let columns: number = 5;
-  export let multiplier: number = data.length;
-  export let offset: number = 0;
+  let {
+    data = $bindable([]),
+    headers = ["M", "T", "W", "T", "F", "S", "S"],
+    columns = 5,
+    multiplier = data.length,
+    offset = 0,
+    children,
+  }: Props = $props();
 
   onMount(() => {
     setInterval(() => {
@@ -42,7 +53,7 @@
 
 <!-- Header -->
 <div class="z-20 sticky top-0 flex flex-col bg-base-100/50 backdrop-blur-lg border-b">
-  <slot></slot>
+  {@render children?.()}
   <div class="flex px-4 pt-2 text-base-content/50 text-sm">
     <p class="flex items-center justify-center mr-2 w-10"><PhClock></PhClock></p>
     {#each Array(Math.min(columns, headers.length)) as _, i}
@@ -51,7 +62,7 @@
         class="flex-1 btn font-normal px-0 min-h-0 h-8 rounded-b-none {today
           ? 'bg-base-200'
           : 'btn-ghost'}"
-        on:click={() => {
+        onclick={() => {
           dispatch("selectday", { day: i });
         }}
       >
@@ -100,7 +111,7 @@
               subtle={!user}
               on:expand={(e) => {
                 selected = e.detail.selected;
-                dropdown.show(e.detail.rect);
+                dropdown?.show(e.detail.rect);
               }}
             ></CalendarItem>
           {/if}
@@ -119,5 +130,7 @@
 </div>
 
 <Dropdown bind:this={dropdown}>
-  <EventDetails event={selected}></EventDetails>
+  {#if selected}
+    <EventDetails event={selected}></EventDetails>
+  {/if}
 </Dropdown>

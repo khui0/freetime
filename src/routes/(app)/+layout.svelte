@@ -12,7 +12,9 @@
   import PhUsersFill from "~icons/ph/users-fill";
 
   import { currentUser, init, ready } from "$lib/pocketbase";
-  import { onMount } from "svelte";
+  import { onMount, type Snippet } from "svelte";
+
+  let { children }: { children: Snippet } = $props();
 
   onMount(() => {
     if ($currentUser && !$ready) {
@@ -22,7 +24,7 @@
 </script>
 
 <main class={$settings.tallNavigation === "true" ? "pb-[calc(49px+2rem)]" : "pb-[49px]"}>
-  <slot></slot>
+  {@render children?.()}
 </main>
 <div class="fixed z-50 left-0 right-0 -top-20 h-20 bg-base-100"></div>
 <nav

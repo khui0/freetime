@@ -13,16 +13,16 @@
   import PhPencilSimple from "~icons/ph/pencil-simple";
 
   import ExportModal from "./ExportModal.svelte";
-  let exportModal: ExportModal;
+  let exportModal: ExportModal | undefined = $state();
 
-  let data: CalendarEvent[][] = [];
-  let status = {
+  let data: CalendarEvent[][] = $state([]);
+  let status = $state({
     long: "",
     short: "",
-  };
+  });
 
-  let singleView: boolean = false;
-  let viewOffset: number = 0;
+  let singleView: boolean = $state(false);
+  let viewOffset: number = $state(0);
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -65,7 +65,7 @@
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button
           class="btn btn-sm"
-          on:click={() => {
+          onclick={() => {
             singleView = !singleView;
             viewOffset = singleView ? (new Date().getDay() + 13) % 7 : 0;
           }}>{!singleView ? "Today" : "Week"}</button
@@ -81,7 +81,7 @@
           >
             <li><a href="/edit"><PhPencilSimple></PhPencilSimple>Edit</a></li>
             <li>
-              <button on:click={exportModal.show}>
+              <button onclick={exportModal?.show}>
                 <PhDownloadSimple></PhDownloadSimple>Export (.ics)
               </button>
             </li>

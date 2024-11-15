@@ -19,8 +19,8 @@
 
   const version = import.meta.env.PACKAGE_VERSION;
 
-  let confirm: Confirm;
-  let aboutModal: Modal;
+  let confirm: Confirm | undefined = $state();
+  let aboutModal: Modal | undefined = $state();
 
   interface Option {
     name: string;
@@ -44,19 +44,27 @@
   <div class="self-center my-5"><Logo></Logo></div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <SettingsFieldLarge type="link" title="Account" text="Open account settings" href="/account">
-      <span slot="icon"><PhUser></PhUser></span>
+      {#snippet icon()}
+        <span><PhUser></PhUser></span>
+      {/snippet}
       Manage your account
     </SettingsFieldLarge>
     <SettingsFieldLarge type="button" title="Sign out" text="Sign out" on:click={signOut}>
-      <span slot="icon"><PhSignOut></PhSignOut></span>
+      {#snippet icon()}
+        <span><PhSignOut></PhSignOut></span>
+      {/snippet}
       Sign out of your account
     </SettingsFieldLarge>
     <SettingsFieldLarge type="link" title="Schedule" text="Edit schedule" href="/edit">
-      <span slot="icon"><PhCalendarDots></PhCalendarDots></span>
+      {#snippet icon()}
+        <span><PhCalendarDots></PhCalendarDots></span>
+      {/snippet}
       Add, remove, or change classes
     </SettingsFieldLarge>
     <SettingsFieldLarge type="select" title="Theme" options={themes} bind:value={$settings.theme}>
-      <span slot="icon"><PhPalette></PhPalette></span>
+      {#snippet icon()}
+        <span><PhPalette></PhPalette></span>
+      {/snippet}
       Customize the look of Freetime
     </SettingsFieldLarge>
   </div>
@@ -77,7 +85,7 @@
     <p>Freetime {version}</p>
     <div class="flex gap-2 flex-wrap justify-end">
       <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
-      <button class="btn btn-sm" on:click={aboutModal.show}>About</button>
+      <button class="btn btn-sm" onclick={aboutModal?.show}>About</button>
     </div>
   </div>
 </div>

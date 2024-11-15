@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from "svelte/legacy";
+
   import { title } from "$lib/store";
   $title = "Account";
 
@@ -16,14 +18,14 @@
     loading: boolean;
   }
 
-  let confirm: Confirm;
+  let confirm: Confirm | undefined = $state();
 
-  let newUsername: string;
+  let newUsername: string = $state("");
 
-  let usernameState: FormState = {
+  let usernameState: FormState = $state({
     error: "",
     loading: false,
-  };
+  });
 
   onMount(() => {
     newUsername = $currentUser?.username;
@@ -31,7 +33,7 @@
 
   function deleteAccount() {
     confirm
-      .prompt(
+      ?.prompt(
         "Are you sure you want to delete your account?",
         "Doing so is permanent and cannot be undone!",
         "Delete",
@@ -69,7 +71,7 @@
 <TopBar>
   <button
     class="btn btn-square btn-sm rounded-full"
-    on:click={() => {
+    onclick={() => {
       history.back();
     }}
   >
@@ -79,15 +81,15 @@
 <div class="flex flex-col gap-4 w-[min(100%,800px)] mx-auto p-4">
   <div class="flex items-center justify-between">
     <p class="px-3 text-base-content/50">{$currentUser?.email}</p>
-    <button class="btn btn-sm" on:click={signOut}>Sign out</button>
+    <button class="btn btn-sm" onclick={signOut}>Sign out</button>
   </div>
   <!-- Username -->
-  <form on:submit|preventDefault={updateUsername} class="flex-1 flex gap-1 min-w-[250px]">
+  <form onsubmit={preventDefault(updateUsername)} class="flex-1 flex gap-1 min-w-[250px]">
     <label class="flex flex-col text-xs w-full">
       <span class="px-2">Username</span>
       <div class="flex gap-2">
         <input class="input input-bordered input-sm w-full" type="text" bind:value={newUsername} />
-        <button class="btn btn-sm" on:click={updateUsername}>
+        <button class="btn btn-sm" onclick={updateUsername}>
           {#if !usernameState?.loading}
             Change
           {:else}
@@ -101,7 +103,7 @@
     </label>
   </form>
   <div class="flex gap-2 justify-center py-4">
-    <button class="btn btn-sm btn-error" on:click={deleteAccount}>Delete account...</button>
+    <button class="btn btn-sm btn-error" onclick={deleteAccount}>Delete account...</button>
   </div>
 </div>
 

@@ -13,17 +13,19 @@
 
   import PhPencilSimple from "~icons/ph/pencil-simple";
 
-  let data: CalendarEvent[] = [];
+  let data: CalendarEvent[] = $state([]);
 
-  let status: {
-    message: string;
-    greeting: string;
-    event: CalendarEvent;
-    inClass: boolean;
-    classesRemaining: number;
-    classesToday: number;
-    currentRemaining: number;
-  };
+  let status:
+    | {
+        message: string;
+        greeting: string;
+        event: CalendarEvent;
+        inClass: boolean;
+        classesRemaining: number;
+        classesToday: number;
+        currentRemaining: number;
+      }
+    | undefined = $state();
 
   let until: string;
   let untilShort: string;

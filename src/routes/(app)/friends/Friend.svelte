@@ -9,13 +9,15 @@
 
   const dispatch = createEventDispatcher();
 
-  export let username: string;
-  export let action: string = "";
-  export let href: string = "";
+  interface Props {
+    username: string;
+    action?: string;
+    href?: string;
+    schedule?: CalendarEvent[];
+    index?: number;
+  }
 
-  export let schedule: CalendarEvent[] = [];
-
-  export let index: number = 0;
+  let { username, action = "", href = "", schedule = [], index = 0 }: Props = $props();
 
   interface Status {
     inClass: boolean;
@@ -23,7 +25,7 @@
     offHours: boolean;
   }
 
-  let status: Status | undefined;
+  let status: Status | undefined = $state();
 
   status = getStatus();
   setInterval(() => {
@@ -112,7 +114,7 @@
   <button
     class="btn btn-sm self-center"
     class:btn-square={!action}
-    on:click={() => {
+    onclick={() => {
       dispatch("action");
     }}
   >

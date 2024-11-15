@@ -1,10 +1,10 @@
 <script lang="ts">
   import Modal from "$lib/components/dialog/Modal.svelte";
 
-  let modal: Modal;
+  let modal: Modal | undefined = $state();
 
   export function show() {
-    modal.show();
+    modal?.show();
   }
 
   import { currentUser, schedules } from "$lib/pocketbase";
@@ -13,27 +13,6 @@
   import saveAs from "file-saver";
   import * as ics from "ics";
   import pluralize from "pluralize";
-
-  $: schedule = $schedules.find((item) => item.user === $currentUser?.id)?.schedule;
-  $: events = schedule?.map((event: CalendarEvent) => {
-    const hours = parseInt(event.from.split(":")[0]);
-    const minutes = parseInt(event.from.split(":")[1]);
-    const start = startDate(event.days);
-    return {
-      start: [start.year, start.month, start.day, hours, minutes],
-      duration: duration(event.from, event.to),
-      title: `${event.title} ${event.number}`,
-      description: `${types[event.type]}`,
-      location: `${event.room.toUpperCase()} - ${locations[event.location].name}`,
-      geo: {
-        lat: parseFloat(locations[event.location].lat || "0"),
-        lon: parseFloat(locations[event.location].lon || "0"),
-      },
-      recurrenceRule: rrule(event.days),
-      productId: "Freetime (freetime.kennyhui.dev)",
-    };
-  });
-  $: ical = ics.createEvents(events).value;
 
   function save() {
     if (!ical) return;
@@ -69,6 +48,28 @@
       day: adjusted.getDate(),
     };
   }
+  let schedule = $derived($schedules.find((item) => item.user === $currentUser?.id)?.schedule);
+  let events = $derived(
+    schedule?.map((event: CalendarEvent) => {
+      const hours = parseInt(event.from.split(":")[0]);
+      const minutes = parseInt(event.from.split(":")[1]);
+      const start = startDate(event.days);
+      return {
+        start: [start.year, start.month, start.day, hours, minutes],
+        duration: duration(event.from, event.to),
+        title: `${event.title} ${event.number}`,
+        description: `${types[event.type]}`,
+        location: `${event.room.toUpperCase()} - ${locations[event.location].name}`,
+        geo: {
+          lat: parseFloat(locations[event.location].lat || "0"),
+          lon: parseFloat(locations[event.location].lon || "0"),
+        },
+        recurrenceRule: rrule(event.days),
+        productId: "Freetime (freetime.kennyhui.dev)",
+      };
+    }),
+  );
+  let ical = $derived(ics.createEvents(events).value);
 </script>
 
 <Modal bind:this={modal} title="Export iCalendar">
@@ -82,7 +83,7 @@
         </li>
       {/each}
     </ul>
-    <button class="btn btn-sm" on:click={save}>Export (.ics)</button>
+    <button class="btn btn-sm" onclick={save}>Export (.ics)</button>
   {:else}
     <p>Unable to generate file</p>
   {/if}

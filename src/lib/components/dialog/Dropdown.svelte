@@ -5,11 +5,16 @@
   const dispatch = createEventDispatcher();
 
   import PhX from "~icons/ph/x";
+  interface Props {
+    children?: import("svelte").Snippet;
+  }
 
-  let element: HTMLElement;
-  let shown: boolean = false;
+  let { children }: Props = $props();
 
-  let up: boolean = false;
+  let element: HTMLElement | undefined = $state();
+  let shown: boolean = $state(false);
+
+  let up: boolean = $state(false);
 
   export async function show(r: DOMRect) {
     // Position dropdown appropriately
@@ -24,6 +29,7 @@
     up = !bottom;
     shown = true;
     await tick();
+    if (!element) return;
     element.style.removeProperty("left");
     element.style.removeProperty("right");
     element.style.removeProperty("top");
@@ -53,7 +59,7 @@
     });
     document.addEventListener("pointerdown", (e) => {
       if (!shown) return;
-      const inside = e.target instanceof Node && element.contains(e.target);
+      const inside = e.target instanceof Node && element?.contains(e.target);
       if (!inside) close();
     });
     document.addEventListener("keydown", (e) => {
@@ -71,11 +77,11 @@
     bind:this={element}
     class="absolute z-50 rounded-box border p-4 bg-base-100 max-w-[32rem] text-base shadow-xl"
   >
-    <slot></slot>
+    {@render children?.()}
     <button
       class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
       aria-label="Close"
-      on:click={close}
+      onclick={close}
     >
       <PhX></PhX>
     </button>

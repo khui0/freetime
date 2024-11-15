@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let value: number;
-  export let max: number;
-  export let progress: number = 0;
+  interface Props {
+    value: number;
+    max: number;
+    progress?: number;
+  }
+
+  let { value, max, progress = 0 }: Props = $props();
 </script>
 
 <div

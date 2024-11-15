@@ -4,19 +4,25 @@
   import { onMount } from "svelte";
   import PhArrowSquareOut from "~icons/ph/arrow-square-out";
 
-  export let event: CalendarEvent;
+  interface Props {
+    event: CalendarEvent;
+  }
+
+  let { event }: Props = $props();
 
   const days = ["M", "T", "W", "T", "F", "S", "S"];
 
-  let inClass: boolean;
-  let today: boolean;
+  let inClass: boolean | undefined = $state();
+  let today: boolean | undefined = $state();
 
-  let until: string;
-  let progress: number = 0;
-  let remaining: {
-    hours: string;
-    minutes: string;
-  };
+  let until: string | undefined = $state();
+  let progress: number | undefined = $state(0);
+  let remaining:
+    | {
+        hours: string;
+        minutes: string;
+      }
+    | undefined = $state();
 
   onMount(() => {
     update();
@@ -67,7 +73,7 @@
       style="--value:{progress}; --size:3rem; --thickness:0.25rem;"
       role="progressbar"
     >
-      <p>{remaining.hours}<span class="animate-pulse">:</span>{remaining.minutes}</p>
+      <p>{remaining?.hours}<span class="animate-pulse">:</span>{remaining?.minutes}</p>
     </div>
   {/if}
   {#if until && !inClass}

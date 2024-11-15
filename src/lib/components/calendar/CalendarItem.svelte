@@ -1,19 +1,22 @@
 <script lang="ts">
-  export let event: CalendarEvent;
-  export let dim: boolean = false;
-  export let subtle: boolean = false;
-
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
   import { locations, types } from "$lib/sbu";
   import { timeTo12Hour, timeToS } from "$lib/time";
+  interface Props {
+    event: CalendarEvent;
+    dim?: boolean;
+    subtle?: boolean;
+  }
 
-  let button: HTMLButtonElement;
+  let { event, dim = false, subtle = false }: Props = $props();
 
-  $: length = (timeToS(event.to) - timeToS(event.from)) / 3600;
-  $: location = locations[event.location];
+  let button: HTMLButtonElement | undefined = $state();
+
+  let length = $derived((timeToS(event.to) - timeToS(event.from)) / 3600);
+  let location = $derived(locations[event.location]);
 </script>
 
 <button
@@ -25,10 +28,10 @@
     : ''} transition-colors tracking-tight"
   style="height: {length * 4}rem; transform: translateY({(parseInt(event.from.split(':')[1]) / 60) *
     4}rem);"
-  on:click={() => {
+  onclick={() => {
     dispatch("expand", {
       selected: event,
-      rect: button.getBoundingClientRect(),
+      rect: button?.getBoundingClientRect(),
     });
   }}
 >

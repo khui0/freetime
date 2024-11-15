@@ -2,16 +2,16 @@
   import { DeferredPromise } from "@open-draft/deferred-promise";
   import Modal from "./Modal.svelte";
 
-  let modal: Modal;
+  let modal: Modal | undefined = $state();
 
-  let result: DeferredPromise<string> | null;
+  let result: DeferredPromise<string> | null | undefined = $state();
 
-  let titleText: string;
-  let bodyText: string;
-  let actionText: string;
+  let titleText: string | undefined = $state();
+  let bodyText: string | undefined = $state();
+  let actionText: string | undefined = $state();
 
-  let additionalClasses: string;
-  let disabled: boolean = false;
+  let additionalClasses: string | undefined = $state();
+  let disabled: boolean = $state(false);
 
   let interval: number = 0;
 
@@ -47,7 +47,7 @@
     } else {
       actionText = action;
     }
-    modal.show();
+    modal?.show();
     return result;
   }
 </script>
@@ -60,16 +60,18 @@
   }}
 >
   <p>{bodyText}</p>
-  <form method="dialog" class="flex gap-2 mt-4" slot="buttons">
-    <button class="btn btn-sm flex-1">Cancel</button>
-    <button
-      class="btn btn-sm flex-1 {additionalClasses}"
-      on:click={() => {
-        result?.resolve("");
-      }}
-      {disabled}
-    >
-      {actionText}
-    </button>
-  </form>
+  {#snippet buttons()}
+    <form method="dialog" class="flex gap-2 mt-4">
+      <button class="btn btn-sm flex-1">Cancel</button>
+      <button
+        class="btn btn-sm flex-1 {additionalClasses}"
+        onclick={() => {
+          result?.resolve("");
+        }}
+        {disabled}
+      >
+        {actionText}
+      </button>
+    </form>
+  {/snippet}
 </Modal>

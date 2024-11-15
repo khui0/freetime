@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { run, createBubbler } from "svelte/legacy";
+
+  const bubble = createBubbler();
   import { createEventDispatcher } from "svelte";
 
   interface Option {
@@ -6,23 +9,35 @@
     value: string;
   }
 
-  export let title: string;
-  export let type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
-  export let value: string = "";
-  export let options: Option[] = [];
-  export let maxlength: number | undefined = undefined;
-  export let placeholder: string = "";
-  export let text: string = "";
-  export let href: string = "";
+  interface Props {
+    title: string;
+    type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
+    value?: string;
+    options?: Option[];
+    maxlength?: number | undefined;
+    placeholder?: string;
+    text?: string;
+    href?: string;
+    children?: import("svelte").Snippet;
+  }
 
-  let checkbox: HTMLInputElement;
+  let {
+    title,
+    type,
+    value = $bindable(""),
+    options = [],
+    maxlength = undefined,
+    placeholder = "",
+    text = "",
+    href = "",
+    children,
+  }: Props = $props();
 
-  $: value,
-    (() => {
-      if (checkbox) {
-        checkbox.checked = value === "true";
-      }
-    })();
+  let checkbox: HTMLInputElement | undefined = $state();
+
+  $effect(() => {
+    if (checkbox) checkbox.checked = value === "true";
+  });
 
   const dispatch = createEventDispatcher();
 </script>
@@ -30,15 +45,15 @@
 <div class="flex gap-2 items-center justify-between border-b">
   <div class="flex flex-col py-4 gap-1">
     <h3>{title}</h3>
-    <p class="text-sm text-base-content/50"><slot></slot></p>
+    <p class="text-sm text-base-content/50">{@render children?.()}</p>
   </div>
   {#if type === "checkbox" || type === "toggle"}
     <input
       type="checkbox"
       class={type === "checkbox" ? "checkbox rounded-md" : "toggle"}
       bind:this={checkbox}
-      on:input={() => {
-        value = checkbox.checked ? "true" : "false";
+      oninput={() => {
+        value = checkbox?.checked ? "true" : "false";
       }}
     />
   {:else if type === "select"}
@@ -58,7 +73,7 @@
       />
       <button
         class="btn btn-sm"
-        on:click={() => {
+        onclick={() => {
           dispatch("save", {
             value,
           });
@@ -67,7 +82,7 @@
       </button>
     </div>
   {:else if type === "button"}
-    <button class="btn btn-sm" on:click>{text}</button>
+    <button class="btn btn-sm" onclick={bubble("click")}>{text}</button>
   {:else if type === "link"}
     <a class="btn btn-sm" {href}>{text}</a>
   {/if}

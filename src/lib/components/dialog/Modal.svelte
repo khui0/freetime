@@ -1,5 +1,8 @@
 <script lang="ts">
-  let modal: HTMLDialogElement;
+  import { createBubbler } from "svelte/legacy";
+
+  const bubble = createBubbler();
+  let modal: HTMLDialogElement | undefined = $state();
 
   import { createEventDispatcher } from "svelte";
 
@@ -8,26 +11,40 @@
   import PhX from "~icons/ph/x";
 
   export function show() {
-    modal.showModal();
+    modal?.showModal();
     dispatch("show");
   }
 
   export function close() {
-    modal.close();
+    modal?.close();
     dispatch("close");
   }
 
-  export let title: string = "";
+  interface Props {
+    title?: string;
+    additionalClasses?: string;
+    centered?: boolean;
+    transparent?: boolean;
+    icon?: import("svelte").Snippet;
+    children?: import("svelte").Snippet;
+    buttons?: import("svelte").Snippet;
+  }
 
-  export let additionalClasses: string = "";
-  export let centered: boolean = false;
-  export let transparent: boolean = false;
+  let {
+    title = "",
+    additionalClasses = "",
+    centered = false,
+    transparent = false,
+    icon,
+    children,
+    buttons,
+  }: Props = $props();
 </script>
 
 <dialog
   class="modal {transparent ? 'backdrop:bg-transparent' : 'backdrop:bg-black/10'}"
   bind:this={modal}
-  on:close
+  onclose={bubble("close")}
 >
   <div
     class="modal-box rounded-box p-4 border {transparent ? 'shadow-lg' : ''} {additionalClasses}"
@@ -38,13 +55,13 @@
       </button>
     </form>
     <div class="flex flex-col gap-2 h-full" class:items-center={centered}>
-      <slot name="icon"></slot>
+      {@render icon?.()}
       {#if title !== ""}
         <h2 class="font-bold text-2xl {centered ? '' : 'self-start pr-8'}">{title}</h2>
       {/if}
-      <slot></slot>
+      {@render children?.()}
     </div>
-    <slot name="buttons"></slot>
+    {@render buttons?.()}
   </div>
   <form method="dialog" class="modal-backdrop">
     <button>close</button>

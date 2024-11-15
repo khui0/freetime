@@ -1,6 +1,5 @@
 <script lang="ts">
-  /** @type {import('./$types').PageData} */
-  export let data;
+  let { data }: { data: PageData } = $props();
 
   import { title } from "$lib/store";
   $title = data.username;
@@ -13,12 +12,17 @@
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Calendar from "$lib/components/calendar/Calendar.svelte";
+  import type { PageData } from "./$types";
 
-  let selfData: CalendarEvent[] = [];
-  let singleView: boolean = false;
-  let viewOffset: number = 0;
+  let selfData: CalendarEvent[] = $state([]);
+  let singleView: boolean = $state(false);
+  let viewOffset: number = $state(0);
 
-  $: events = [data.schedule, selfData];
+  let events = $state([data.schedule]);
+
+  $effect(() => {
+    events = [data.schedule, selfData];
+  });
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -44,7 +48,7 @@
       <div class="flex gap-4 items-center flex-wrap">
         <button
           class="btn btn-square btn-sm rounded-full"
-          on:click={() => {
+          onclick={() => {
             history.back();
           }}
         >
@@ -55,7 +59,7 @@
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button
           class="btn btn-sm"
-          on:click={() => {
+          onclick={() => {
             singleView = !singleView;
             viewOffset = singleView ? (new Date().getDay() + 13) % 7 : 0;
           }}>{!singleView ? "Today" : "Week"}</button

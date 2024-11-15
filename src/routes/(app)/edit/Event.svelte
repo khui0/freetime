@@ -10,23 +10,28 @@
 
   const dispatch = createEventDispatcher();
 
-  let confirm: Confirm;
+  let confirm: Confirm | undefined = $state();
 
-  export let empty: boolean = false;
+  let expanded: boolean = $state(false);
 
-  export let index: number = -1;
-  let expanded: boolean = false;
-
-  export let data: CalendarEvent = {
-    title: "",
-    number: "",
-    days: [false, false, false, false, false, false, false],
-    from: "",
-    to: "",
-    location: "",
-    room: "",
-    type: "",
-  };
+  let {
+    empty = false,
+    index = -1,
+    data = $bindable({
+      title: "",
+      number: "",
+      days: [false, false, false, false, false, false, false],
+      from: "",
+      to: "",
+      location: "",
+      room: "",
+      type: "",
+    }),
+  }: {
+    empty: boolean;
+    index: number;
+    data: CalendarEvent;
+  } = $props();
 
   export function expand() {
     expanded = true;
@@ -62,9 +67,9 @@
       </label>
       <button
         class="btn btn-square btn-sm hover:btn-error"
-        on:click={() => {
+        onclick={() => {
           confirm
-            .prompt(
+            ?.prompt(
               "Delete this event?",
               "This event will be deleted! (Changes will be applied on save)",
               "Delete",
@@ -94,7 +99,7 @@
             class="input input-bordered input-sm w-28"
             placeholder="e.g. CSE"
             bind:value={data.title}
-            on:input={() => {
+            oninput={() => {
               dispatch("input");
               data.title = data.title.toUpperCase();
             }}
@@ -108,7 +113,7 @@
             placeholder="e.g. 101"
             inputmode="numeric"
             bind:value={data.number}
-            on:input={() => {
+            oninput={() => {
               dispatch("input");
               data.number = data.number.replace(/[^0-9]/, "");
             }}
@@ -119,7 +124,7 @@
           <select
             class="select select-bordered select-sm w-full"
             bind:value={data.type}
-            on:input={() => {
+            oninput={() => {
               dispatch("input");
             }}
           >
@@ -137,7 +142,7 @@
               type="time"
               class="input input-bordered input-sm w-full"
               bind:value={data.from}
-              on:input={() => {
+              oninput={() => {
                 dispatch("input");
               }}
             />
@@ -148,7 +153,7 @@
               type="time"
               class="input input-bordered input-sm w-full"
               bind:value={data.to}
-              on:input={() => {
+              oninput={() => {
                 dispatch("input");
               }}
             />
@@ -162,7 +167,7 @@
                 class="btn btn-square btn-sm rounded-full font-normal {data.days[i]
                   ? 'bg-base-300'
                   : 'border-base-300 bg-transparent'}"
-                on:click={() => {
+                onclick={() => {
                   dispatch("input");
                   data.days[i] = !data.days[i];
                 }}
@@ -179,7 +184,7 @@
           <select
             class="select select-bordered select-sm max-w-48"
             bind:value={data.location}
-            on:input={() => {
+            oninput={() => {
               dispatch("input");
             }}
           >
@@ -197,7 +202,7 @@
             type="text"
             class="input input-bordered input-sm w-28"
             bind:value={data.room}
-            on:input={() => {
+            oninput={() => {
               dispatch("input");
               data.room = data.room.toUpperCase();
             }}

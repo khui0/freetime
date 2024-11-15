@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from "svelte/legacy";
+
   import { title } from "$lib/store";
   $title = "Friends";
 
@@ -11,16 +13,16 @@
   import TopBar from "$lib/components/TopBar.svelte";
   import Friend from "./Friend.svelte";
 
-  let confirm: Confirm;
+  let confirm: Confirm | undefined = $state();
 
-  let addModal: Modal;
-  let usernameField: string;
-  let error: string;
+  let addModal: Modal | undefined = $state();
+  let usernameField: string = $state("");
+  let error: string = $state("");
 
-  let outgoingModal: Modal;
-  let requestsModal: Modal;
+  let outgoingModal: Modal | undefined = $state();
+  let requestsModal: Modal | undefined = $state();
 
-  let loading: boolean = false;
+  let loading: boolean = $state(false);
 
   onMount(() => {
     friends.subscribe((friends) => {
@@ -61,7 +63,7 @@
         friends: [...self.friends, target],
       })
       .then(() => {
-        addModal.close();
+        addModal?.close();
         usernameField = "";
         error = "";
         loading = false;
@@ -80,16 +82,16 @@
 <TopBar>
   <h2 class="text-2xl font-bold tracking-tight">Friends</h2>
   <div class="flex gap-2 flex-wrap justify-end">
-    <button class="btn btn-sm" on:click={addModal.show}>Add friend</button>
+    <button class="btn btn-sm" onclick={addModal?.show}>Add friend</button>
   </div>
 </TopBar>
 <div class="flex gap-2 px-4 pt-4 w-[min(100%,800px)] mx-auto">
-  <button class="btn btn-sm" on:click={outgoingModal.show}>
+  <button class="btn btn-sm" onclick={outgoingModal?.show}>
     Outgoing {#if $friends?.outgoing?.length > 0}
       ({$friends?.outgoing.length})
     {/if}
   </button>
-  <button class="btn btn-sm" on:click={requestsModal.show}>
+  <button class="btn btn-sm" onclick={requestsModal?.show}>
     Incoming {#if $friends?.requests?.length > 0}
       ({$friends?.requests?.length})
     {/if}
@@ -106,7 +108,7 @@
           schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
           on:action={() => {
             confirm
-              .prompt(
+              ?.prompt(
                 "Remove friend?",
                 `Are you sure you want to remove ${friend.username}?`,
                 "Remove",
@@ -130,9 +132,9 @@
 >
   <form
     class="flex flex-col gap-4"
-    on:submit|preventDefault={() => {
+    onsubmit={preventDefault(() => {
       addFriend(usernameField);
-    }}
+    })}
   >
     <label class="flex flex-col text-xs">
       <span class="px-2">Username</span>
@@ -151,7 +153,7 @@
         <p>Your username is <b>{$currentUser?.username}</b></p>
         <button
           class="btn btn-xs"
-          on:click={() => {
+          onclick={() => {
             goto("/account");
           }}>Change</button
         >
@@ -162,7 +164,7 @@
     </div>
     <button
       class="btn btn-sm hover:btn-accent"
-      on:click={() => {
+      onclick={() => {
         addFriend(usernameField);
       }}
       >{#if !loading}
