@@ -5,6 +5,7 @@
   import pluralize from "pluralize";
 
   import PhX from "~icons/ph/x";
+  import type { Snippet } from "svelte";
 
   let {
     username,
@@ -13,6 +14,7 @@
     schedule = [],
     index = 0,
     onaction,
+    children,
   }: {
     username: string;
     action?: string;
@@ -20,6 +22,7 @@
     schedule?: CalendarEvent[];
     index?: number;
     onaction?: Function;
+    children?: Snippet;
   } = $props();
 
   interface Status {
@@ -101,7 +104,9 @@
           : 'bg-base-300'} transition-colors"
       ></div>
     {/if}
-    <p class="pl-1 py-2">{username}</p>
+    <p class="pl-1 py-2">
+      {username} <span class="text-base-content/50">{@render children?.()}</span>
+    </p>
     {#if schedule.length}
       <div class="px-2 text-sm text-base-content/50 flex justify-between w-full flex-wrap gap-x-4">
         {#if status}

@@ -1,29 +1,24 @@
 <script lang="ts">
-  import { preventDefault } from "svelte/legacy";
-
   import { title } from "$lib/store";
   $title = "Friends";
 
   import { currentUser, friends, pb, schedules } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
-  import { goto } from "$app/navigation";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
   import Modal from "$lib/components/dialog/Modal.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
   import Friend from "./Friend.svelte";
 
   import PhUserPlus from "~icons/ph/user-plus";
+  import PhTray from "~icons/ph/tray";
 
   let confirm: Confirm | undefined = $state();
 
   let addModal: Modal | undefined = $state();
   let usernameField: string = $state("");
+
   let error: string = $state("");
-
-  let outgoingModal: Modal | undefined = $state();
-  let requestsModal: Modal | undefined = $state();
-
   let loading: boolean = $state(false);
 
   onMount(() => {
@@ -52,7 +47,7 @@
     const self = $friends?.self;
     const target = await getUserId(username);
     if (!target) {
-      error = "User not found";
+      error = "User not found (usernames are case sensitive!)";
       loading = false;
       return;
     } else if (!self) {
@@ -84,24 +79,16 @@
 <TopBar>
   <h2 class="text-2xl font-bold tracking-tight">Friends</h2>
   <div class="flex gap-2 flex-wrap justify-end">
+    <a href="/friends/inbox" class="btn btn-sm">
+      <PhTray></PhTray>
+      Inbox ({$friends?.requests?.length})
+    </a>
     <button class="btn btn-sm" onclick={addModal?.show}>
       <PhUserPlus></PhUserPlus>
       Add friend
     </button>
   </div>
 </TopBar>
-<div class="flex gap-2 px-4 pt-4 w-[min(100%,800px)] mx-auto">
-  <button class="btn btn-sm" onclick={outgoingModal?.show}>
-    Outgoing {#if $friends?.outgoing?.length > 0}
-      ({$friends?.outgoing.length})
-    {/if}
-  </button>
-  <button class="btn btn-sm" onclick={requestsModal?.show}>
-    Incoming {#if $friends?.requests?.length > 0}
-      ({$friends?.requests?.length})
-    {/if}
-  </button>
-</div>
 <div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto">
   {#if $friends?.friends}
     <div class="flex flex-col py-4">
@@ -137,9 +124,10 @@
 >
   <form
     class="flex flex-col gap-4"
-    onsubmit={preventDefault(() => {
+    onsubmit={(e) => {
+      e.preventDefault();
       addFriend(usernameField);
-    })}
+    }}
   >
     <label class="flex flex-col text-xs">
       <span class="px-2">Username</span>
@@ -156,61 +144,26 @@
     <div class="flex justify-between items-center flex-wrap">
       <div class="flex items-center gap-2">
         <p>Your username is <b>{$currentUser?.username}</b></p>
-        <button
-          class="btn btn-xs"
-          onclick={() => {
-            goto("/account");
-          }}>Change</button
-        >
+        <a href="/account" class="btn btn-xs">Change </a>
       </div>
       <p class="bg-base-200 px-2 py-1 rounded-lg w-fit text-sm">
         <span class="font-bold">freetime</span>.kennyhui.dev
       </p>
     </div>
-    <button
-      class="btn btn-sm hover:btn-accent"
-      onclick={() => {
-        addFriend(usernameField);
-      }}
-      >{#if !loading}
-        Send friend request
-      {:else}
-        <span class="loading loading-spinner loading-sm"></span>
-      {/if}
-    </button>
+    <div class="flex justify-end gap-2">
+      <button
+        class="btn btn-sm hover:btn-accent"
+        onclick={() => {
+          addFriend(usernameField);
+        }}
+        >{#if !loading}
+          Send friend request
+        {:else}
+          <span class="loading loading-spinner loading-sm"></span>
+        {/if}
+      </button>
+    </div>
   </form>
-</Modal>
-
-<Modal title="Outgoing requests" bind:this={outgoingModal} additionalClasses="max-h-full">
-  {#if $friends?.outgoing && $friends?.outgoing.length > 0}
-    <div class="overflow-auto">
-      {#each $friends?.outgoing as friend}
-        <Friend
-          username={friend.username}
-          action="Cancel"
-          onaction={() => {
-            removeFriend(friend.id);
-          }}
-        ></Friend>
-      {/each}
-    </div>
-  {/if}
-</Modal>
-
-<Modal title="Incoming requests" bind:this={requestsModal} additionalClasses="max-h-full">
-  {#if $friends?.requests && $friends?.requests.length > 0}
-    <div class="overflow-auto">
-      {#each $friends?.requests as friend}
-        <Friend
-          username={friend.username}
-          action="Accept"
-          onaction={() => {
-            addFriend(friend.username);
-          }}
-        ></Friend>
-      {/each}
-    </div>
-  {/if}
 </Modal>
 
 <Confirm bind:this={confirm}></Confirm>
