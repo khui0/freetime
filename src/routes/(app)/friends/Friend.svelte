@@ -9,15 +9,19 @@
 
   const dispatch = createEventDispatcher();
 
-  interface Props {
+  let {
+    username,
+    action = "",
+    href = "",
+    schedule = [],
+    index = 0,
+  }: {
     username: string;
     action?: string;
     href?: string;
     schedule?: CalendarEvent[];
     index?: number;
-  }
-
-  let { username, action = "", href = "", schedule = [], index = 0 }: Props = $props();
+  } = $props();
 
   interface Status {
     inClass: boolean;

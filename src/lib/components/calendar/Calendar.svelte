@@ -1,6 +1,6 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, onMount, type Snippet } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -17,15 +17,6 @@
   let time: string | undefined = $state();
   let progress: number = $state(-1);
 
-  interface Props {
-    data?: CalendarEvent[][];
-    headers?: string[];
-    columns?: number;
-    multiplier?: number;
-    offset?: number;
-    children?: import("svelte").Snippet;
-  }
-
   let {
     data = $bindable([]),
     headers = ["M", "T", "W", "T", "F", "S", "S"],
@@ -33,7 +24,14 @@
     multiplier = data.length,
     offset = 0,
     children,
-  }: Props = $props();
+  }: {
+    data: CalendarEvent[][];
+    headers: string[];
+    columns: number;
+    multiplier: number;
+    offset: number;
+    children: Snippet;
+  } = $props();
 
   onMount(() => {
     setInterval(() => {

@@ -4,7 +4,7 @@
   const bubble = createBubbler();
   let modal: HTMLDialogElement | undefined = $state();
 
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, type Snippet } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -20,16 +20,6 @@
     dispatch("close");
   }
 
-  interface Props {
-    title?: string;
-    additionalClasses?: string;
-    centered?: boolean;
-    transparent?: boolean;
-    icon?: import("svelte").Snippet;
-    children?: import("svelte").Snippet;
-    buttons?: import("svelte").Snippet;
-  }
-
   let {
     title = "",
     additionalClasses = "",
@@ -38,7 +28,15 @@
     icon,
     children,
     buttons,
-  }: Props = $props();
+  }: {
+    title?: string;
+    additionalClasses?: string;
+    centered?: boolean;
+    transparent?: boolean;
+    icon?: Snippet;
+    children?: Snippet;
+    buttons?: Snippet;
+  } = $props();
 </script>
 
 <dialog

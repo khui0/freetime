@@ -5,13 +5,16 @@
 
   import { locations, types } from "$lib/sbu";
   import { timeTo12Hour, timeToS } from "$lib/time";
-  interface Props {
+
+  let {
+    event,
+    dim = false,
+    subtle = false,
+  }: {
     event: CalendarEvent;
     dim?: boolean;
     subtle?: boolean;
-  }
-
-  let { event, dim = false, subtle = false }: Props = $props();
+  } = $props();
 
   let button: HTMLButtonElement | undefined = $state();
 

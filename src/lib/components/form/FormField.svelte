@@ -1,12 +1,15 @@
 <script lang="ts">
   import { z } from "zod";
-  interface Props {
+
+  let {
+    type,
+    placeholder = undefined,
+    result = $bindable({}),
+  }: {
     type: "username" | "password" | "email";
     placeholder?: string | undefined;
     result?: Result;
-  }
-
-  let { type, placeholder = undefined, result = $bindable({}) }: Props = $props();
+  } = $props();
 
   let value: string = $state("");
 

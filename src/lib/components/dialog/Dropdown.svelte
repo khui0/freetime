@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, tick } from "svelte";
+  import { createEventDispatcher, onMount, tick, type Snippet } from "svelte";
   import { fly } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
   import PhX from "~icons/ph/x";
-  interface Props {
-    children?: import("svelte").Snippet;
-  }
 
-  let { children }: Props = $props();
+  let {
+    children,
+  }: {
+    children: Snippet;
+  } = $props();
 
   let element: HTMLElement | undefined = $state();
   let shown: boolean = $state(false);

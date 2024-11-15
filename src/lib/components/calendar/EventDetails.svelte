@@ -4,11 +4,11 @@
   import { onMount } from "svelte";
   import PhArrowSquareOut from "~icons/ph/arrow-square-out";
 
-  interface Props {
+  let {
+    event,
+  }: {
     event: CalendarEvent;
-  }
-
-  let { event }: Props = $props();
+  } = $props();
 
   const days = ["M", "T", "W", "T", "F", "S", "S"];
 

@@ -2,24 +2,11 @@
   import { run, createBubbler } from "svelte/legacy";
 
   const bubble = createBubbler();
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, type Snippet } from "svelte";
 
   interface Option {
     name: string;
     value: string;
-  }
-
-  interface Props {
-    title: string;
-    type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
-    value?: string;
-    options?: Option[];
-    maxlength?: number | undefined;
-    placeholder?: string;
-    text?: string;
-    href?: string;
-    icon?: import("svelte").Snippet;
-    children?: import("svelte").Snippet;
   }
 
   let {
@@ -33,7 +20,18 @@
     href = "",
     icon,
     children,
-  }: Props = $props();
+  }: {
+    title: string;
+    type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
+    value?: string;
+    options?: Option[];
+    maxlength?: number | undefined;
+    placeholder?: string;
+    text?: string;
+    href?: string;
+    icon?: Snippet;
+    children?: Snippet;
+  } = $props();
 
   let checkbox: HTMLInputElement | undefined = $state();
 

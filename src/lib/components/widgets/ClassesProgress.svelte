@@ -1,11 +1,13 @@
 <script lang="ts">
-  interface Props {
+  let {
+    value,
+    max,
+    progress = 0,
+  }: {
     value: number;
     max: number;
     progress?: number;
-  }
-
-  let { value, max, progress = 0 }: Props = $props();
+  } = $props();
 </script>
 
 <div

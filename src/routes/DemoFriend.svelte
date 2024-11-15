@@ -1,11 +1,15 @@
 <script lang="ts">
-  interface Props {
+  import type { Snippet } from "svelte";
+
+  let {
+    name,
+    busy = false,
+    children,
+  }: {
     name: string;
     busy?: boolean;
-    children?: import("svelte").Snippet;
-  }
-
-  let { name, busy = false, children }: Props = $props();
+    children?: Snippet;
+  } = $props();
 </script>
 
 <div class="flex flex-col gap-4">
