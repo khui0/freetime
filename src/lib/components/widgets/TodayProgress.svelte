@@ -1,26 +1,47 @@
 <script lang="ts">
-  let {
-    value,
-    max,
-    progress = 0,
-  }: {
-    value: number;
-    max: number;
-    progress?: number;
-  } = $props();
+  import { currentUser, ready, schedules } from "$lib/pocketbase";
+  import { timeToMs } from "$lib/time";
+  import { update } from "$lib/utilities";
+  import { onMount } from "svelte";
+
+  import SegmentedProgress from "./SegmentedProgress.svelte";
+
+  let data: CalendarEvent[] = $state([]);
+
+  let value: number = $state(0);
+  let max: number = $state(0);
+  let progress: number = $state(0);
+
+  onMount(() => {
+    ready.subscribe(async (ready) => {
+      if (!$currentUser || !ready) return;
+
+      // Retrieve own schedule
+      data = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
+
+      update(() => {
+        const day = (new Date().getDay() + 13) % 7;
+        const today = data.filter((event) => event.days[day]);
+
+        const current = today.find((event) => {
+          const now = Date.now();
+          const start = timeToMs(event.from);
+          const end = timeToMs(event.to);
+          return now >= start && now < end;
+        });
+
+        const rest = today.filter((event) => timeToMs(event.from) > Date.now());
+
+        max = today.length;
+        value = today.length - rest.length - (current ? 1 : 0);
+        progress = current
+          ? 100 -
+            ((timeToMs(current?.to) - Date.now()) * 100) /
+              (timeToMs(current.to) - timeToMs(current.from))
+          : 0;
+      });
+    });
+  });
 </script>
 
-<div
-  class="grid gap-1 h-5 w-full rounded-full overflow-hidden"
-  style="grid-template-columns: repeat({max}, 1fr);"
->
-  {#each Array(max) as _, i}
-    {@const current = progress && i === value - 1}
-    <div class="rounded-md h-full bg-base-200 overflow-hidden">
-      <div
-        class="bg-accent h-full transition-[width] rounded-sm"
-        style="width: {i < value - 1 ? 100 : current ? progress : 0}%;"
-      ></div>
-    </div>
-  {/each}
-</div>
+<SegmentedProgress {value} {max} {progress}></SegmentedProgress>

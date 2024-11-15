@@ -41,7 +41,7 @@
 </script>
 
 <div class="flex flex-col p-4 w-[min(100%,800px)] mx-auto">
-  <div class="self-center my-5"><Logo></Logo></div>
+  <div class="self-center my-5 sm:hidden"><Logo></Logo></div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <SettingsFieldLarge type="link" title="Account" text="Open account settings" href="/account">
       {#snippet icon()}

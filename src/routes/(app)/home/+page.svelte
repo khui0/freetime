@@ -143,11 +143,7 @@
             {status.classesToday - status.classesRemaining}/{status.classesToday}
           </span> classes completed
         </p>
-        <TodayProgress
-          value={status.classesToday - status.classesRemaining}
-          max={status.classesToday}
-          progress={status.currentRemaining}
-        ></TodayProgress>
+        <TodayProgress></TodayProgress>
       </div>
     {/if}
     <div
