@@ -55,7 +55,7 @@
 <Modal
   title={titleText}
   bind:this={modal}
-  on:close={() => {
+  onclose={() => {
     result?.reject();
   }}
 >

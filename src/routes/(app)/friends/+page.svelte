@@ -106,7 +106,7 @@
           username={friend.username}
           href="/user/{friend.username}"
           schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
-          on:action={() => {
+          onaction={() => {
             confirm
               ?.prompt(
                 "Remove friend?",
@@ -126,7 +126,7 @@
 <Modal
   bind:this={addModal}
   title="Add friend"
-  on:show={() => {
+  onshow={() => {
     error = "";
   }}
 >
@@ -183,7 +183,7 @@
         <Friend
           username={friend.username}
           action="Cancel"
-          on:action={() => {
+          onaction={() => {
             removeFriend(friend.id);
           }}
         ></Friend>
@@ -199,7 +199,7 @@
         <Friend
           username={friend.username}
           action="Accept"
-          on:action={() => {
+          onaction={() => {
             addFriend(friend.username);
           }}
         ></Friend>

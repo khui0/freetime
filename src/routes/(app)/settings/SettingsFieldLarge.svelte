@@ -1,8 +1,5 @@
 <script lang="ts">
-  import { run, createBubbler } from "svelte/legacy";
-
-  const bubble = createBubbler();
-  import { createEventDispatcher, type Snippet } from "svelte";
+  import { type Snippet } from "svelte";
 
   interface Option {
     name: string;
@@ -20,6 +17,8 @@
     href = "",
     icon,
     children,
+    onsave,
+    onclick,
   }: {
     title: string;
     type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
@@ -31,6 +30,8 @@
     href?: string;
     icon?: Snippet;
     children?: Snippet;
+    onsave?: Function;
+    onclick?: Function;
   } = $props();
 
   let checkbox: HTMLInputElement | undefined = $state();
@@ -38,8 +39,6 @@
   $effect(() => {
     if (checkbox) checkbox.checked = value === "true";
   });
-
-  const dispatch = createEventDispatcher();
 </script>
 
 <div class="flex flex-col gap-2 items-center rounded-box border px-4 py-3">
@@ -75,15 +74,18 @@
       <button
         class="btn btn-sm"
         onclick={() => {
-          dispatch("save", {
-            value,
-          });
+          onsave?.(value);
         }}
         >Save
       </button>
     </div>
   {:else if type === "button"}
-    <button class="btn btn-sm" onclick={bubble("click")}>{text}</button>
+    <button
+      class="btn btn-sm"
+      onclick={() => {
+        onclick?.();
+      }}>{text}</button
+    >
   {:else if type === "link"}
     <a class="btn btn-sm" {href}>{text}</a>
   {/if}

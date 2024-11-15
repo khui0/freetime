@@ -1,14 +1,12 @@
 <script lang="ts">
   import Confirm from "$lib/components/dialog/Confirm.svelte";
   import { locations, types } from "$lib/sbu";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
 
   import { fly } from "svelte/transition";
   import PhCaretDown from "~icons/ph/caret-down";
   import PhCaretUp from "~icons/ph/caret-up";
   import PhTrash from "~icons/ph/trash";
-
-  const dispatch = createEventDispatcher();
 
   let confirm: Confirm | undefined = $state();
 
@@ -27,10 +25,14 @@
       room: "",
       type: "",
     }),
+    oninput,
+    ondelete,
   }: {
     empty: boolean;
     index: number;
     data: CalendarEvent;
+    oninput?: Function;
+    ondelete?: Function;
   } = $props();
 
   export function expand() {
@@ -75,7 +77,7 @@
               "Delete",
             )
             .then(() => {
-              dispatch("delete");
+              ondelete?.();
             })
             .catch(() => {});
         }}
@@ -100,7 +102,7 @@
             placeholder="e.g. CSE"
             bind:value={data.title}
             oninput={() => {
-              dispatch("input");
+              oninput?.();
               data.title = data.title.toUpperCase();
             }}
           />
@@ -114,7 +116,7 @@
             inputmode="numeric"
             bind:value={data.number}
             oninput={() => {
-              dispatch("input");
+              oninput?.();
               data.number = data.number.replace(/[^0-9]/, "");
             }}
           />
@@ -125,7 +127,7 @@
             class="select select-bordered select-sm w-full"
             bind:value={data.type}
             oninput={() => {
-              dispatch("input");
+              oninput?.();
             }}
           >
             {#each Object.keys(types) as key}
@@ -143,7 +145,7 @@
               class="input input-bordered input-sm w-full"
               bind:value={data.from}
               oninput={() => {
-                dispatch("input");
+                oninput?.();
               }}
             />
           </label>
@@ -154,7 +156,7 @@
               class="input input-bordered input-sm w-full"
               bind:value={data.to}
               oninput={() => {
-                dispatch("input");
+                oninput?.();
               }}
             />
           </label>
@@ -168,7 +170,7 @@
                   ? 'bg-base-300'
                   : 'border-base-300 bg-transparent'}"
                 onclick={() => {
-                  dispatch("input");
+                  oninput?.();
                   data.days[i] = !data.days[i];
                 }}
               >
@@ -185,7 +187,7 @@
             class="select select-bordered select-sm max-w-48"
             bind:value={data.location}
             oninput={() => {
-              dispatch("input");
+              oninput?.();
             }}
           >
             {#if locations}
@@ -203,7 +205,7 @@
             class="input input-bordered input-sm w-28"
             bind:value={data.room}
             oninput={() => {
-              dispatch("input");
+              oninput?.();
               data.room = data.room.toUpperCase();
             }}
           />

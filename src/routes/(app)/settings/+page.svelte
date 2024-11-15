@@ -49,7 +49,7 @@
       {/snippet}
       Manage your account
     </SettingsFieldLarge>
-    <SettingsFieldLarge type="button" title="Sign out" text="Sign out" on:click={signOut}>
+    <SettingsFieldLarge type="button" title="Sign out" text="Sign out" onclick={signOut}>
       {#snippet icon()}
         <span><PhSignOut></PhSignOut></span>
       {/snippet}

@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, tick, type Snippet } from "svelte";
+  import { onMount, tick, type Snippet } from "svelte";
   import { fly } from "svelte/transition";
-
-  const dispatch = createEventDispatcher();
 
   import PhX from "~icons/ph/x";
 
@@ -46,12 +44,10 @@
       element.style.bottom = h - r.top - offset + "px";
     }
     element.style.width = Math.max(width, MIN_WIDTH) + "px";
-    dispatch("show");
   }
 
   export function close() {
     shown = false;
-    dispatch("close");
   }
 
   onMount(() => {

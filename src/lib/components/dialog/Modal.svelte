@@ -1,23 +1,18 @@
 <script lang="ts">
-  import { createBubbler } from "svelte/legacy";
-
-  const bubble = createBubbler();
   let modal: HTMLDialogElement | undefined = $state();
 
-  import { createEventDispatcher, type Snippet } from "svelte";
-
-  const dispatch = createEventDispatcher();
+  import { type Snippet } from "svelte";
 
   import PhX from "~icons/ph/x";
 
   export function show() {
     modal?.showModal();
-    dispatch("show");
+    onshow?.();
   }
 
   export function close() {
     modal?.close();
-    dispatch("close");
+    onclose?.();
   }
 
   let {
@@ -28,6 +23,8 @@
     icon,
     children,
     buttons,
+    onshow,
+    onclose,
   }: {
     title?: string;
     additionalClasses?: string;
@@ -36,13 +33,15 @@
     icon?: Snippet;
     children?: Snippet;
     buttons?: Snippet;
+    onshow?: Function;
+    onclose?: Function;
   } = $props();
 </script>
 
 <dialog
   class="modal {transparent ? 'backdrop:bg-transparent' : 'backdrop:bg-black/10'}"
   bind:this={modal}
-  onclose={bubble("close")}
+  onclose={onclose?.()}
 >
   <div
     class="modal-box rounded-box p-4 border {transparent ? 'shadow-lg' : ''} {additionalClasses}"

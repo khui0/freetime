@@ -1,8 +1,6 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
-  import { createEventDispatcher, onMount, type Snippet } from "svelte";
-
-  const dispatch = createEventDispatcher();
+  import { onMount, type Snippet } from "svelte";
 
   import CalendarItem from "./CalendarItem.svelte";
 
@@ -24,13 +22,15 @@
     multiplier = data.length,
     offset = 0,
     children,
+    select,
   }: {
     data: CalendarEvent[][];
-    headers: string[];
+    headers?: string[];
     columns: number;
-    multiplier: number;
+    multiplier?: number;
     offset: number;
     children: Snippet;
+    select: Function;
   } = $props();
 
   onMount(() => {
@@ -61,7 +61,7 @@
           ? 'bg-base-200'
           : 'btn-ghost'}"
         onclick={() => {
-          dispatch("selectday", { day: i });
+          select(i);
         }}
       >
         {headers[i + offset]}
@@ -107,9 +107,9 @@
               {event}
               dim={!today && $settings.dimOtherDays === "true"}
               subtle={!user}
-              on:expand={(e) => {
-                selected = e.detail.selected;
-                dropdown?.show(e.detail.rect);
+              expand={(e: any) => {
+                selected = e.selected;
+                dropdown?.show(e.rect);
               }}
             ></CalendarItem>
           {/if}

@@ -39,9 +39,9 @@
     columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
     offset={viewOffset}
     multiplier={!singleView ? 1 : 2}
-    on:selectday={(e) => {
+    select={(day: number) => {
       singleView = !singleView;
-      viewOffset = singleView ? e.detail.day : 0;
+      viewOffset = singleView ? day : 0;
     }}
   >
     <div class="px-4 pt-4 flex gap-2 items-center justify-between">

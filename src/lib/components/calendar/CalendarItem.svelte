@@ -1,8 +1,4 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-
-  const dispatch = createEventDispatcher();
-
   import { locations, types } from "$lib/sbu";
   import { timeTo12Hour, timeToS } from "$lib/time";
 
@@ -10,10 +6,12 @@
     event,
     dim = false,
     subtle = false,
+    expand,
   }: {
     event: CalendarEvent;
     dim?: boolean;
     subtle?: boolean;
+    expand: Function;
   } = $props();
 
   let button: HTMLButtonElement | undefined = $state();
@@ -32,7 +30,7 @@
   style="height: {length * 4}rem; transform: translateY({(parseInt(event.from.split(':')[1]) / 60) *
     4}rem);"
   onclick={() => {
-    dispatch("expand", {
+    expand({
       selected: event,
       rect: button?.getBoundingClientRect(),
     });

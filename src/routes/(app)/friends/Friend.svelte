@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
 
   import { timeToMs, timeUntilShort } from "$lib/time";
@@ -7,20 +6,20 @@
 
   import PhX from "~icons/ph/x";
 
-  const dispatch = createEventDispatcher();
-
   let {
     username,
     action = "",
     href = "",
     schedule = [],
     index = 0,
+    onaction,
   }: {
     username: string;
     action?: string;
     href?: string;
     schedule?: CalendarEvent[];
     index?: number;
+    onaction?: Function;
   } = $props();
 
   interface Status {
@@ -119,7 +118,7 @@
     class="btn btn-sm self-center"
     class:btn-square={!action}
     onclick={() => {
-      dispatch("action");
+      onaction?.();
     }}
   >
     {#if action}

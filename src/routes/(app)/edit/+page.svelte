@@ -143,11 +143,11 @@
           index={i}
           {empty}
           bind:data={events[i]}
-          on:delete={() => {
+          ondelete={() => {
             events = events.filter((item) => item !== event);
             saved = false;
           }}
-          on:input={() => {
+          oninput={() => {
             saved = false;
           }}
         ></Event>

@@ -54,9 +54,9 @@
     bind:data
     columns={singleView ? 1 : $settings.showWeekend === "true" ? 7 : 5}
     offset={viewOffset}
-    on:selectday={(e) => {
+    select={(day: number) => {
       singleView = !singleView;
-      viewOffset = singleView ? e.detail.day : 0;
+      viewOffset = singleView ? day : 0;
     }}
   >
     <div class="px-4 pt-2 flex gap-2 items-center mt-2">

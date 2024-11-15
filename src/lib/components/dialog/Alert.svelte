@@ -25,7 +25,7 @@
 <Modal
   title={titleText}
   bind:this={modal}
-  on:close={() => {
+  onclose={() => {
     result?.reject();
   }}
   additionalClasses="max-w-sm items-center"
