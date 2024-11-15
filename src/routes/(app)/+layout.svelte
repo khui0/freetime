@@ -25,9 +25,14 @@
   let hideProgress: boolean = $state(false);
 
   onMount(() => {
+    compact = $settings.compact === "true";
     if ($currentUser && !$ready) {
       init();
     }
+  });
+
+  $effect(() => {
+    $settings.compact = compact ? "true" : "false";
   });
 </script>
 
