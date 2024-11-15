@@ -4,8 +4,8 @@
 
   import { currentUser, pb } from "$lib/pocketbase";
 
-  import FormField from "$lib/components/FormField.svelte";
   import FormErrors from "$lib/components/form/FormErrors.svelte";
+  import FormField from "$lib/components/form/FormField.svelte";
 
   let email: Result;
   let password: Result;

@@ -4,16 +4,16 @@
 
   import { settings } from "$lib/settings";
 
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
+  import Modal from "$lib/components/dialog/Modal.svelte";
   import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import SettingsFieldLarge from "./SettingsFieldLarge.svelte";
-  import Confirm from "$lib/components/dialog/Confirm.svelte";
-  import Modal from "$lib/components/dialog/Modal.svelte";
 
-  import PhUser from "~icons/ph/user";
-  import PhSignOut from "~icons/ph/sign-out";
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPalette from "~icons/ph/palette";
+  import PhSignOut from "~icons/ph/sign-out";
+  import PhUser from "~icons/ph/user";
 
   import { signOut } from "$lib/pocketbase";
 

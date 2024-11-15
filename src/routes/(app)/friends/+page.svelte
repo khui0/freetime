@@ -2,14 +2,14 @@
   import { title } from "$lib/store";
   $title = "Friends";
 
-  import { currentUser, pb, schedules, friends } from "$lib/pocketbase";
+  import { currentUser, friends, pb, schedules } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
-  import Friend from "./Friend.svelte";
-  import Modal from "$lib/components/dialog/Modal.svelte";
-  import Confirm from "$lib/components/dialog/Confirm.svelte";
-  import TopBar from "$lib/components/TopBar.svelte";
   import { goto } from "$app/navigation";
+  import Confirm from "$lib/components/dialog/Confirm.svelte";
+  import Modal from "$lib/components/dialog/Modal.svelte";
+  import TopBar from "$lib/components/TopBar.svelte";
+  import Friend from "./Friend.svelte";
 
   let confirm: Confirm;
 

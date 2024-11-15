@@ -5,8 +5,8 @@
   import GoogleAuth from "$lib/components/GoogleAuth.svelte";
   import Logo from "$lib/components/Logo.svelte";
 
-  import { pb } from "$lib/pocketbase";
   import { goto } from "$app/navigation";
+  import { pb } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
   onMount(() => {

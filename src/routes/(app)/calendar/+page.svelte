@@ -2,15 +2,15 @@
   import { title } from "$lib/store";
   $title = "Calendar";
 
-  import { ready, currentUser, schedules } from "$lib/pocketbase";
-  import { onMount } from "svelte";
+  import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
+  import { onMount } from "svelte";
 
   import Calendar from "$lib/components/calendar/Calendar.svelte";
 
   import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
-  import PhPencilSimple from "~icons/ph/pencil-simple";
   import PhDownloadSimple from "~icons/ph/download-simple";
+  import PhPencilSimple from "~icons/ph/pencil-simple";
 
   import ExportModal from "./ExportModal.svelte";
   let exportModal: ExportModal;

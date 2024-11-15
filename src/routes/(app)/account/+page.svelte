@@ -3,8 +3,8 @@
   $title = "Account";
 
   import { currentUser, pb, signOut } from "$lib/pocketbase";
-  import { z } from "zod";
   import { onMount } from "svelte";
+  import { z } from "zod";
 
   import Confirm from "$lib/components/dialog/Confirm.svelte";
   import TopBar from "$lib/components/TopBar.svelte";

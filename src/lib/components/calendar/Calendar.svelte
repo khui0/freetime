@@ -1,7 +1,6 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
-  import { onMount } from "svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -9,8 +8,9 @@
 
   import PhClock from "~icons/ph/clock";
 
-  import Dropdown from "$lib/components/dialog/Dropdown.svelte";
   import EventDetails from "$lib/components/calendar/EventDetails.svelte";
+  import Dropdown from "$lib/components/dialog/Dropdown.svelte";
+
   let dropdown: Dropdown;
   let selected: CalendarEvent;
 

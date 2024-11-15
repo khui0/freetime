@@ -2,17 +2,17 @@
   import { page } from "$app/stores";
   import { settings } from "$lib/settings";
 
-  import PhHouse from "~icons/ph/house";
-  import PhHouseFill from "~icons/ph/house-fill";
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
-  import PhUsers from "~icons/ph/users";
-  import PhUsersFill from "~icons/ph/users-fill";
+  import PhHouse from "~icons/ph/house";
+  import PhHouseFill from "~icons/ph/house-fill";
   import PhList from "~icons/ph/list";
   import PhListBold from "~icons/ph/list-bold";
+  import PhUsers from "~icons/ph/users";
+  import PhUsersFill from "~icons/ph/users-fill";
 
+  import { currentUser, init, ready } from "$lib/pocketbase";
   import { onMount } from "svelte";
-  import { currentUser, ready, init } from "$lib/pocketbase";
 
   onMount(() => {
     if ($currentUser && !$ready) {

@@ -2,9 +2,9 @@
   import { title } from "$lib/store";
   $title = "";
 
-  import { ready, currentUser, schedules } from "$lib/pocketbase";
-  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
+  import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
+  import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
   import { locations, types } from "$lib/sbu";
+  import { createEventDispatcher, onMount } from "svelte";
 
-  import PhTrash from "~icons/ph/trash";
-  import PhCaretUp from "~icons/ph/caret-up";
-  import PhCaretDown from "~icons/ph/caret-down";
   import { fly } from "svelte/transition";
+  import PhCaretDown from "~icons/ph/caret-down";
+  import PhCaretUp from "~icons/ph/caret-up";
+  import PhTrash from "~icons/ph/trash";
 
   const dispatch = createEventDispatcher();
 

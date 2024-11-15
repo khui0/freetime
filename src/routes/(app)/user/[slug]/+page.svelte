@@ -7,8 +7,8 @@
 
   import { onMount } from "svelte";
 
+  import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
-  import { ready, currentUser, schedules } from "$lib/pocketbase";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 

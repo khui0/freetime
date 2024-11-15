@@ -29,7 +29,9 @@
   bind:this={modal}
   on:close
 >
-  <div class="modal-box rounded-box p-4 border {transparent ? 'shadow-lg' : ''} {additionalClasses}">
+  <div
+    class="modal-box rounded-box p-4 border {transparent ? 'shadow-lg' : ''} {additionalClasses}"
+  >
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4" aria-label="Close">
         <PhX></PhX>

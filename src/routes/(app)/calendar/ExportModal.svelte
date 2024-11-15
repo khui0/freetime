@@ -10,8 +10,8 @@
   import { currentUser, schedules } from "$lib/pocketbase";
   import { locations, types } from "$lib/sbu";
   import { timeToS } from "$lib/time";
-  import * as ics from "ics";
   import saveAs from "file-saver";
+  import * as ics from "ics";
   import pluralize from "pluralize";
 
   $: schedule = $schedules.find((item) => item.user === $currentUser?.id)?.schedule;

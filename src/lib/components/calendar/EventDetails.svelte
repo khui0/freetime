@@ -1,15 +1,7 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import {
-    timeToMs,
-    timeUntil,
-    timeUntilMedium,
-    msToUnits,
-    eventDurationShort,
-    eventDurationMedium,
-    timeTo12Hour,
-  } from "$lib/time";
   import { locations } from "$lib/sbu";
+  import { eventDurationMedium, msToUnits, timeTo12Hour, timeToMs, timeUntil } from "$lib/time";
+  import { onMount } from "svelte";
   import PhArrowSquareOut from "~icons/ph/arrow-square-out";
 
   export let event: CalendarEvent;
