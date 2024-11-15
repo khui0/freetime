@@ -18,6 +18,7 @@
         goto("/home");
       }
     }
+    document.documentElement?.setAttribute("data-theme", "light");
   });
 
   import EventDetails from "$lib/components/calendar/EventDetails.svelte";
@@ -35,48 +36,62 @@
   import DemoFriend from "./DemoFriend.svelte";
 </script>
 
-<main class="text-center p-10 w-[min(100%,800px)] mx-auto">
+<main class="text-center p-10 w-[min(100%,1000px)] mx-auto">
   <div class="mx-auto w-fit"><Logo></Logo></div>
-  <p class="mt-5 text-center max-w-xlmx-auto leading-relaxed text-balance">
+  <p class="mt-5 text-center text-balance prose mx-auto">
     Social schedule viewer for Stony Brook University<sup>1</sup>
   </p>
-  <div class="mt-5 flex gap-2 flex-wrap justify-center">
-    <p class="border rounded-lg w-fit px-2 py-1">Navigate to your classes</p>
-    <p class="border rounded-lg w-fit px-2 py-1">See when they start (and end)</p>
-    <p class="border rounded-lg w-fit px-2 py-1">And share it with your friends!</p>
+  <div class="mt-5 flex gap-2 flex-wrap justify-center text-sm">
+    <p
+      class="border rounded-lg w-fit px-2 py-1 bg-base-100 hover:shadow-md hover:scale-110 hover:z-10 transition-all"
+    >
+      Visualize your new schedule
+    </p>
+    <p
+      class="border rounded-lg w-fit px-2 py-1 bg-base-100 hover:shadow-md hover:scale-110 hover:z-10 transition-all"
+    >
+      Navigate to your classes
+    </p>
+    <p
+      class="border rounded-lg w-fit px-2 py-1 bg-base-100 hover:shadow-md hover:scale-110 hover:z-10 transition-all"
+    >
+      Share your schedule with your friends
+    </p>
   </div>
-  <a href="#get-started" class="mt-5 btn rounded-full">Get started</a>
+  <div class="mt-10">
+    <GoogleAuth></GoogleAuth>
+  </div>
   <h2 class="mt-10 text-5xl font-bold tracking-tight">At a glance</h2>
-  <div class="mt-5 rounded-box border p-4 flex flex-col gap-2 w-full">
+  <div
+    class="mt-5 rounded-box border p-4 flex flex-col gap-2 w-full bg-base-100 hover:shadow-md hover:scale-105 hover:z-10 transition-all"
+  >
     <EventDetails event={sampleEvent}></EventDetails>
   </div>
-  <div class="mt-10 flex gap-5">
-    <enhanced:img
-      src="$lib/assets/promo/theme-split.png"
-      alt="Freetime with light and dark theme"
-      class="w-56"
-    />
-    <div class="flex flex-col items-start justify-center gap-2 sm:gap-5 text-start">
-      <p class="sm:text-xl">View your schedule on a fluid calendar</p>
-      <p class="sm:text-xl">That works beautifully on mobile</p>
-      <p class="sm:text-xl">With multiple themes</p>
-      <p class="sm:text-xl">Including <b>Dark</b>...</p>
-      <p class="sm:text-xl"><i>Light</i>... and more!</p>
+  <div class="flex flex-wrap justify-center mt-10">
+    <div class="w-[400px]">
+      <enhanced:img
+        src="$lib/assets/promo/theme-split.png"
+        alt="Freetime with light and dark theme"
+        class="w-56 mx-auto"
+      />
+      <div class="prose text-center">
+        <p>View your schedule on a fluid calendar that's optimized for mobile</p>
+        <p>With themes! Including Dark, Light, SOLAR, and Catppuccin</p>
+      </div>
+    </div>
+    <div class="w-[400px]">
+      <enhanced:img
+        src="$lib/assets/promo/compare.png"
+        alt="Freetime side by side view of two schedules"
+        class="w-56 mx-auto"
+      />
+      <div class="prose text-center">
+        <p>Share your schedule with your friends</p>
+        <p>Compare schedules side by side</p>
+      </div>
     </div>
   </div>
-  <div class="sm:-mt-20 flex gap-5 flex-row-reverse">
-    <enhanced:img
-      src="$lib/assets/promo/compare.png"
-      alt="Freetime side by side view of two schedules"
-      class="w-56"
-    />
-    <div class="flex flex-col items-end justify-center gap-2 sm:gap-5 text-end">
-      <p class="sm:text-xl">Share your schedule with your friends</p>
-      <p class="sm:text-xl">See your schedules side by side</p>
-      <p class="sm:text-xl">And see when you both have <i>Freetime!</i></p>
-    </div>
-  </div>
-  <div class="mt-5">
+  <div class="mt-10">
     <h2 class="text-4xl font-bold">Who's free?</h2>
     <div class="mt-4">
       <DemoFriend name="Wolfie">
