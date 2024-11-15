@@ -60,14 +60,10 @@
 </script>
 
 <CourseTitle {...event}></CourseTitle>
-<div class="flex gap-2 text-base-content/75 items-center justify-between min-h-14 flex-wrap">
-  {#if inClass && today}
-    <CourseRadialProgress {progress} {remaining}></CourseRadialProgress>
-  {/if}
-  {#if until && !inClass}
-    <p>{until}</p>
-  {/if}
-  <CourseTimes {...event}></CourseTimes>
+<div class="flex flex-wrap items-center justify-between gap-x-2">
+  <div class="my-2">
+    <CourseTimes {...event}></CourseTimes>
+  </div>
+  <CourseDays {...event}></CourseDays>
 </div>
-<CourseDays {...event}></CourseDays>
 <CourseLocation {...event}></CourseLocation>

@@ -13,6 +13,8 @@
   import TopBar from "$lib/components/TopBar.svelte";
   import Friend from "./Friend.svelte";
 
+  import PhUserPlus from "~icons/ph/user-plus";
+
   let confirm: Confirm | undefined = $state();
 
   let addModal: Modal | undefined = $state();
@@ -82,7 +84,10 @@
 <TopBar>
   <h2 class="text-2xl font-bold tracking-tight">Friends</h2>
   <div class="flex gap-2 flex-wrap justify-end">
-    <button class="btn btn-sm" onclick={addModal?.show}>Add friend</button>
+    <button class="btn btn-sm" onclick={addModal?.show}>
+      <PhUserPlus></PhUserPlus>
+      Add friend
+    </button>
   </div>
 </TopBar>
 <div class="flex gap-2 px-4 pt-4 w-[min(100%,800px)] mx-auto">

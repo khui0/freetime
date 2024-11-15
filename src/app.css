@@ -39,6 +39,6 @@
 
 @layer utilities {
   .btn {
-    @apply shadow-none;
+    @apply shadow-none font-normal;
   }
 }

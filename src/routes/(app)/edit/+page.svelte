@@ -8,6 +8,7 @@
   import { fly } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
+  import PhPlus from "~icons/ph/plus";
 
   import Alert from "$lib/components/dialog/Alert.svelte";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
@@ -130,7 +131,10 @@
   </button>
   <div class="flex gap-2 flex-wrap justify-end">
     <button class="btn btn-sm" onclick={modal?.show}>Import from SOLAR</button>
-    <button class="btn btn-sm" onclick={addEvent}>Add class</button>
+    <button class="btn btn-sm" onclick={addEvent}>
+      <PhPlus></PhPlus>
+      Add class
+    </button>
   </div>
 </TopBar>
 
