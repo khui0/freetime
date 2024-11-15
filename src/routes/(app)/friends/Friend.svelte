@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { timeToMs, timeUntilShort } from "$lib/time";
+  import { timeToMs, timeUntilShort, timeUntilMedium } from "$lib/time";
   import pluralize from "pluralize";
 
   import PhX from "~icons/ph/x";
@@ -56,7 +56,7 @@
       details.push("No classes today");
     } else if (inClass) {
       details.push(
-        `${current.title} ${current.number} ends in ${timeUntilShort(current.from, current.to)}`,
+        `${current.title} ${current.number} ends in ${timeUntilMedium(current.from, current.to)}`,
       );
       details.push(`\n${pluralize("class", rest.length, true)} left`);
     } else {
@@ -64,7 +64,7 @@
         details.push("Done for the day");
       } else {
         details.push(
-          `${rest[0].title} ${rest[0].number} starts in ${timeUntilShort(rest[0].from, rest[0].to)}`,
+          `${rest[0].title} ${rest[0].number} starts in ${timeUntilMedium(rest[0].from, rest[0].to)}`,
         );
         details.push(`\n${pluralize("class", rest.length, true)} left`);
       }
