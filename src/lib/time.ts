@@ -79,7 +79,12 @@ export function timeUntilMedium(from: string, to: string) {
   } else if (now < end) {
     time = msToUnits(end - now);
   }
-  if (time) return time.hours + " hr " + (time.minutes + 1).toString().padStart(2, "0") + " min";
+  const parts: string[] = [];
+  if (time) {
+    if (time.hours > 0) parts.push(time.hours + " hr");
+    if (time.minutes) parts.push((time.minutes + 1).toString() + " min");
+    return parts.join(" ");
+  }
 }
 
 export function timeUntilShort(from: string, to: string) {
