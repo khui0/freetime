@@ -1,11 +1,11 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { timeToMs, timeUntilShort, timeUntilMedium } from "$lib/time";
+  import { timeToMs, timeUntilMedium } from "$lib/time";
   import pluralize from "pluralize";
 
-  import PhX from "~icons/ph/x";
   import type { Snippet } from "svelte";
+  import PhX from "~icons/ph/x";
 
   let {
     username,

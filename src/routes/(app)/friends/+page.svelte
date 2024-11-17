@@ -4,6 +4,7 @@
 
   import { currentUser, friends, pb, schedules } from "$lib/pocketbase";
   import { onMount } from "svelte";
+  import { settings } from "$lib/settings";
 
   import Confirm from "$lib/components/dialog/Confirm.svelte";
   import Modal from "$lib/components/dialog/Modal.svelte";
@@ -20,6 +21,15 @@
 
   let error: string = $state("");
   let loading: boolean = $state(false);
+
+  let sortedFriends = $derived.by(() => {
+    const order = JSON.parse($settings.friendsOrder || "[]");
+    return $friends?.friends.toSorted(
+      (a, b) => order.indexOf(a.username) - order.indexOf(b.username),
+    );
+  });
+
+  $inspect(sortedFriends);
 
   onMount(() => {
     friends.subscribe((friends) => {
@@ -90,9 +100,9 @@
   </div>
 </TopBar>
 <div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto">
-  {#if $friends?.friends}
+  {#if sortedFriends}
     <div class="flex flex-col py-4">
-      {#each $friends?.friends as friend, i}
+      {#each sortedFriends as friend, i}
         <Friend
           index={i}
           username={friend.username}

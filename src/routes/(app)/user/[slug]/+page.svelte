@@ -6,7 +6,7 @@
 
   import { onMount } from "svelte";
 
-  import { currentUser, ready, schedules } from "$lib/pocketbase";
+  import { currentUser, ready, schedules, friends } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
@@ -29,6 +29,17 @@
       if (!$currentUser || !ready) return;
       // Get own schedule
       selfData = $schedules.find((r) => r.user === $currentUser?.id)?.schedule;
+
+      // Save list of friends in order of last opened in localstorage
+      const friendsOrder: string[] = $settings.friendsOrder
+        ? JSON.parse($settings.friendsOrder)
+        : $friends.friends.map((item) => item.username);
+      const currentIndex = friendsOrder.indexOf(data.username);
+      if (currentIndex !== -1) {
+        friendsOrder.splice(currentIndex, 1);
+      }
+      friendsOrder.unshift(data.username);
+      $settings.friendsOrder = JSON.stringify(friendsOrder);
     });
   });
 </script>
