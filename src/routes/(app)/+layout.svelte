@@ -1,23 +1,23 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { settings } from "$lib/settings";
   import { friends, schedules } from "$lib/pocketbase";
+  import { settings } from "$lib/settings";
 
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
   import PhCaretLeft from "~icons/ph/caret-left";
   import PhCaretRight from "~icons/ph/caret-right";
+  import PhGear from "~icons/ph/gear";
+  import PhGearFill from "~icons/ph/gear-fill";
   import PhHouse from "~icons/ph/house";
   import PhHouseFill from "~icons/ph/house-fill";
-  import PhList from "~icons/ph/list";
-  import PhListBold from "~icons/ph/list-bold";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
 
   import LogoSmall from "$lib/components/LogoSmall.svelte";
+  import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
   import { currentUser, init, ready } from "$lib/pocketbase";
   import { onMount, type Snippet } from "svelte";
-  import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
   import SidebarFriend from "./SidebarFriend.svelte";
 
   let { children }: { children: Snippet } = $props();
@@ -79,9 +79,9 @@
     </a>
     <a href="/settings" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
       {#if $page.url.pathname === "/settings"}
-        <PhListBold></PhListBold>
+        <PhGearFill></PhGearFill>
       {:else}
-        <PhList></PhList>
+        <PhGear></PhGear>
       {/if}
     </a>
   </nav>
@@ -165,9 +165,9 @@
       <li>
         <a href="/settings" class="h-9 flex items-center">
           {#if $page.url.pathname === "/settings"}
-            <PhListBold></PhListBold>
+            <PhGearFill></PhGearFill>
           {:else}
-            <PhList></PhList>
+            <PhGear></PhGear>
           {/if}
           {#if !compact}
             Settings

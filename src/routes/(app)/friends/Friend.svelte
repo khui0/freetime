@@ -6,7 +6,7 @@
   import { settings } from "$lib/settings";
 
   import type { Snippet } from "svelte";
-  import PhX from "~icons/ph/x";
+  import PhMinus from "~icons/ph/minus";
 
   let {
     username,
@@ -133,7 +133,7 @@
     {#if action}
       {action}
     {:else}
-      <PhX></PhX>
+      <PhMinus></PhMinus>
     {/if}
   </button>
 </div>
