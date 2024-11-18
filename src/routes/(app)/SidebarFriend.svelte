@@ -90,7 +90,7 @@
     class="absolute flex items-center pointer-events-none left-[3.5rem] z-50"
     style="top: {rect.top}px; height: {rect.height}px"
   >
-    <div class="bg-base-100 rounded-badge px-2 py-1 border mx-1">
+    <div class="bg-base-100 rounded-badge px-2 py-1 border mx-1 shadow-md">
       {$settings.obfuscateUsernames !== "true"
         ? username
         : username.slice(0, 1).toUpperCase() + "*".repeat(username.length - 1)}
