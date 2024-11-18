@@ -61,10 +61,10 @@
 >
   <p>{bodyText}</p>
   {#snippet buttons()}
-    <form method="dialog" class="flex gap-2 mt-4">
-      <button class="btn btn-sm flex-1">Cancel</button>
+    <form method="dialog" class="flex gap-2 mt-4 justify-end">
+      <button class="btn btn-sm">Cancel</button>
       <button
-        class="btn btn-sm flex-1 {additionalClasses}"
+        class="btn btn-sm {additionalClasses}"
         onclick={() => {
           result?.resolve("");
         }}
