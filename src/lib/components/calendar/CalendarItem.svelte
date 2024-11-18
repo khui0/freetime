@@ -22,7 +22,7 @@
 
 <button
   bind:this={button}
-  class="leading-tight absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container {!dim
+  class="leading-tight absolute z-10 top-0 left-[1px] right-[1px] text-accent-content rounded-lg text-xs h-4 flex flex-col items-center justify-center @container hover:shadow-lg transition-shadow {!dim
     ? 'bg-accent'
     : 'bg-accent/50'} {subtle ? 'opacity-30' : ''} transition-colors tracking-tight"
   style="height: {length * 4}rem; transform: translateY({(parseInt(event.from.split(':')[1]) / 60) *
