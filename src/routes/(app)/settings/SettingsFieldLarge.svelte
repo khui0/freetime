@@ -19,9 +19,10 @@
     children,
     onsave,
     onclick,
+    content,
   }: {
     title: string;
-    type: "checkbox" | "toggle" | "select" | "text" | "button" | "link";
+    type: "checkbox" | "toggle" | "select" | "text" | "button" | "link" | "empty";
     value?: string;
     options?: Option[];
     maxlength?: number | undefined;
@@ -32,6 +33,7 @@
     children?: Snippet;
     onsave?: Function;
     onclick?: Function;
+    content?: Snippet;
   } = $props();
 
   let checkbox: HTMLInputElement | undefined = $state();
@@ -88,5 +90,7 @@
     >
   {:else if type === "link"}
     <a class="btn btn-sm" {href}>{text}</a>
+  {:else if type === "empty"}
+    {@render content?.()}
   {/if}
 </div>

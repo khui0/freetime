@@ -13,9 +13,11 @@
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPalette from "~icons/ph/palette";
   import PhSignOut from "~icons/ph/sign-out";
+  import PhSignIn from "~icons/ph/sign-in";
   import PhUser from "~icons/ph/user";
 
-  import { signOut } from "$lib/pocketbase";
+  import { currentUser, ready, signOut } from "$lib/pocketbase";
+  import GoogleAuth from "$lib/components/GoogleAuth.svelte";
 
   const version = import.meta.env.PACKAGE_VERSION;
 
@@ -49,12 +51,24 @@
       {/snippet}
       Manage your account
     </SettingsFieldLarge>
-    <SettingsFieldLarge type="button" title="Sign out" text="Sign out" onclick={signOut}>
-      {#snippet icon()}
-        <span><PhSignOut></PhSignOut></span>
-      {/snippet}
-      Sign out of your account
-    </SettingsFieldLarge>
+    {#if $currentUser && $ready}
+      <SettingsFieldLarge type="button" title="Sign out" text="Sign out" onclick={signOut}>
+        {#snippet icon()}
+          <span><PhSignOut></PhSignOut></span>
+        {/snippet}
+        Sign out of your account
+      </SettingsFieldLarge>
+    {:else}
+      <SettingsFieldLarge type="empty" title="Sign in">
+        {#snippet icon()}
+          <span><PhSignIn></PhSignIn></span>
+        {/snippet}
+        You appear to be signed out
+        {#snippet content()}
+          <GoogleAuth></GoogleAuth>
+        {/snippet}
+      </SettingsFieldLarge>
+    {/if}
     <SettingsFieldLarge type="link" title="Schedule" text="Edit schedule" href="/edit">
       {#snippet icon()}
         <span><PhCalendarDots></PhCalendarDots></span>
