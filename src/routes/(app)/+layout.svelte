@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { settings } from "$lib/settings";
+  import { friends, schedules } from "$lib/pocketbase";
 
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhCalendarDotsFill from "~icons/ph/calendar-dots-fill";
@@ -17,12 +18,22 @@
   import { currentUser, init, ready } from "$lib/pocketbase";
   import { onMount, type Snippet } from "svelte";
   import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
+  import SidebarFriend from "./SidebarFriend.svelte";
 
   let { children }: { children: Snippet } = $props();
 
   let compact: boolean = $state(false);
 
   let hideProgress: boolean = $state(false);
+
+  let sortedFriends = $derived.by(() => {
+    const order = JSON.parse($settings.friendsOrder || "[]");
+    return $friends?.friends.toSorted(
+      (a, b) => order.indexOf(a.username) - order.indexOf(b.username),
+    );
+  });
+
+  $inspect(sortedFriends);
 
   onMount(() => {
     compact = $settings.compact === "true";
@@ -98,8 +109,8 @@
         </span>
       </label>
     </header>
-    <div class="flex flex-1 flex-col">
-      <ul class="menu">
+    <div class="flex flex-col">
+      <ul class="menu gap-1">
         <li>
           <a href="/home" class="h-9 flex items-center">
             {#if $page.url.pathname === "/home"}
@@ -138,7 +149,19 @@
         </li>
       </ul>
     </div>
-    <ul class="menu">
+    <div class="flex flex-1 flex-col overflow-auto">
+      <ul class="menu gap-1">
+        {#each sortedFriends as friend}
+          <SidebarFriend
+            username={friend.username}
+            href="/user/{friend.username}"
+            schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
+            {compact}
+          ></SidebarFriend>
+        {/each}
+      </ul>
+    </div>
+    <ul class="menu gap-1">
       <li>
         <a href="/settings" class="h-9 flex items-center">
           {#if $page.url.pathname === "/settings"}
