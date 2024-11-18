@@ -100,7 +100,7 @@
     <p>Freetime {version}</p>
     <p>Not affiliated with Stony Brook University.</p>
     <p>
-      Found a bug, incorrect data, or have a feature request? Contact <a
+      Found a bug, incorrect data, or have a feature request? Submit it to <a
         class="link"
         href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
       >
