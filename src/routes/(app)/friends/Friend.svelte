@@ -3,6 +3,7 @@
 
   import { timeToMs, timeUntilMedium } from "$lib/time";
   import pluralize from "pluralize";
+  import { settings } from "$lib/settings";
 
   import type { Snippet } from "svelte";
   import PhX from "~icons/ph/x";
@@ -105,7 +106,10 @@
       ></div>
     {/if}
     <p class="pl-1 py-2">
-      {username} <span class="text-base-content/50">{@render children?.()}</span>
+      {$settings.obfuscateUsernames !== "true"
+        ? username
+        : username.slice(0, 1).toUpperCase() + "*".repeat(username.length - 1)}
+      <span class="text-base-content/50">{@render children?.()}</span>
     </p>
     {#if schedule.length}
       <div class="px-2 text-sm text-base-content/50 flex justify-between w-full flex-wrap gap-x-4">

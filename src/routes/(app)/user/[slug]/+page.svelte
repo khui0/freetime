@@ -65,7 +65,11 @@
         >
           <PhArrowLeft></PhArrowLeft>
         </button>
-        <h2 class="font-bold text-2xl tracking-tight">{data.username}</h2>
+        <h2 class="font-bold text-2xl tracking-tight">
+          {$settings.obfuscateUsernames !== "true"
+            ? data.username
+            : data.username.slice(0, 1).toUpperCase() + "*".repeat(data.username.length - 1)}
+        </h2>
       </div>
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button

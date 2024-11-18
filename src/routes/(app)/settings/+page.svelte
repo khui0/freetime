@@ -81,6 +81,9 @@
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
     Add extra bottom padding to the navigation bar
   </SettingsField>
+  <SettingsField type="toggle" title="Hide usernames" bind:value={$settings.obfuscateUsernames}>
+    Obfuscates usernames
+  </SettingsField>
   <div class="flex gap-2 items-center justify-between pt-4">
     <p>Freetime {version}</p>
     <div class="flex gap-2 flex-wrap justify-end">

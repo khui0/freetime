@@ -10,11 +10,15 @@ const storedSettings = browser && localStorage.getItem("settings");
 const defaultSettings: Settings = {
   theme: "auto",
   highlightToday: "true",
+  dimOtherDays: "false",
+  showWeekend: "false",
+  tallNavigation: "false",
+  obfuscateUsernames: "false",
 };
 
 // Initialize store with default settings
 export const settings: Writable<Settings> = writable(
-  (storedSettings && JSON.parse(storedSettings)) || defaultSettings,
+  Object.assign({}, defaultSettings, JSON.parse(storedSettings || "[]")),
 );
 
 export function resetSettings() {

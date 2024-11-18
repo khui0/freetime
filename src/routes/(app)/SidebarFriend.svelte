@@ -1,6 +1,7 @@
 <script lang="ts">
   import { timeToMs } from "$lib/time";
   import { update } from "$lib/utilities";
+  import { settings } from "$lib/settings";
 
   let {
     username,
@@ -60,7 +61,9 @@
       ></div>
     </div>
     {#if !compact}
-      {username}
+      {$settings.obfuscateUsernames !== "true"
+        ? username
+        : username.slice(0, 1).toUpperCase() + "*".repeat(username.length - 1)}
     {/if}
   </a>
 </li>
