@@ -5,7 +5,6 @@
   import { settings } from "$lib/settings";
 
   import Confirm from "$lib/components/dialog/Confirm.svelte";
-  import Modal from "$lib/components/dialog/Modal.svelte";
   import Logo from "$lib/components/Logo.svelte";
   import SettingsField from "./SettingsField.svelte";
   import SettingsFieldLarge from "./SettingsFieldLarge.svelte";
@@ -22,7 +21,6 @@
   const version = import.meta.env.PACKAGE_VERSION;
 
   let confirm: Confirm | undefined = $state();
-  let aboutModal: Modal | undefined = $state();
 
   interface Option {
     name: string;
@@ -98,28 +96,21 @@
   <SettingsField type="toggle" title="Hide usernames" bind:value={$settings.obfuscateUsernames}>
     Obfuscates usernames
   </SettingsField>
-  <div class="flex gap-2 items-center justify-between pt-4">
+  <div class="text-xs leading-relaxed text-base-content/50 pt-2">
     <p>Freetime {version}</p>
-    <div class="flex gap-2 flex-wrap justify-end">
-      <a href="/privacy-policy" class="btn btn-sm">Privacy Policy</a>
-      <button class="btn btn-sm" onclick={aboutModal?.show}>About</button>
-    </div>
+    <a href="/privacy-policy" class="link">Privacy Policy</a>
+    <p>Freetime is not affiliated with Stony Brook University.</p>
+    <p>
+      Found a bug, incorrect data, or have a feature request? Send an email to <a
+        class="link"
+        href="mailto:feedback@kennyhui.dev"
+      >
+        feedback@kennyhui.dev
+      </a>
+    </p>
+    <p>Made with <span class="text-base-content">❤️</span> in Stony Brook, NY</p>
+    <p>Copyright &copy; 2025 Kenny Hui. All rights reserved.</p>
   </div>
 </div>
 
 <Confirm bind:this={confirm}></Confirm>
-
-<Modal title="About" bind:this={aboutModal}>
-  <div class="text-xs leading-relaxed text-base-content/50">
-    <p>Freetime {version}</p>
-    <p>Not affiliated with Stony Brook University.</p>
-    <p>
-      Found a bug, incorrect data, or have a feature request? Submit it to <a
-        class="link"
-        href="mailto:feedback@kennyhui.dev">feedback@kennyhui.dev</a
-      >
-    </p>
-    <p>Made with <span class="text-base-content">❤️</span> in Stony Brook, NY</p>
-    <p>Copyright &copy; 2024 Kenny Hui. All rights reserved.</p>
-  </div>
-</Modal>
