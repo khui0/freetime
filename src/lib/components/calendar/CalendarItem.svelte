@@ -17,7 +17,7 @@
   let button: HTMLButtonElement | undefined = $state();
 
   let length = $derived((timeToS(event.to) - timeToS(event.from)) / 3600);
-  let location = $derived(locations[event.location]);
+  let location = $derived(event.location ? locations[event.location] : null);
 </script>
 
 <button
@@ -40,7 +40,9 @@
       {types[event.type]}
       <span>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)} </span>
     </p>
-    <p class="hidden @[8rem]:inline">{location.short || location.name} {event.room}</p>
+    {#if event.location}
+      <p class="hidden @[8rem]:inline">{location?.short || location?.name} {event.room}</p>
+    {/if}
   </div>
   <div class="@[3rem]:hidden">
     <p class="rotate-90 whitespace-nowrap">{event.title} {event.number}</p>

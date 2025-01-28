@@ -54,19 +54,22 @@
       const hours = parseInt(event.from.split(":")[0]);
       const minutes = parseInt(event.from.split(":")[1]);
       const start = startDate(event.days);
-      return {
+      const result: { [key: string]: any } = {
         start: [start.year, start.month, start.day, hours, minutes],
         duration: duration(event.from, event.to),
         title: `${event.title} ${event.number}`,
         description: `${types[event.type]}`,
-        location: `${event.room.toUpperCase()} - ${locations[event.location].name}`,
-        geo: {
-          lat: parseFloat(locations[event.location].lat || "0"),
-          lon: parseFloat(locations[event.location].lon || "0"),
-        },
         recurrenceRule: rrule(event.days),
         productId: "Freetime (freetime.kennyhui.dev)",
       };
+      if (event.location) {
+        result.location = `${event.room.toUpperCase()} - ${locations[event.location].name}`;
+        result.geo = {
+          lat: parseFloat(locations[event.location].lat || "0"),
+          lon: parseFloat(locations[event.location].lon || "0"),
+        };
+      }
+      return result;
     }),
   );
   let ical = $derived(ics.createEvents(events).value);

@@ -66,4 +66,6 @@
   </div>
   <CourseDays {...event}></CourseDays>
 </div>
-<CourseLocation {...event}></CourseLocation>
+{#if event.location}
+  <CourseLocation {...event}></CourseLocation>
+{/if}

@@ -76,7 +76,13 @@
   }
 
   function isValid(event: CalendarEvent) {
-    return Object.values(event).every((value) => value !== "");
+    return (
+      event.title !== "" &&
+      event.number !== "" &&
+      event.type !== "" &&
+      event.from !== "" &&
+      event.to !== ""
+    );
   }
 
   let scrollEnabled: boolean = false;
