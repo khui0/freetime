@@ -72,7 +72,7 @@
     in:fly={{ duration: 200, y: up ? 10 : -10 }}
     out:fly={{ duration: 200, y: up ? 10 : -10 }}
     bind:this={element}
-    class="absolute z-50 rounded-box border p-4 bg-base-100 max-w-[32rem] text-base shadow-xl"
+    class="absolute z-50 rounded-box border p-4 bg-base-100/50 backdrop-blur-lg max-w-[32rem] text-base shadow-xl"
   >
     {@render children?.()}
     <button
