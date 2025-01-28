@@ -138,7 +138,7 @@
   </div>
 </TopBar>
 
-<div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto" use:scrollToBottom={events}>
+<div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto pb-12" use:scrollToBottom={events}>
   {#if events.length > 0}
     {#each events as event, i}
       {@const empty = !saved && !isValid(event)}
@@ -168,7 +168,7 @@
   {/if}
 </div>
 <div
-  class="fixed bottom-0 right-0 flex gap-2 justify-end m-4 items-center drop-shadow-lg {$settings.tallNavigation ===
+  class="fixed bottom-0 right-0 flex gap-2 justify-end m-4 items-center drop-shadow-lg sm:pb-0 {$settings.tallNavigation ===
   'true'
     ? 'pb-[calc(49px+2rem)]'
     : 'pb-[49px]'}"
