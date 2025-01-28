@@ -62,7 +62,9 @@
 
     const hour = new Date().getHours();
 
-    const rest = today.filter((event) => timeToMs(event.from) > Date.now());
+    const rest = today
+      .filter((event) => timeToMs(event.from) > Date.now())
+      .sort((a, b) => timeToMs(a.from) - timeToMs(b.from));
     const inClass = current !== undefined;
     let message: string = "";
 
