@@ -7,6 +7,7 @@ interface CalendarEvent {
   to: string;
   location: string;
   room: string;
+  online: boolean;
 }
 
 interface Locations {

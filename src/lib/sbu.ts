@@ -526,9 +526,7 @@ export const locations: Locations = {
 export const types: { [key: string]: string } = {
   lecture: "Lecture",
   recitation: "Recitation",
-  independent: "Independent Study",
   seminar: "Seminar",
-  online: "Online",
   laboratory: "Laboratory",
   studio: "Studio",
 };

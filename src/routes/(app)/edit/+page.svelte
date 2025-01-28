@@ -52,6 +52,7 @@
       location: "",
       room: "",
       type: "",
+      online: false,
     };
     saved = false;
     scrollEnabled = true;

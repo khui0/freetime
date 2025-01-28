@@ -24,6 +24,7 @@
       location: "",
       room: "",
       type: "",
+      online: false,
     }),
     oninput,
     ondelete,
@@ -180,7 +181,7 @@
           </div>
         </div>
       </div>
-      <div class="flex gap-1 w-full">
+      <div class="flex gap-1 w-full {data.online ? 'opacity-50 pointer-events-none' : ''}">
         <label class="flex flex-col text-xs">
           <span class="px-2">Location</span>
           <select
@@ -211,6 +212,15 @@
           />
         </label>
       </div>
+      <label
+        class="label cursor-pointer px-0 justify-normal gap-2"
+        oninput={() => {
+          oninput?.();
+        }}
+      >
+        <input type="checkbox" class="checkbox" bind:checked={data.online} />
+        <span class="label-text">Online class</span>
+      </label>
     </div>
   {/if}
 </div>
