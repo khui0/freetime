@@ -16,6 +16,7 @@
 
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPencilSimple from "~icons/ph/pencil-simple";
+  import FloatingBar from "$lib/components/FloatingBar.svelte";
 
   let data: CalendarEvent[] = $state([]);
 
@@ -116,7 +117,7 @@
 >
   {#if status}
     {@const newUser = data.length === 0 && $ready}
-    <div class="flex flex-col gap-4" in:fly={{ x: -100, duration: 500 }}>
+    <div class="flex flex-col gap-4">
       <div class="flex gap-2 items-center justify-between">
         <h1 class="font-bold text-4xl tracking-tight">
           {newUser ? "Welcome" : status.greeting}!
@@ -127,19 +128,13 @@
       </p>
     </div>
     {#if status.event}
-      <div
-        in:fly|global={{ x: -100, duration: 500, delay: 100 }}
-        class="flex flex-col gap-2 pl-2 border-l-2"
-      >
+      <div class="flex flex-col gap-2 pl-2 border-l-2">
         <CourseTimes {...status.event}></CourseTimes>
         <CourseLocation {...status.event}></CourseLocation>
       </div>
     {/if}
     {#if status.classesToday > 0}
-      <div
-        class=" flex flex-col gap-4"
-        in:fly|global={{ x: -100, duration: 500, delay: 100 + (status.event ? 50 : 0) }}
-      >
+      <div class=" flex flex-col gap-4">
         <p class="text-lg">
           <span class="font-bold bg-base-200 py-1 px-2 rounded-lg">
             {status.classesToday - status.classesRemaining}/{status.classesToday}
@@ -148,10 +143,7 @@
         <TodayProgress></TodayProgress>
       </div>
     {/if}
-    <div
-      in:fly|global={{ x: -100, duration: 500, delay: 100 + (status.event ? 50 : 0) }}
-      class="flex gap-2"
-    >
+    <FloatingBar shadow={false}>
       <a href={newUser ? "/edit" : "/calendar"} class="btn btn-sm rounded-full">
         <PhCalendarDots></PhCalendarDots>
         {newUser ? "Add classes" : "View calendar"}
@@ -159,6 +151,6 @@
       <a href="/edit" class="btn btn-square rounded-full btn-sm">
         <PhPencilSimple></PhPencilSimple>
       </a>
-    </div>
+    </FloatingBar>
   {/if}
 </div>
