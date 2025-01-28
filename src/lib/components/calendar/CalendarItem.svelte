@@ -40,9 +40,13 @@
       {types[event.type]}
       <span>{timeTo12Hour(event.from)} - {timeTo12Hour(event.to)} </span>
     </p>
-    {#if event.location}
-      <p class="hidden @[8rem]:inline">{location?.short || location?.name} {event.room}</p>
-    {/if}
+    <p class="hidden @[8rem]:inline">
+      {#if event.online}
+        Online
+      {:else if event.location}
+        {location?.short || location?.name} {event.room}
+      {/if}
+    </p>
   </div>
   <div class="@[3rem]:hidden">
     <p class="rotate-90 whitespace-nowrap">{event.title} {event.number}</p>
