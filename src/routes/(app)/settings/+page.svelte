@@ -71,7 +71,7 @@
       {#snippet icon()}
         <span><PhCalendarDots></PhCalendarDots></span>
       {/snippet}
-      Add, remove, or change classes
+      Add, remove, or edit classes
     </SettingsFieldLarge>
     <SettingsFieldLarge type="select" title="Theme" options={themes} bind:value={$settings.theme}>
       {#snippet icon()}
@@ -82,19 +82,19 @@
   </div>
   <h2 class="font-bold text-2xl mt-4">Other</h2>
   <SettingsField type="toggle" title="Highlight today" bind:value={$settings.highlightToday}>
-    Highlight today's column
+    Highlight the column for today
   </SettingsField>
   <SettingsField type="toggle" title="Dim other days" bind:value={$settings.dimOtherDays}>
-    Make today's classes stand out
+    Reduce the opacity of classes on other days
   </SettingsField>
   <SettingsField type="toggle" title="Show weekend" bind:value={$settings.showWeekend}>
     Show Saturday and Sunday columns
   </SettingsField>
   <SettingsField type="toggle" title="Extra bottom padding" bind:value={$settings.tallNavigation}>
-    Add extra bottom padding to the navigation bar
+    Useful on some mobile devices
   </SettingsField>
   <SettingsField type="toggle" title="Hide usernames" bind:value={$settings.obfuscateUsernames}>
-    Obfuscates usernames
+    Obfuscate usenames
   </SettingsField>
   <div class="text-xs leading-relaxed text-base-content/50 pt-2">
     <p>Freetime {version}</p>
