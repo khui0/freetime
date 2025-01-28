@@ -7,6 +7,7 @@
   import CourseRadialProgress from "../widgets/CourseRadialProgress.svelte";
   import CourseTimes from "../widgets/CourseTimes.svelte";
   import CourseTitle from "../widgets/CourseTitle.svelte";
+  import { on } from "svelte/events";
 
   let {
     event,
@@ -66,6 +67,8 @@
   </div>
   <CourseDays {...event}></CourseDays>
 </div>
-{#if event.location}
+{#if event.online}
+  <p class="mt-1 border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">Online class</p>
+{:else if event.location}
   <CourseLocation {...event}></CourseLocation>
 {/if}
