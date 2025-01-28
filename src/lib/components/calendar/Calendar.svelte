@@ -16,6 +16,9 @@
   let time: string | undefined = $state();
   let progress: number = $state(-1);
 
+  const START = 8;
+  const END = 22;
+
   let {
     data = $bindable([]),
     headers = ["M", "T", "W", "T", "F", "S", "S"],
@@ -39,7 +42,7 @@
       const now = new Date();
       const tzo = now.getTimezoneOffset() * 60000;
       const hour = ((Date.now() % 8.64e7) - tzo) / 3.6e6;
-      progress = (hour - 8) / 12;
+      progress = (hour - START) / 12;
       time = now
         .toLocaleTimeString("en-US", {
           hour: "numeric",
@@ -74,18 +77,19 @@
 <div class="relative flex mx-4">
   <!-- Time column -->
   <div class="w-10 text-end pr-1 py-4">
-    {#each Array(14) as _, row}
+    {#each Array(END - START + 1) as _, row}
       {@const period = row > 4 ? " PM" : " AM"}
-      {@const time = row !== 4 ? ((row + 8) % 12) + period : "Noon"}
-      <div class="relative text-xs text-base-content/50 {row !== 13 ? 'h-16' : 'h-0'}">
+      {@const time = row !== 4 ? ((row + START) % 12) + period : "Noon"}
+      <div class="relative text-xs text-base-content/50 {row !== END - START ? 'h-16' : 'h-0'}">
         <p class="absolute w-full -translate-y-1/2">{time}</p>
       </div>
     {/each}
   </div>
   <div class="w-2 py-4">
-    {#each Array(13) as _, row}
+    {#each Array(END - START) as _, row}
       <div
-        class="relative text-sm text-base-content/50 {row !== 13 ? 'h-16' : 'h-0'} {row === 0
+        class="relative text-sm text-base-content/50 {row !== END - START ? 'h-16' : 'h-0'} {row ===
+        0
           ? 'border-y'
           : 'border-b'}"
       ></div>
@@ -95,10 +99,10 @@
   {#each Array(Math.min(columns, headers.length) * multiplier) as _, col}
     {@const today = (new Date().getDay() + 13) % 7 === Math.floor(col / multiplier) + offset}
     <div class="flex-1 py-4 {today && $settings.highlightToday === 'true' ? 'bg-base-200/50' : ''}">
-      {#each Array(13) as _, row}
+      {#each Array(END - START) as _, row}
         {@const event = data[col % multiplier]?.find(
           (item) =>
-            parseInt(item.from.split(":")[0]) === row + 8 &&
+            parseInt(item.from.split(":")[0]) === row + START &&
             item.days[Math.floor(col / multiplier) + offset],
         )}
         {@const user = col % multiplier === 0}
