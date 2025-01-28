@@ -19,6 +19,8 @@
   import { currentUser, init, ready } from "$lib/pocketbase";
   import { onMount, type Snippet } from "svelte";
   import SidebarFriend from "./SidebarFriend.svelte";
+  import GoogleAuth from "$lib/components/GoogleAuth.svelte";
+  import { fade } from "svelte/transition";
 
   let { children }: { children: Snippet } = $props();
 
@@ -183,3 +185,16 @@
     {@render children()}
   </main>
 </div>
+
+{#if !($currentUser && $ready)}
+  <dialog class="modal backdrop:bg-transparent" open>
+    <div class="modal-box rounded-box p-4 border shadow-lg">
+      <div class="flex flex-col gap-2 h-full">
+        <h2 class="font-bold text-2xl self-start pr-8">Sign in</h2>
+        <p>You are not signed in</p>
+        <div class="flex items-center justify-center p-4"><GoogleAuth /></div>
+        <a href="/" class="link text-sm text-center">Return to homepage</a>
+      </div>
+    </div>
+  </dialog>
+{/if}
