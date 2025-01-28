@@ -4,7 +4,6 @@
 
   import { beforeNavigate, goto } from "$app/navigation";
   import { currentUser, pb, ready, schedules } from "$lib/pocketbase";
-  import { settings } from "$lib/settings";
   import { fly } from "svelte/transition";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
@@ -18,6 +17,7 @@
   import Event from "./Event.svelte";
 
   import { isMac, parse } from "$lib/utilities";
+  import FloatingBar from "$lib/components/FloatingBar.svelte";
 
   let modal: Modal | undefined = $state();
   let importText: string = $state("");
@@ -137,7 +137,6 @@
     </button>
   </div>
 </TopBar>
-
 <div class="flex flex-col px-4 w-[min(100%,800px)] mx-auto pb-12" use:scrollToBottom={events}>
   {#if events.length > 0}
     {#each events as event, i}
@@ -167,26 +166,21 @@
     </div>
   {/if}
 </div>
-<div
-  class="fixed bottom-0 right-0 flex gap-2 justify-end m-4 items-center drop-shadow-lg sm:pb-0 {$settings.tallNavigation ===
-  'true'
-    ? 'pb-[calc(49px+2rem)]'
-    : 'pb-[49px]'}"
->
+<FloatingBar>
   {#if !saved}
     <div in:fly={{ duration: 250, y: 10 }} out:fly={{ duration: 250, y: 10 }} class="relative">
       <div class="bg-accent absolute inset-0 z-[-1] rounded-btn animate-ping"></div>
       <button class="btn btn-sm btn-accent" onclick={save}>Save</button>
     </div>
   {/if}
-</div>
-
+</FloatingBar>
 <Alert bind:this={alert}></Alert>
 <Confirm bind:this={confirm}></Confirm>
 <Modal title="Import schedule" bind:this={modal}>
   {@const ctrlKey = isMac() ? "⌘" : "Ctrl"}
   <p>
-    1. Log into <a class="link"
+    1. Log into <a
+      class="link"
       href="https://it.stonybrook.edu/services/solar"
       target="_blank"
       rel="noopener noreferrer">SOLAR</a
