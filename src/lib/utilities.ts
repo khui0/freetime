@@ -45,6 +45,7 @@ export function parse(data: string) {
       const type = item[index - 4];
       const times = item[index - 3].match(TIME_REGEX);
       const location = item[index - 2].match(ROOM_REGEX);
+      const online = /online/i.test(item[index - 2]);
       const estimatedLocation = location && fuse.search(location[1])[0].item.name;
       const buildingCode =
         estimatedLocation &&
@@ -61,6 +62,7 @@ export function parse(data: string) {
         to: (times && convertTime(times[3])) || "",
         room: location?.[2] || "",
         location: buildingCode || "",
+        online: !location && online,
       });
     });
   }

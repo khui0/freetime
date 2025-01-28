@@ -165,11 +165,11 @@
     {/each}
   {:else}
     <p class="text-base-content/50 text-xl text-center py-4">
-      Add your first class or import your schedule from SOLAR!
+      Add your first class or import your schedule from SOLAR
     </p>
     <div class="flex gap-2 flex-wrap self-center">
       <button class="btn btn-sm" onclick={modal?.show}>Import from SOLAR</button>
-      <button class="btn btn-sm" onclick={addEvent}>Add class</button>
+      <button class="btn btn-sm" onclick={addEvent}><PhPlus></PhPlus> Add class</button>
     </div>
   {/if}
 </div>
@@ -186,12 +186,13 @@
 <Modal title="Import schedule" bind:this={modal}>
   {@const ctrlKey = isMac() ? "⌘" : "Ctrl"}
   <p>
-    1. Log into <a
+    1. Open <a
       class="link"
       href="https://it.stonybrook.edu/services/solar"
       target="_blank"
       rel="noopener noreferrer">SOLAR</a
-    >. Then, go to <code> Student Records & Registration > Enrollment > My Class Schedule </code>
+    >. Then, navigate to
+    <code> Student Records & Registration > Enrollment > My Class Schedule </code>
   </p>
   <p>
     2. Click <code>Printer Friendly Page</code> at the bottom of the page
@@ -216,7 +217,7 @@
       modal?.close();
       alert?.prompt(
         "Attempted to import schedule",
-        "Information may not be accurate, you may need to manually edit some fields. Changes are not applied until you click save.",
+        "Imported schedule may not be accurate. It's recommended to manually check each class. Changes are not applied until you click save.",
       );
     }}>Import</button
   >
