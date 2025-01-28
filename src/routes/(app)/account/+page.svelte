@@ -34,8 +34,8 @@
   function deleteAccount() {
     confirm
       ?.prompt(
-        "Are you sure you want to delete your account?",
-        "Doing so is permanent and cannot be undone!",
+        "Delete your account",
+        "This is permanent and cannot be undone.",
         "Delete",
         true,
       )
