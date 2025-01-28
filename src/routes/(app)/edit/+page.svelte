@@ -186,9 +186,11 @@
 <Modal title="Import schedule" bind:this={modal}>
   {@const ctrlKey = isMac() ? "⌘" : "Ctrl"}
   <p>
-    1. Log into SOLAR. Then, go to <code>
-      Student Records & Registration > Enrollment > My Class Schedule
-    </code>
+    1. Log into <a class="link"
+      href="https://it.stonybrook.edu/services/solar"
+      target="_blank"
+      rel="noopener noreferrer">SOLAR</a
+    >. Then, go to <code> Student Records & Registration > Enrollment > My Class Schedule </code>
   </p>
   <p>
     2. Click <code>Printer Friendly Page</code> at the bottom of the page
