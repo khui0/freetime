@@ -50,7 +50,6 @@
       // Retrieve own schedule
       const t = $tasks.find((r) => r.user === $currentUser?.id);
       id = t?.id || "";
-      console.log(t?.tasks);
       taskList = structuredClone(t?.tasks);
     });
   });
@@ -72,13 +71,12 @@
 
   function createTask() {
     taskModal?.close();
-    taskList.push({
+    taskList[taskList.length] = {
       title: titleField,
       description: descriptionField,
       course: courseField,
       completed: false,
-    });
-    clearTaskModal();
+    };
     saveTasks();
   }
 
@@ -88,23 +86,22 @@
       .update(id, { tasks: taskList })
       .then(() => {
         loading = false;
+        clearTaskModal();
       })
       .catch(() => {
         loading = false;
         alert?.prompt("Unable to add task", "An unforeseen error was encountered.");
       });
   }
-</script>
 
-<svelte:window
-  onkeydown={(e: KeyboardEvent) => {
+  function onkeydown(e: KeyboardEvent) {
     const ctrlKey = isMac() ? e.metaKey : e.ctrlKey;
     if (ctrlKey && e.key === "Enter") {
       e.preventDefault();
       createTask();
     }
-  }}
-/>
+  }
+</script>
 
 <TopBar>
   <h2 class="text-2xl font-bold tracking-tight">Tasks</h2>
@@ -144,11 +141,18 @@
       class="input input-bordered mt-4 flex-1"
       placeholder="Add task"
       bind:value={titleField}
+      {onkeydown}
     />
   </form>
   <div class="flex flex-col py-8">
     {#if taskList}
-      {#each taskList as task}
+      {#each taskList.filter((item) => !item.completed) as task}
+        <Task {...task} bind:completed={task.completed} />
+      {/each}
+      {#if taskList.some((item) => item.completed)}
+        <h2>Completed</h2>
+      {/if}
+      {#each taskList.filter((item) => item.completed) as task}
         <Task {...task} bind:completed={task.completed} />
       {/each}
     {/if}
@@ -162,14 +166,21 @@
   }}
 >
   <div class="flex flex-col gap-4">
-    <input type="text" class="input input-bordered" placeholder="Title" bind:value={titleField} />
+    <input
+      type="text"
+      class="input input-bordered"
+      placeholder="Title"
+      bind:value={titleField}
+      {onkeydown}
+    />
     <textarea
       class="textarea textarea-bordered"
       placeholder="Description"
       bind:value={descriptionField}
+      {onkeydown}
     ></textarea>
     <div class="flex flex-col input input-bordered h-auto py-2 gap-1">
-      <input type="text" class="flex-1" placeholder="Course" bind:value={courseField} />
+      <input type="text" class="flex-1" placeholder="Course" bind:value={courseField} {onkeydown} />
       <div class="flex flex-wrap gap-2 -mx-2">
         {#each uniqueCourses as course}
           <button

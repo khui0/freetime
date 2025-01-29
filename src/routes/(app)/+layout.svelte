@@ -37,8 +37,6 @@
     );
   });
 
-  $inspect(sortedFriends);
-
   onMount(() => {
     compact = $settings.compact === "true";
     if ($currentUser && !$ready) {
