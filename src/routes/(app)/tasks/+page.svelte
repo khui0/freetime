@@ -2,9 +2,10 @@
   import { title } from "$lib/store";
   $title = "Tasks";
 
-  import { currentUser, pb, ready, schedules } from "$lib/pocketbase";
+  import { currentUser, pb, ready, schedules, tasks } from "$lib/pocketbase";
   import { onMount } from "svelte";
 
+  import Alert from "$lib/components/dialog/Alert.svelte";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
   import Modal from "$lib/components/dialog/Modal.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
@@ -16,10 +17,11 @@
 
   import { isMac } from "$lib/utilities";
 
+  let alert: Alert | undefined = $state();
   let confirm: Confirm | undefined = $state();
   let taskModal: Modal | undefined = $state();
 
-  let usernameField: string = $state("");
+  let titleField: string = $state("");
   let descriptionField: string = $state("");
   let courseField: string = $state("");
 
@@ -29,6 +31,9 @@
   let ctrlKey = $derived(isMac() ? "⌘" : "Ctrl");
 
   let uniqueCourses: string[] = $state([]);
+
+  let id: string;
+  let taskList: TaskData[] = $state([]);
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -41,11 +46,17 @@
           schedule.map((course: CalendarEvent) => `${course.title.toUpperCase()} ${course.number}`),
         ),
       ] as string[];
+
+      // Retrieve own schedule
+      const t = $tasks.find((r) => r.user === $currentUser?.id);
+      id = t?.id || "";
+      console.log(t?.tasks);
+      taskList = structuredClone(t?.tasks);
     });
   });
 
   function clearTaskModal() {
-    usernameField = "";
+    titleField = "";
     descriptionField = "";
     courseField = "";
   }
@@ -54,15 +65,46 @@
     confirm
       ?.prompt("Clear completed tasks", "Completed tasks will be removed permanently", "Clear")
       .then(() => {
-        console.log("hi");
+        taskList = taskList.filter((item) => !item.completed);
+        saveTasks();
       });
   }
 
   function createTask() {
     taskModal?.close();
+    taskList.push({
+      title: titleField,
+      description: descriptionField,
+      course: courseField,
+      completed: false,
+    });
     clearTaskModal();
+    saveTasks();
+  }
+
+  function saveTasks() {
+    loading = true;
+    pb.collection("tasks")
+      .update(id, { tasks: taskList })
+      .then(() => {
+        loading = false;
+      })
+      .catch(() => {
+        loading = false;
+        alert?.prompt("Unable to add task", "An unforeseen error was encountered.");
+      });
   }
 </script>
+
+<svelte:window
+  onkeydown={(e: KeyboardEvent) => {
+    const ctrlKey = isMac() ? e.metaKey : e.ctrlKey;
+    if (ctrlKey && e.key === "Enter") {
+      e.preventDefault();
+      createTask();
+    }
+  }}
+/>
 
 <TopBar>
   <h2 class="text-2xl font-bold tracking-tight">Tasks</h2>
@@ -101,24 +143,17 @@
       type="text"
       class="input input-bordered mt-4 flex-1"
       placeholder="Add task"
-      bind:value={usernameField}
+      bind:value={titleField}
     />
   </form>
   <div class="flex flex-col py-8">
-    <Task title="Testing" description="testing" course="cse114" completed={false} />
+    {#if taskList}
+      {#each taskList as task}
+        <Task {...task} bind:completed={task.completed} />
+      {/each}
+    {/if}
   </div>
 </div>
-
-<svelte:window
-  onkeydown={(e: KeyboardEvent) => {
-    const ctrlKey = isMac() ? e.metaKey : e.ctrlKey;
-    if (ctrlKey && e.key === "Enter") {
-      e.preventDefault();
-      createTask();
-    }
-  }}
-/>
-
 <Modal
   bind:this={taskModal}
   title="New task"
@@ -127,12 +162,7 @@
   }}
 >
   <div class="flex flex-col gap-4">
-    <input
-      type="text"
-      class="input input-bordered"
-      placeholder="Title"
-      bind:value={usernameField}
-    />
+    <input type="text" class="input input-bordered" placeholder="Title" bind:value={titleField} />
     <textarea
       class="textarea textarea-bordered"
       placeholder="Description"
@@ -165,4 +195,5 @@
   </div>
 </Modal>
 
+<Alert bind:this={alert}></Alert>
 <Confirm bind:this={confirm}></Confirm>

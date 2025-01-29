@@ -24,3 +24,10 @@ interface Result {
   error?: string;
   success?: string;
 }
+
+interface TaskData {
+  title: string;
+  description: string;
+  course: string;
+  completed: boolean;
+}

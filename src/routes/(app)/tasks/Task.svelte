@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
-
   let {
     title,
     description,
@@ -23,7 +21,7 @@
   }
 </script>
 
-<div in:fade={{ duration: 250 }} class="rounded-box border p-3 mb-4 last:mb-0">
+<div class="rounded-box border p-3 mb-4 last:mb-0">
   <div class="flex items-center gap-x-2" class:opacity-50={completed}>
     <input type="checkbox" class="checkbox" bind:checked={completed} />
     <button

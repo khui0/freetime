@@ -13,6 +13,7 @@ export const friends: Writable<{
   outgoing: RecordModel[];
   requests: RecordModel[];
 }> = writable();
+export const tasks: Writable<RecordModel[]> = writable([]);
 
 export async function auth() {
   await pb.collection("users").authWithOAuth2({ provider: "google" });
@@ -39,6 +40,14 @@ export async function init() {
   pb.collection("friends").subscribe("*", async (e) => {
     if (e.action === "update") updateFriends();
   });
+  // Update "tasks" store
+  tasks.set(await pb.collection("tasks").getFullList());
+  pb.collection("tasks").subscribe("*", async (e) => {
+    if (e.action === "update") {
+      tasks.set(await pb.collection("tasks").getFullList());
+    }
+  });
+  // Must be after all stores
   ready.set(true);
 }
 
@@ -48,6 +57,7 @@ pb.authStore.onChange(() => {
     init();
     createList("schedules", "schedule");
     createList("friends", "friends");
+    createList("tasks", "tasks");
   }
 });
 
