@@ -1,29 +1,33 @@
 <script lang="ts">
+  import { normalizeCourse } from "$lib/utilities";
+
   let {
     title,
     description,
     course,
     completed = $bindable(false),
     onclick,
+    oninput,
   }: {
     title: string;
     description: string;
     course: string;
     completed: boolean;
     onclick?: Function;
+    oninput?: Function;
   } = $props();
-
-  function normalizeCourse(course: string) {
-    const COURSE_REGEX = /([A-z]{3}).*([0-9]{3})/;
-    const parts = course.match(COURSE_REGEX);
-    if (!parts) return course;
-    return `${parts[1].toUpperCase()} ${parts[2]}`;
-  }
 </script>
 
 <div class="rounded-box border p-3 mb-4 last:mb-0">
   <div class="flex items-center gap-x-2" class:opacity-50={completed}>
-    <input type="checkbox" class="checkbox" bind:checked={completed} />
+    <input
+      type="checkbox"
+      class="checkbox"
+      bind:checked={completed}
+      onclick={() => {
+        oninput?.();
+      }}
+    />
     <button
       class="flex-1 flex flex-wrap items-center gap-x-4"
       onclick={() => {

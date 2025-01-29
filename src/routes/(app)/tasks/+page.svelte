@@ -3,7 +3,7 @@
   $title = "Tasks";
 
   import { currentUser, pb, ready, schedules, tasks } from "$lib/pocketbase";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
 
   import Alert from "$lib/components/dialog/Alert.svelte";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
@@ -78,15 +78,17 @@
       completed: false,
     };
     saveTasks();
+    clearTaskModal();
   }
 
-  function saveTasks() {
+  $inspect(taskList);
+
+  async function saveTasks() {
     loading = true;
     pb.collection("tasks")
       .update(id, { tasks: taskList })
       .then(() => {
         loading = false;
-        clearTaskModal();
       })
       .catch(() => {
         loading = false;
@@ -147,13 +149,27 @@
   <div class="flex flex-col py-8">
     {#if taskList}
       {#each taskList.filter((item) => !item.completed) as task}
-        <Task {...task} bind:completed={task.completed} />
+        <Task
+          {...task}
+          bind:completed={task.completed}
+          oninput={async () => {
+            await tick();
+            saveTasks();
+          }}
+        />
       {/each}
       {#if taskList.some((item) => item.completed)}
-        <h2>Completed</h2>
+        <h2 class="mb-2 mx-1 font-medium">Completed</h2>
       {/if}
       {#each taskList.filter((item) => item.completed) as task}
-        <Task {...task} bind:completed={task.completed} />
+        <Task
+          {...task}
+          bind:completed={task.completed}
+          oninput={async () => {
+            await tick();
+            saveTasks();
+          }}
+        />
       {/each}
     {/if}
   </div>

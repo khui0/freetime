@@ -104,3 +104,10 @@ export function update(callback: () => unknown, interval: number = 1000) {
   callback();
   setInterval(callback, interval);
 }
+
+export function normalizeCourse(course: string) {
+  const COURSE_REGEX = /([A-z]{3}).*([0-9]{3})/;
+  const parts = course.match(COURSE_REGEX);
+  if (!parts) return course;
+  return `${parts[1].toUpperCase()} ${parts[2]}`;
+}
