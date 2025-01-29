@@ -153,8 +153,7 @@
           {...task}
           bind:completed={task.completed}
           oninput={async () => {
-            await tick();
-            saveTasks();
+            setTimeout(saveTasks, 500);
           }}
         />
       {/each}
@@ -166,8 +165,7 @@
           {...task}
           bind:completed={task.completed}
           oninput={async () => {
-            await tick();
-            saveTasks();
+            setTimeout(saveTasks, 500);
           }}
         />
       {/each}
