@@ -17,6 +17,8 @@
   import { endOfToday, isMac } from "$lib/utilities";
   import TaskModal from "./TaskModal.svelte";
 
+  const TZO = new Date().getTimezoneOffset() * 60000;
+
   let alert: Alert | undefined = $state();
   let confirm: Confirm | undefined = $state();
   let taskModal: TaskModal | undefined = $state();
@@ -171,7 +173,6 @@
       {#each taskList
         .filter((item) => !item.completed)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) as task}
-        {@const pastDue = new Date(task.date).getTime() < Date.now()}
         <Task
           {...task}
           bind:completed={task.completed}
@@ -180,7 +181,6 @@
           }}
           onclick={() => {
             editing = taskList.indexOf(task);
-            console.log(editing);
             titleField = task.title;
             descriptionField = task.description;
             courseField = task.course;

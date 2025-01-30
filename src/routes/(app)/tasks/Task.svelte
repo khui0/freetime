@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { normalizeCourse } from "$lib/utilities";
+  import { normalizeCourse, update } from "$lib/utilities";
 
   let {
     title,
@@ -18,10 +18,16 @@
     onclick?: Function;
     oninput?: Function;
   } = $props();
+
+  let warn: boolean = $state(false);
+
+  update(() => {
+    warn = new Date(date).getTime() < Date.now();
+  });
 </script>
 
-<div class="rounded-box border p-3 mb-4 last:mb-0">
-  <div class="flex items-center gap-x-2" class:opacity-50={completed}>
+<div class="relative rounded-box border mb-4 last:mb-0">
+  <div class="flex items-center gap-x-2 p-3" class:opacity-50={completed}>
     <input
       type="checkbox"
       class="checkbox"
@@ -36,7 +42,7 @@
         onclick?.();
       }}
     >
-      <p>{title}</p>
+      <p class:text-error={warn}>{title}</p>
       <p class="text-sm text-base-content/50 text-start">{description}</p>
       {#if date}
         <p class="text-sm text-base-content/50">
