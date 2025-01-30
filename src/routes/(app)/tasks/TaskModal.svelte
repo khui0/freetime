@@ -26,12 +26,14 @@
     title = $bindable(""),
     description = $bindable(""),
     course = $bindable(""),
+    date = $bindable(""),
     courses,
     onsubmit,
   }: {
     title: string;
     description: string;
     course: string;
+    date: string;
     courses: string[];
     onsubmit?: Function;
   } = $props();
@@ -45,10 +47,7 @@
   }
 </script>
 
-<Modal
-  bind:this={modal}
-  title={editMode ? "Edit task" : "New task"}
->
+<Modal bind:this={modal} title={editMode ? "Edit task" : "New task"}>
   <div class="flex flex-col gap-4">
     <input
       type="text"
@@ -78,6 +77,7 @@
         {/each}
       </div>
     </div>
+    <input type="datetime-local" class="input input-bordered" bind:value={date} />
     <div class="flex justify-end gap-2">
       <button
         class="btn btn-sm hover:btn-accent"

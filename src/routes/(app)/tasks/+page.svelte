@@ -14,7 +14,7 @@
   import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
   import PhPlus from "~icons/ph/plus";
 
-  import { isMac } from "$lib/utilities";
+  import { endOfToday, isMac } from "$lib/utilities";
   import TaskModal from "./TaskModal.svelte";
 
   let alert: Alert | undefined = $state();
@@ -24,6 +24,7 @@
   let titleField: string = $state("");
   let descriptionField: string = $state("");
   let courseField: string = $state("");
+  let dateField: string = $state(endOfToday());
 
   let loading: boolean = $state(false);
 
@@ -57,6 +58,7 @@
     titleField = "";
     descriptionField = "";
     courseField = "";
+    dateField = endOfToday();
   }
 
   function clearCompleted() {
@@ -74,6 +76,7 @@
       title: titleField,
       description: descriptionField,
       course: courseField,
+      date: dateField,
       completed: false,
     };
     saveTasks();
@@ -86,6 +89,7 @@
       title: titleField,
       description: descriptionField,
       course: courseField,
+      date: dateField,
       completed: false,
     };
     saveTasks();
@@ -164,7 +168,10 @@
   </form>
   <div class="flex flex-col py-8">
     {#if taskList}
-      {#each taskList.filter((item) => !item.completed) as task}
+      {#each taskList
+        .filter((item) => !item.completed)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) as task}
+        {@const pastDue = new Date(task.date).getTime() < Date.now()}
         <Task
           {...task}
           bind:completed={task.completed}
@@ -177,6 +184,7 @@
             titleField = task.title;
             descriptionField = task.description;
             courseField = task.course;
+            dateField = task.date;
             taskModal?.showEdit();
           }}
         />
@@ -184,7 +192,9 @@
       {#if taskList.some((item) => item.completed)}
         <h2 class="mb-2 mx-1 font-medium">Completed</h2>
       {/if}
-      {#each taskList.filter((item) => item.completed) as task}
+      {#each taskList
+        .filter((item) => item.completed)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) as task}
         <Task
           {...task}
           bind:completed={task.completed}
@@ -201,6 +211,7 @@
   bind:title={titleField}
   bind:description={descriptionField}
   bind:course={courseField}
+  bind:date={dateField}
   courses={uniqueCourses}
   onsubmit={() => {
     if (editing !== null) {

@@ -29,5 +29,6 @@ interface TaskData {
   title: string;
   description: string;
   course: string;
+  date: string;
   completed: boolean;
 }

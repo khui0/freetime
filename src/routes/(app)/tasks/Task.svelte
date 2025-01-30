@@ -5,6 +5,7 @@
     title,
     description,
     course,
+    date,
     completed = $bindable(false),
     onclick,
     oninput,
@@ -12,6 +13,7 @@
     title: string;
     description: string;
     course: string;
+    date: string;
     completed: boolean;
     onclick?: Function;
     oninput?: Function;
@@ -35,7 +37,18 @@
       }}
     >
       <p>{title}</p>
-      <p class="text-sm text-base-content/50">{description}</p>
+      <p class="text-sm text-base-content/50 text-start">{description}</p>
+      {#if date}
+        <p class="text-sm text-base-content/50">
+          {new Date(date).toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+          })}
+        </p>
+      {/if}
     </button>
     {#if course}
       <p class="border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">
