@@ -173,6 +173,7 @@
           }}
           onclick={() => {
             editing = taskList.indexOf(task);
+            console.log(editing);
             titleField = task.title;
             descriptionField = task.description;
             courseField = task.course;
@@ -202,7 +203,7 @@
   bind:course={courseField}
   courses={uniqueCourses}
   onsubmit={() => {
-    if (editing) {
+    if (editing !== null) {
       editTask(editing);
     } else {
       createTask();
