@@ -8,6 +8,7 @@
   import CourseTimes from "../widgets/CourseTimes.svelte";
   import CourseTitle from "../widgets/CourseTitle.svelte";
   import { on } from "svelte/events";
+  import CourseTasks from "../widgets/CourseTasks.svelte";
 
   let {
     event,
@@ -72,3 +73,4 @@
 {:else if event.location}
   <CourseLocation {...event}></CourseLocation>
 {/if}
+<CourseTasks {...event} class="mt-4" />

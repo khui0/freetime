@@ -17,6 +17,7 @@
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPencilSimple from "~icons/ph/pencil-simple";
   import FloatingBar from "$lib/components/FloatingBar.svelte";
+  import CourseTasks from "$lib/components/widgets/CourseTasks.svelte";
 
   let data: CalendarEvent[] = $state([]);
 
@@ -134,7 +135,7 @@
       </div>
     {/if}
     {#if status.classesToday > 0}
-      <div class=" flex flex-col gap-4">
+      <div class="flex flex-col gap-4">
         <p class="text-lg">
           <span class="font-bold bg-base-200 py-1 px-2 rounded-lg">
             {status.classesToday - status.classesRemaining}/{status.classesToday}
@@ -143,6 +144,9 @@
         <TodayProgress></TodayProgress>
       </div>
     {/if}
+    <div>
+      <CourseTasks {...status.event} />
+    </div>
     <FloatingBar shadow={false}>
       <a href={newUser ? "/edit" : "/calendar"} class="btn btn-sm rounded-full">
         <PhCalendarDots></PhCalendarDots>

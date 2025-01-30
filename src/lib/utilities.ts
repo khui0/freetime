@@ -104,3 +104,19 @@ export function update(callback: () => unknown, interval: number = 1000) {
   callback();
   setInterval(callback, interval);
 }
+
+export function normalizeCourse(course: string) {
+  const COURSE_REGEX = /([A-z]{3}).*([0-9]{3})/;
+  const parts = course.match(COURSE_REGEX);
+  if (!parts) return course;
+  return `${parts[1].toUpperCase()} ${parts[2]}`;
+}
+
+// Return 11:59 PM in ISO format
+export function endOfToday(): string {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}T23:59`;
+}

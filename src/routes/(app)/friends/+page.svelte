@@ -29,8 +29,6 @@
     );
   });
 
-  $inspect(sortedFriends);
-
   onMount(() => {
     friends.subscribe((friends) => {
       // Update own schedule visibility to account for new friends

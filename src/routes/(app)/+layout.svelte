@@ -13,6 +13,8 @@
   import PhHouseFill from "~icons/ph/house-fill";
   import PhUsers from "~icons/ph/users";
   import PhUsersFill from "~icons/ph/users-fill";
+  import PhCheckCircle from "~icons/ph/check-circle";
+  import PhCheckCircleFill from "~icons/ph/check-circle-fill";
 
   import LogoSmall from "$lib/components/LogoSmall.svelte";
   import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
@@ -34,8 +36,6 @@
       (a, b) => order.indexOf(a.username) - order.indexOf(b.username),
     );
   });
-
-  $inspect(sortedFriends);
 
   onMount(() => {
     compact = $settings.compact === "true";
@@ -70,6 +70,13 @@
         <PhCalendarDotsFill></PhCalendarDotsFill>
       {:else}
         <PhCalendarDots></PhCalendarDots>
+      {/if}
+    </a>
+    <a href="/tasks" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
+      {#if $page.url.pathname === "/tasks"}
+        <PhCheckCircleFill></PhCheckCircleFill>
+      {:else}
+        <PhCheckCircle></PhCheckCircle>
       {/if}
     </a>
     <a href="/friends" class="p-3 active:scale-90 active:text-base-content/50 transition-all">
@@ -134,6 +141,18 @@
             {/if}
             {#if !compact}
               Calendar
+            {/if}
+          </a>
+        </li>
+        <li>
+          <a href="/tasks" class="h-9 flex items-center">
+            {#if $page.url.pathname === "/tasks"}
+              <PhCheckCircleFill></PhCheckCircleFill>
+            {:else}
+              <PhCheckCircle></PhCheckCircle>
+            {/if}
+            {#if !compact}
+              Tasks
             {/if}
           </a>
         </li>
