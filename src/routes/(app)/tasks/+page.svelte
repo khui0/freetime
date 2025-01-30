@@ -3,37 +3,36 @@
   $title = "Tasks";
 
   import { currentUser, pb, ready, schedules, tasks } from "$lib/pocketbase";
-  import { onMount, tick } from "svelte";
+  import { onMount } from "svelte";
 
   import Alert from "$lib/components/dialog/Alert.svelte";
   import Confirm from "$lib/components/dialog/Confirm.svelte";
-  import Modal from "$lib/components/dialog/Modal.svelte";
   import TopBar from "$lib/components/TopBar.svelte";
   import Task from "./Task.svelte";
 
+  import PhChecks from "~icons/ph/checks";
   import PhDotsThreeVerticalBold from "~icons/ph/dots-three-vertical-bold";
   import PhPlus from "~icons/ph/plus";
-  import PhChecks from "~icons/ph/checks";
 
   import { isMac } from "$lib/utilities";
+  import TaskModal from "./TaskModal.svelte";
 
   let alert: Alert | undefined = $state();
   let confirm: Confirm | undefined = $state();
-  let taskModal: Modal | undefined = $state();
+  let taskModal: TaskModal | undefined = $state();
 
   let titleField: string = $state("");
   let descriptionField: string = $state("");
   let courseField: string = $state("");
 
-  let error: string = $state("");
   let loading: boolean = $state(false);
-
-  let ctrlKey = $derived(isMac() ? "⌘" : "Ctrl");
 
   let uniqueCourses: string[] = $state([]);
 
   let id: string;
   let taskList: TaskData[] = $state([]);
+
+  let editing: number | null = $state(null);
 
   onMount(() => {
     ready.subscribe(async (ready) => {
@@ -81,7 +80,17 @@
     clearTaskModal();
   }
 
-  $inspect(taskList);
+  function editTask(index: number) {
+    taskModal?.close();
+    taskList[index] = {
+      title: titleField,
+      description: descriptionField,
+      course: courseField,
+      completed: false,
+    };
+    saveTasks();
+    clearTaskModal();
+  }
 
   async function saveTasks() {
     loading = true;
@@ -108,7 +117,13 @@
 <TopBar>
   <h2 class="text-2xl font-bold tracking-tight">Tasks</h2>
   <div class="flex gap-2 flex-wrap justify-end">
-    <button class="btn btn-sm" onclick={taskModal?.show}>
+    <button
+      class="btn btn-sm"
+      onclick={() => {
+        editing = null;
+        taskModal?.show();
+      }}
+    >
       <PhPlus></PhPlus>
       New task
     </button>
@@ -135,6 +150,7 @@
     class="flex"
     onsubmit={(e) => {
       e.preventDefault();
+      editing = null;
       taskModal?.show();
     }}
   >
@@ -155,6 +171,13 @@
           oninput={async () => {
             setTimeout(saveTasks, 500);
           }}
+          onclick={() => {
+            editing = taskList.indexOf(task);
+            titleField = task.title;
+            descriptionField = task.description;
+            courseField = task.course;
+            taskModal?.showEdit();
+          }}
         />
       {/each}
       {#if taskList.some((item) => item.completed)}
@@ -172,53 +195,19 @@
     {/if}
   </div>
 </div>
-<Modal
+<TaskModal
   bind:this={taskModal}
-  title="New task"
-  onshow={() => {
-    error = "";
+  bind:title={titleField}
+  bind:description={descriptionField}
+  bind:course={courseField}
+  courses={uniqueCourses}
+  onsubmit={() => {
+    if (editing) {
+      editTask(editing);
+    } else {
+      createTask();
+    }
   }}
->
-  <div class="flex flex-col gap-4">
-    <input
-      type="text"
-      class="input input-bordered"
-      placeholder="Title"
-      bind:value={titleField}
-      {onkeydown}
-    />
-    <textarea
-      class="textarea textarea-bordered"
-      placeholder="Description"
-      bind:value={descriptionField}
-      {onkeydown}
-    ></textarea>
-    <div class="flex flex-col input input-bordered h-auto py-2 gap-1">
-      <input type="text" class="flex-1" placeholder="Course" bind:value={courseField} {onkeydown} />
-      <div class="flex flex-wrap gap-2 -mx-2">
-        {#each uniqueCourses as course}
-          <button
-            class="btn btn-xs"
-            onclick={() => {
-              courseField = course;
-            }}
-          >
-            {course}
-          </button>
-        {/each}
-      </div>
-    </div>
-    <div class="flex justify-end gap-2">
-      <button class="btn btn-sm hover:btn-accent" onclick={createTask}>
-        {#if !loading}
-          Create task ({ctrlKey} + Enter)
-        {:else}
-          <span class="loading loading-spinner loading-sm"></span>
-        {/if}
-      </button>
-    </div>
-  </div>
-</Modal>
-
+/>
 <Alert bind:this={alert}></Alert>
 <Confirm bind:this={confirm}></Confirm>
