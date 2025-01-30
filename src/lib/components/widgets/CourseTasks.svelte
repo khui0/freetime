@@ -1,5 +1,9 @@
 <script lang="ts">
-  let { title, number }: { title: string; number: string } = $props();
+  let {
+    title,
+    number,
+    class: classList = "",
+  }: { title: string; number: string; class?: string } = $props();
 
   import { currentUser, ready, tasks } from "$lib/pocketbase";
   import { normalizeCourse } from "$lib/utilities";
@@ -24,7 +28,7 @@
 </script>
 
 {#if matched.length > 0}
-  <a href="/tasks"><h3 class="font-bold mt-4">Tasks</h3></a>
+  <a href="/tasks"><h3 class="font-bold {classList}">Tasks</h3></a>
   <div class="flex flex-col">
     {#each matched as task}
       <div class="text-sm flex justify-between flex-wrap">

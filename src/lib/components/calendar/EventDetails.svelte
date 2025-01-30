@@ -73,4 +73,4 @@
 {:else if event.location}
   <CourseLocation {...event}></CourseLocation>
 {/if}
-<CourseTasks {...event} />
+<CourseTasks {...event} class="mt-4" />
