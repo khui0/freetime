@@ -41,7 +41,7 @@
     update(() => {
       const now = new Date();
       const tzo = now.getTimezoneOffset() * 60000;
-      const hour = ((Date.now() % 8.64e7) - tzo) / 3.6e6;
+      const hour = ((Date.now() - tzo) % 8.64e7) / 3.6e6;
       progress = (hour - START) / 12;
       time = now
         .toLocaleTimeString("en-US", {
@@ -125,7 +125,7 @@
   <div class="absolute w-full" style="transform: translateY({progress * 48 + 1}rem)">
     <div class="absolute top-0 px-4 w-full h-0.5 bg-accent -translate-y-1/2 rounded-l-full"></div>
     <p
-      class="absolute top-0 bg-accent text-accent-content rounded-badge text-sm tracking-tight w-10 -translate-y-1/2 text-center"
+      class="absolute top-0 bg-accent text-accent-content rounded-badge text-xs tracking-tight w-10 -translate-y-1/2 text-center"
     >
       {time}
     </p>
