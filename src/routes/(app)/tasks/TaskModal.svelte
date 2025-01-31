@@ -1,5 +1,6 @@
 <script lang="ts">
   import Modal from "$lib/components/dialog/Modal.svelte";
+  import AutoTextarea from "$lib/components/form/AutoTextarea.svelte";
   import { isMac } from "$lib/utilities";
 
   export function show() {
@@ -56,12 +57,12 @@
       bind:value={title}
       {onkeydown}
     />
-    <textarea
+    <AutoTextarea
       class="textarea textarea-bordered"
       placeholder="Description"
       bind:value={description}
       {onkeydown}
-    ></textarea>
+    ></AutoTextarea>
     <div class="flex flex-col input input-bordered h-auto py-2 gap-1">
       <input type="text" class="flex-1" placeholder="Course" bind:value={course} {onkeydown} />
       <div class="flex flex-wrap gap-2 -mx-2">

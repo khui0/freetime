@@ -37,13 +37,17 @@
       }}
     />
     <button
-      class="flex-1 flex flex-wrap items-center gap-x-4"
+      class="flex-1 flex flex-wrap items-center gap-x-4 overflow-hidden"
       onclick={() => {
         onclick?.();
       }}
     >
       <p class:text-error={warn}>{title}</p>
-      <p class="text-sm text-base-content/50 text-start">{description}</p>
+      <p
+        class="text-sm text-base-content/50 text-start whitespace-nowrap overflow-ellipsis overflow-hidden"
+      >
+        {description}
+      </p>
       {#if date}
         <p class="text-sm text-base-content/50">
           {new Date(date).toLocaleString("en-US", {
