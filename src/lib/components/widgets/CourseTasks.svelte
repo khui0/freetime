@@ -16,6 +16,7 @@
   let matched = $derived(
     taskList
       .filter((item) => item.course === course)
+      .filter((item) => !item.completed)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
   );
 
