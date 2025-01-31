@@ -43,11 +43,13 @@
       }}
     >
       <p class:text-error={warn}>{title}</p>
-      <p
-        class="text-sm text-base-content/50 text-start whitespace-nowrap overflow-ellipsis overflow-hidden"
-      >
-        {description}
-      </p>
+      {#if description}
+        <p
+          class="text-sm text-base-content/50 text-start whitespace-nowrap overflow-ellipsis overflow-hidden"
+        >
+          {description}
+        </p>
+      {/if}
       {#if date}
         <p class="text-sm text-base-content/50">
           {new Date(date).toLocaleString("en-US", {
