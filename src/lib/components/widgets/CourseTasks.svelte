@@ -13,7 +13,11 @@
   let taskList: TaskData[] = $state([]);
 
   let course = $derived(normalizeCourse(`${title} ${number}`));
-  let matched = $derived(taskList.filter((item) => item.course === course));
+  let matched = $derived(
+    taskList
+      .filter((item) => item.course === course)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+  );
 
   onMount(() => {
     ready.subscribe(async (ready) => {
