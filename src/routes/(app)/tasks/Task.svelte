@@ -22,7 +22,7 @@
   let warn: boolean = $state(false);
 
   update(() => {
-    warn = new Date(date).getTime() < Date.now();
+    warn = new Date(date).getTime() < Date.now() && !completed;
   });
 </script>
 
