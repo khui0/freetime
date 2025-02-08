@@ -101,11 +101,11 @@
     <a href="/privacy-policy" class="link">Privacy Policy</a>
     <p>Freetime is not affiliated with Stony Brook University.</p>
     <p>
-      Found a bug, incorrect data, or have a feature request? Send an email to <a
+      Found a bug or have a feature request? Send an email to <a
         class="link"
-        href="mailto:feedback@kennyhui.dev"
+        href="mailto:support@kennyhui.dev"
       >
-        feedback@kennyhui.dev
+        support@kennyhui.dev
       </a>
     </p>
     <p>Made with <span class="text-base-content">❤️</span> in Stony Brook, NY</p>

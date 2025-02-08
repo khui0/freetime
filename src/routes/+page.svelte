@@ -116,6 +116,11 @@
     <p>Google Maps™ is a trademark of Google LLC.</p>
     <p><sup>1</sup>Not affiliated with Stony Brook University.</p>
     <p>
+      Need help? Send an email to <a class="link" href="mailto:support@kennyhui.dev">
+        support@kennyhui.dev
+      </a>
+    </p>
+    <p>
       Copyright &copy; 2025 Kenny Hui. All rights reserved. <a href="/privacy-policy" class="link"
         >Privacy Policy</a
       >
