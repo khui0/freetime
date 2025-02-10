@@ -6,12 +6,16 @@ export async function load({ params }) {
   const username: string = params.slug;
 
   const res = await pb.collection("schedules").getFullList({ expand: "user" });
-  const schedule = res.find((record) => record?.expand?.user?.username === username)?.schedule;
+  const record = res.find((record) => record?.expand?.user?.username === username);
+  const schedule = record?.schedule;
+
+  console.log(record);
 
   if (res) {
     return {
       schedule,
       username,
+      updated: record?.updated,
     };
   } else {
     error(404, "Not found");

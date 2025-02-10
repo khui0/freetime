@@ -13,6 +13,7 @@
 
   import Calendar from "$lib/components/calendar/Calendar.svelte";
   import type { PageData } from "./$types";
+  import { update } from "$lib/utilities";
 
   let selfData: CalendarEvent[] = $state([]);
   let singleView: boolean = $state(false);
@@ -55,7 +56,7 @@
       viewOffset = singleView ? day : 0;
     }}
   >
-    <div class="px-4 pt-4 flex gap-2 items-center justify-between">
+    <div class="px-4 pt-4 flex gap-2 items-center justify-between h-12">
       <div class="flex gap-4 items-center flex-wrap">
         <button
           class="btn btn-square btn-sm rounded-full"
@@ -65,11 +66,18 @@
         >
           <PhArrowLeft></PhArrowLeft>
         </button>
-        <h2 class="font-bold text-2xl tracking-tight">
-          {$settings.obfuscateUsernames !== "true"
-            ? data.username
-            : data.username.slice(0, 1).toUpperCase() + "*".repeat(data.username.length - 1)}
-        </h2>
+        <div>
+          <h2 class="font-bold text-2xl tracking-tight leading-none">
+            {$settings.obfuscateUsernames !== "true"
+              ? data.username
+              : data.username.slice(0, 1).toUpperCase() + "*".repeat(data.username.length - 1)}
+          </h2>
+          {#if data.updated}
+            <p class="text-base-content/50 text-xs">
+              Updated {new Date(data.updated).toLocaleDateString()}
+            </p>
+          {/if}
+        </div>
       </div>
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
         <button
