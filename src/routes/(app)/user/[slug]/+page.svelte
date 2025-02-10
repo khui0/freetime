@@ -6,14 +6,18 @@
 
   import { onMount } from "svelte";
 
-  import { currentUser, ready, schedules, friends } from "$lib/pocketbase";
+  import { currentUser, friends, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
 
   import PhArrowLeft from "~icons/ph/arrow-left";
 
   import Calendar from "$lib/components/calendar/Calendar.svelte";
   import type { PageData } from "./$types";
-  import { update } from "$lib/utilities";
+
+  import relativeTime from "dayjs/plugin/relativeTime";
+  import dayjs from "dayjs";
+
+  dayjs.extend(relativeTime);
 
   let selfData: CalendarEvent[] = $state([]);
   let singleView: boolean = $state(false);
@@ -73,8 +77,8 @@
               : data.username.slice(0, 1).toUpperCase() + "*".repeat(data.username.length - 1)}
           </h2>
           {#if data.updated}
-            <p class="text-base-content/50 text-xs">
-              Updated {new Date(data.updated).toLocaleDateString()}
+            <p class="text-base-content/50 text-xs" title={new Date(data.updated).toLocaleString()}>
+              Updated {dayjs(data.updated).fromNow()}
             </p>
           {/if}
         </div>

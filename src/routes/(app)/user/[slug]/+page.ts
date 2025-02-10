@@ -9,8 +9,6 @@ export async function load({ params }) {
   const record = res.find((record) => record?.expand?.user?.username === username);
   const schedule = record?.schedule;
 
-  console.log(record);
-
   if (res) {
     return {
       schedule,
