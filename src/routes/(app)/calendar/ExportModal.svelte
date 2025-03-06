@@ -48,6 +48,20 @@
     return null;
   }
 
+  function lastDayOfClassesHumanReadable() {
+    const date = new Date();
+    const endDates = ["2025-01-24", "2025-05-10", "2025-12-08"];
+    let selected = endDates.find((item) => date <= new Date(item));
+
+    if (selected) {
+      const end = new Date(selected);
+      const tzo = end.getTimezoneOffset() * 60000;
+      const adjusted = new Date(end.getTime() + tzo);
+      return adjusted.toLocaleDateString();
+    }
+    return null;
+  }
+
   function startDate(days: boolean[]) {
     const target = (days.findIndex((i) => i) + 1) % 7;
     const d = new Date();
@@ -59,7 +73,9 @@
       day: adjusted.getDate(),
     };
   }
+
   let schedule = $derived($schedules.find((item) => item.user === $currentUser?.id)?.schedule);
+
   let events = $derived(
     schedule?.map((event: CalendarEvent) => {
       const hours = parseInt(event.from.split(":")[0]);
@@ -67,22 +83,20 @@
       const start = startDate(event.days);
       const result: { [key: string]: any } = {
         start: [start.year, start.month, start.day, hours, minutes],
+        startOutputType: "local",
         duration: duration(event.from, event.to),
         title: `${event.title} ${event.number}`,
         description: `${types[event.type]}`,
         recurrenceRule: rrule(event.days),
-        productId: "Freetime (freetime.kennyhui.dev)",
+        productId: "-//KENNYHUI//NONSGML freetime.kennyhui.dev//EN",
       };
       if (event.location) {
         result.location = `${event.room.toUpperCase()} - ${locations[event.location].name}`;
-        result.geo = {
-          lat: parseFloat(locations[event.location].lat || "0"),
-          lon: parseFloat(locations[event.location].lon || "0"),
-        };
       }
       return result;
     }),
   );
+
   let ical = $derived(ics.createEvents(events).value);
 </script>
 
@@ -97,7 +111,7 @@
         </li>
       {/each}
     </ul>
-    <p>Classes End: {lastDayOfClasses()}</p>
+    <p>Classes End: {lastDayOfClassesHumanReadable()}</p>
     <button class="btn btn-sm" onclick={save}>Export (.ics)</button>
   {:else}
     <p>Unable to generate file</p>
