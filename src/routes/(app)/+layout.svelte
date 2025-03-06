@@ -196,8 +196,14 @@
         </a>
       </li>
     </ul>
-    <div class="p-3 {hideProgress || compact || $page.url.pathname === '/home' ? 'hidden' : ''}">
-      <TodayProgress class="!h-3" bind:empty={hideProgress}></TodayProgress>
+    <div
+      class="overflow-hidden transition-[height] {hideProgress || compact || $page.url.pathname === '/home'
+        ? 'h-0'
+        : 'h-6'}"
+    >
+      <div class="p-3 pt-0">
+        <TodayProgress class="!h-3" bind:empty={hideProgress}></TodayProgress>
+      </div>
     </div>
   </div>
   <main class="flex-1 overflow-auto">
