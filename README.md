@@ -19,7 +19,7 @@ Add your friends on Freetime and see their class progress throughout the day. Fr
 
 ## Backend
 
-The current version of Freetime relies on a Pocketbase backend. This will be changed in future versions.
+The current version of Freetime relies on a Pocketbase backend. This will be changed in future versions. Set up Pocketbase using [this schema](pb_schema.json)
 
 ## Development
 
