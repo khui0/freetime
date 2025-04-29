@@ -14,4 +14,6 @@
   />
 </svelte:head>
 
-{@render children?.()}
+<div class="relative">
+  {@render children?.()}
+</div>

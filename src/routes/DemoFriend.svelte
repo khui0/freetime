@@ -13,7 +13,7 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <div class="flex rounded-box border">
+  <div class="flex rounded-box border bg-base-100">
     <div class="flex-1 flex items-center gap-2 py-2 px-4 rounded-l-box">
       <div
         class="w-3 h-3 rounded-full flex-none {busy
