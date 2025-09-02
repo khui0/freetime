@@ -13,7 +13,7 @@
   let next = $derived(timeToMs(event.from) > Date.now());
 </script>
 
-<div class="flex flex-wrap justify-between items-center px-4 py-3 border rounded-box">
+<div class="flex flex-wrap justify-between items-center p-4 border rounded-box">
   <div class="flex flex-col gap-2">
     <CourseTitle {...event} />
     <CourseTimes {...event} />

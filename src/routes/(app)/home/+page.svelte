@@ -116,10 +116,18 @@
   {#if status}
     {@const newUser = data.length === 0 && $ready}
     <div class="flex flex-col gap-4">
-      <div class="flex gap-2 items-center justify-between">
+      <div class="flex gap-x-10 gap-y-2 items-center justify-between flex-wrap">
         <h1 class="font-bold text-4xl tracking-tight">
           {newUser ? "Welcome" : status.greeting}!
         </h1>
+        {#if status.classesToday > 0}
+          <div class="flex items-center gap-2 flex-1 min-w-60">
+            <span class="font-bold text-base-content/50">
+              {status.classesToday - status.classesRemaining}/{status.classesToday}
+            </span>
+            <TodayProgress />
+          </div>
+        {/if}
       </div>
       {#if newUser || status.message !== ""}
         <p class="text-xl tracking-tight">
@@ -137,16 +145,6 @@
         </div>
       {/if}
     </div>
-    {#if status.classesToday > 0}
-      <div class="flex flex-col gap-4">
-        <p class="text-lg">
-          <span class="font-bold bg-base-200 py-1 px-2 rounded-lg">
-            {status.classesToday - status.classesRemaining}/{status.classesToday}
-          </span> classes completed
-        </p>
-        <TodayProgress></TodayProgress>
-      </div>
-    {/if}
     <div>
       <CourseTasks {...status.event} />
     </div>
