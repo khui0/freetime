@@ -14,6 +14,7 @@ const defaultSettings: Settings = {
   showWeekend: "false",
   tallNavigation: "false",
   obfuscateUsernames: "false",
+  showFriendsInSidebar: "true",
 };
 
 // Initialize store with default settings

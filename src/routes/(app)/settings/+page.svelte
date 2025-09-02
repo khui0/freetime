@@ -96,6 +96,9 @@
   <SettingsField type="toggle" title="Hide usernames" bind:value={$settings.obfuscateUsernames}>
     Obfuscate usenames
   </SettingsField>
+  <SettingsField type="toggle" title="Show friends in sidebar" bind:value={$settings.showFriendsInSidebar}>
+    Display your friends in the sidebar
+  </SettingsField>
   <div class="text-xs leading-relaxed text-base-content/50 pt-2">
     <p>Freetime {version}</p>
     <a href="/privacy-policy" class="link">Privacy Policy</a>

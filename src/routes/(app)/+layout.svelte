@@ -172,14 +172,16 @@
     </div>
     <div class="flex flex-1 flex-col overflow-auto">
       <ul class="menu gap-1">
-        {#each sortedFriends as friend}
-          <SidebarFriend
-            username={friend.username}
-            href="/user/{friend.username}"
-            schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
-            {compact}
-          ></SidebarFriend>
-        {/each}
+        {#if $settings.showFriendsInSidebar === "true"}
+          {#each sortedFriends as friend}
+            <SidebarFriend
+              username={friend.username}
+              href="/user/{friend.username}"
+              schedule={$schedules.find((record) => record.user === friend.id)?.schedule}
+              {compact}
+            ></SidebarFriend>
+          {/each}
+        {/if}
       </ul>
     </div>
     <ul class="menu gap-1">
@@ -197,7 +199,9 @@
       </li>
     </ul>
     <div
-      class="overflow-hidden transition-[height] {hideProgress || compact || $page.url.pathname === '/home'
+      class="overflow-hidden transition-[height] {hideProgress ||
+      compact ||
+      $page.url.pathname === '/home'
         ? 'h-0'
         : 'h-6'}"
     >
