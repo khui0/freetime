@@ -54,7 +54,7 @@
 </script>
 
 <!-- Header -->
-<div class="z-30 sticky top-0 flex flex-col bg-base-100/50 backdrop-blur-lg border-b">
+<div class="z-30 sticky top-0 flex flex-col bg-base-100 border-b">
   {@render children?.()}
   <div class="flex px-4 pt-2 text-base-content/50 text-sm">
     <p class="flex items-center justify-center mr-2 w-10"><PhClock></PhClock></p>

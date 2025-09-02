@@ -44,7 +44,7 @@
       {#if event.online}
         Online
       {:else if event.location}
-        {location?.short || location?.name} {event.room}
+        {event.room} - {location?.short || location?.name}
       {/if}
     </p>
   </div>

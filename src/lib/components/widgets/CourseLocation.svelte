@@ -6,7 +6,7 @@
 </script>
 
 <div class="flex gap-2 items-center flex-wrap mt-1">
-  <p class="border border-base-content w-fit h-fit px-1.5 rounded-lg text-sm">
+  <p class="bg-base-300 px-2 py-0.5 w-fit h-fit rounded-lg text-sm">
     {room}
   </p>
   {#if locations[location].maps}

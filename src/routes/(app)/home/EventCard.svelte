@@ -20,7 +20,7 @@
     <CourseLocation {...event} />
   </div>
   <div>
-    <p class="border my-1 border-base-content px-1.5 rounded-lg text-sm">
+    <p class="my-1 bg-base-300 px-2 py-0.5 rounded-lg text-sm">
       {#if next}
         in
       {/if}

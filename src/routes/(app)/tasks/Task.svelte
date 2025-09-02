@@ -63,7 +63,7 @@
       {/if}
     </button>
     {#if course}
-      <p class="w-fit h-fit px-2 py-0.5 rounded-lg text-xs bg-base-200">
+      <p class="w-fit h-fit px-2 py-0.5 rounded-lg text-sm bg-base-300">
         {normalizeCourse(course)}
       </p>
     {/if}
