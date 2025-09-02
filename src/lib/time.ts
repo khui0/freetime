@@ -42,6 +42,16 @@ export function eventDurationMedium(from: string, to: string) {
   return Math.floor(hours) + " hr " + (minutes % 60).toString().padStart(2, "0") + " min";
 }
 
+export function eventDurationCompact(from: string, to: string) {
+  if (!from || !to) return;
+  const seconds = timeToS(to) - timeToS(from);
+  const minutes = seconds / 60;
+  const hours = minutes / 60;
+  return (
+    (hours >= 1 ? Math.floor(hours) + "h" : "") + (minutes % 60).toString().padStart(2, "0") + "m"
+  );
+}
+
 export function eventDurationShort(from: string, to: string) {
   if (!from || !to) return;
   const seconds = timeToS(to) - timeToS(from);

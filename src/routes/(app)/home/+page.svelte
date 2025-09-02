@@ -2,22 +2,17 @@
   import { title } from "$lib/store";
   $title = "";
 
+  import FloatingBar from "$lib/components/FloatingBar.svelte";
+  import CourseTasks from "$lib/components/widgets/CourseTasks.svelte";
+  import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
   import { currentUser, ready, schedules } from "$lib/pocketbase";
   import { settings } from "$lib/settings";
   import { timeToMs, timeUntil, timeUntilShort } from "$lib/time";
   import { update } from "$lib/utilities";
   import { onMount } from "svelte";
-  import { fly } from "svelte/transition";
-
-  import TodayProgress from "$lib/components/widgets/TodayProgress.svelte";
-
-  import CourseLocation from "$lib/components/widgets/CourseLocation.svelte";
-  import CourseTimes from "$lib/components/widgets/CourseTimes.svelte";
-
   import PhCalendarDots from "~icons/ph/calendar-dots";
   import PhPencilSimple from "~icons/ph/pencil-simple";
-  import FloatingBar from "$lib/components/FloatingBar.svelte";
-  import CourseTasks from "$lib/components/widgets/CourseTasks.svelte";
+  import EventCard from "./EventCard.svelte";
 
   let data: CalendarEvent[] = $state([]);
 
@@ -26,6 +21,7 @@
         message: string;
         greeting: string;
         event: CalendarEvent;
+        nextEvent?: CalendarEvent;
         inClass: boolean;
         classesRemaining: number;
         classesToday: number;
@@ -73,12 +69,12 @@
     if (today.length === 0) {
       message = "No classes today";
     } else if (inClass) {
-      message = `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`;
+      // message = `${current.title} ${current.number} ends in ${timeUntil(current.from, current.to, true)}`;
     } else {
       if (rest.length === 0) {
         message = "Done for the day!";
       } else {
-        message = `${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`;
+        // message = `${rest[0].title} ${rest[0].number} starts in ${timeUntil(rest[0].from, rest[0].to, true)}`;
       }
     }
 
@@ -98,6 +94,7 @@
       message,
       greeting,
       event: current || rest[0],
+      nextEvent: inClass && rest.length > 0 ? rest[0] : undefined,
       inClass,
       classesRemaining: rest.length + (current ? 1 : 0),
       classesToday: today.length,
@@ -124,16 +121,22 @@
           {newUser ? "Welcome" : status.greeting}!
         </h1>
       </div>
-      <p class="text-xl tracking-tight">
-        {newUser ? "Start by adding your classes!" : status.message}
-      </p>
+      {#if newUser || status.message !== ""}
+        <p class="text-xl tracking-tight">
+          {newUser ? "Start by adding your classes!" : status.message}
+        </p>
+      {/if}
     </div>
-    {#if status.event}
-      <div class="flex flex-col gap-2 pl-2 border-l-2">
-        <CourseTimes {...status.event}></CourseTimes>
-        <CourseLocation {...status.event}></CourseLocation>
-      </div>
-    {/if}
+    <div class="flex flex-col gap-3">
+      {#if status.event}
+        <EventCard event={status.event} />
+      {/if}
+      {#if status.nextEvent}
+        <div class="opacity-50">
+          <EventCard event={status.nextEvent} />
+        </div>
+      {/if}
+    </div>
     {#if status.classesToday > 0}
       <div class="flex flex-col gap-4">
         <p class="text-lg">
