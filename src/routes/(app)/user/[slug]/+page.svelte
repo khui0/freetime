@@ -76,11 +76,11 @@
               ? data.username
               : data.username.slice(0, 1).toUpperCase() + "*".repeat(data.username.length - 1)}
           </h2>
-          {#if data.updated}
+          <!-- {#if data.updated}
             <p class="text-base-content/50 text-xs" title={new Date(data.updated).toLocaleString()}>
               Updated {dayjs(data.updated).fromNow()}
             </p>
-          {/if}
+          {/if} -->
         </div>
       </div>
       <div class="ml-auto flex gap-2 flex-wrap justify-end">
