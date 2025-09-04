@@ -97,6 +97,25 @@ export function timeUntilMedium(from: string, to: string) {
   }
 }
 
+export function timeUntilCompact(from: string, to: string) {
+  if (!from || !to) return;
+  const now = Date.now();
+  const start = timeToMs(from);
+  const end = timeToMs(to);
+  let time;
+  if (now < start) {
+    time = msToUnits(start - now);
+  } else if (now < end) {
+    time = msToUnits(end - now);
+  }
+  const parts: string[] = [];
+  if (time) {
+    if (time.hours > 0) parts.push(time.hours + "h");
+    if (time.minutes) parts.push((time.minutes + 1).toString() + "m");
+    return parts.join("");
+  }
+}
+
 export function timeUntilShort(from: string, to: string) {
   if (!from || !to) return;
   const now = Date.now();

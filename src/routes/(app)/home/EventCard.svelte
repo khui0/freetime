@@ -2,7 +2,7 @@
   import CourseLocation from "$lib/components/widgets/CourseLocation.svelte";
   import CourseTimes from "$lib/components/widgets/CourseTimes.svelte";
   import CourseTitle from "$lib/components/widgets/CourseTitle.svelte";
-  import { timeToMs, timeUntil } from "$lib/time";
+  import { timeToMs, timeUntilCompact } from "$lib/time";
 
   let {
     event,
@@ -24,7 +24,7 @@
       {#if next}
         in
       {/if}
-      {timeUntil(event.from, event.to, true)}
+      {timeUntilCompact(event.from, event.to)}
       {#if !next}
         left
       {/if}
