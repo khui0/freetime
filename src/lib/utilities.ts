@@ -8,13 +8,14 @@ const fuse = new Fuse(Object.values(locations), {
   keys: ["name"],
 });
 
-export function parse(data: string) {
-  if (!data) return;
+export function parse(data: string): CalendarEvent[] | null {
+  if (!data) return null;
   const COURSE_REGEX = /^[A-Z]{3} [0-9]{3}/gm;
+  const CLASS_NBR_REGEX = /^[0-9]{5}/gm;
   const TIME_REGEX =
     /((?:Mo|Tu|We|Th|Fr|Sa|Su)+) ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM)) - ([0-9]{1,2}:[0-9]{1,2}(?:AM|PM))/;
   const ROOM_REGEX = /(.+) ([A-Z]?[0-9-]+)/;
-  const DATE_REGEX = /[0-9]{2}\/[0-9]{2}\/[0-9]{4} - [0-9]{2}\/[0-9]{2}\/[0-9]{4}/;
+  // const DATE_REGEX = /[0-9]{2}\/[0-9]{2}\/[0-9]{4} - [0-9]{2}\/[0-9]{2}\/[0-9]{4}/;
   // Normalize input between Chrome, Firefox, and Safari
   const normalized = data
     .trim()
@@ -24,7 +25,7 @@ export function parse(data: string) {
     .replace(/\n \n/g, "\n");
   // Match courses
   const courses = normalized.match(COURSE_REGEX);
-  if (!courses) return; // Stop if no courses are detected
+  if (!courses) return null; // Stop if no courses are detected
   // Split input by courses and separate each line
   const extracted = normalized
     .split(COURSE_REGEX)
@@ -36,22 +37,23 @@ export function parse(data: string) {
     const item = extracted[i];
     // Get the index of each occurrence of a date in MM/DD/YYYY - MM/DD/YYYY format
     const indicies = item.reduce((a: number[], e, i) => {
-      if (e.match(DATE_REGEX)) a.push(i);
+      if (e.match(CLASS_NBR_REGEX)) a.push(i);
       return a;
     }, []);
     // Loop over each index, in case a course has multiple classes
     indicies.forEach((index) => {
       // Get information by relative index
-      const type = item[index - 4];
-      const times = item[index - 3].match(TIME_REGEX);
-      const location = item[index - 2].match(ROOM_REGEX);
-      const online = /online/i.test(item[index - 2]);
+      const type = item[index + 2];
+      const times = item[index + 3].match(TIME_REGEX);
+      const location = item[index + 4].match(ROOM_REGEX);
       const estimatedLocation = location && fuse.search(location[1])[0].item.name;
       const buildingCode =
         estimatedLocation &&
         Object.entries(locations).find(([, value]) => {
           return value.name === estimatedLocation;
         })?.[0];
+      const online = location === null || buildingCode === null;
+
       console.log("Found", courses[i], type, times, location, buildingCode);
       schedule.push({
         title: courses[i].split(" ")[0],
