@@ -77,13 +77,12 @@
   }
 
   function isValid(event: CalendarEvent) {
-    return (
-      event.title !== "" &&
-      event.number !== "" &&
-      event.type !== "" &&
-      event.from !== "" &&
-      event.to !== ""
-    );
+    if (event.title === "" || event.number === "") return false;
+    if (event.type === "") return false;
+    if (event.online) return true;
+    if (event.location === "" || event.room === "") return false;
+    if (event.from === "" || event.to === "") return false;
+    return true;
   }
 
   let scrollEnabled: boolean = false;

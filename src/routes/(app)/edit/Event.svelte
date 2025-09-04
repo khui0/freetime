@@ -181,7 +181,7 @@
           </div>
         </div>
       </div>
-      <div class="flex gap-1 w-full {data.online ? 'opacity-50 pointer-events-none' : ''}">
+      <div class="flex gap-1 w-full">
         <label class="flex flex-col text-xs">
           <span class="px-2">Location</span>
           <select
@@ -219,7 +219,7 @@
         }}
       >
         <input type="checkbox" class="checkbox" bind:checked={data.online} />
-        <span class="label-text">Online class</span>
+        <span class="label-text">Online/Async</span>
       </label>
     </div>
   {/if}
